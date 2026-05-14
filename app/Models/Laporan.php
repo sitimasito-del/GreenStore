@@ -15,11 +15,6 @@ class Laporan extends Model
         'status'
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function mountain()
     {
         return $this->belongsTo(Mountain::class);

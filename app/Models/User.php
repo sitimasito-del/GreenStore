@@ -22,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'mountain_id'
     ];
 
     /**
@@ -45,5 +47,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function mountain()
+    {
+        return $this->belongsTo(Mountain::class);
+    }
+
+    public function laporans()
+    {
+        return $this->hasMany(Laporan::class);
     }
 }

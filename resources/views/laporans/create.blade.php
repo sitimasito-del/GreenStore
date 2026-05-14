@@ -2,13 +2,17 @@
 
 <h2>{{ $mountain->nama_gunung }}</h2>
 
-<form action="/laporans" method="POST">
+<form action="/laporans"
+      method="POST"
+      enctype="multipart/form-data">
 
     @csrf
 
     <input type="hidden"
            name="mountain_id"
            value="{{ $mountain->id }}">
+
+    <br>
 
     <input type="text"
            name="jenis_laporan"
@@ -18,6 +22,10 @@
 
     <textarea name="deskripsi"
               placeholder="Deskripsi"></textarea>
+
+    <br><br>
+
+    <input type="file" name="foto">
 
     <br><br>
 

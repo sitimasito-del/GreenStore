@@ -6,6 +6,7 @@ use App\Http\Controllers\MountainController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ArticleController;
 
 
 Route::get('/', function () {
@@ -31,3 +32,5 @@ Route::resource('products', ProductController::class);
 
 Route::post('/buy/{id}',
     [TransactionController::class, 'store']);
+
+Route::resource('articles', ArticleController::class);

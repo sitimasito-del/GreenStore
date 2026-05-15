@@ -1,4 +1,7 @@
-<h1>Data Laporan1 </h1>
+@extends('layouts.app')
+
+@section('content')
+<h1>Data Laporan </h1>
 
 <hr>
 
@@ -20,3 +23,4 @@
     <hr>
 
 @endforeach
+@endsection

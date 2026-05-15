@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <h1>Pilih Gunung</h1>
 
 <hr>
@@ -25,3 +28,4 @@
     </div>
 
 @endforeach
+@endsection

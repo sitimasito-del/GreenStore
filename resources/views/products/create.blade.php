@@ -2,53 +2,56 @@
 
 @section('content')
 
-<h2>Tambah Produk</h2>
+<div class="card">
 
-<form action="{{ route('products.store') }}"
-      method="POST"
-      enctype="multipart/form-data">
+    <h1>Tambah Produk</h1>
 
-    @csrf
+    <form action="/products"
+          method="POST"
+          enctype="multipart/form-data">
 
-    <div>
-        <label>Nama Produk</label>
-        <input type="text" name="nama_produk">
-    </div>
+        @csrf
 
-    <br>
+        <input type="text"
+               name="nama_produk"
+               placeholder="Nama Produk">
 
-    <div>
-        <label>Harga</label>
-        <input type="number" name="harga">
-    </div>
+        <br><br>
 
-    <br>
+        <input type="number"
+               name="harga"
+               placeholder="Harga">
 
-    <div>
-        <label>Stock</label>
-        <input type="number" name="stok">
-    </div>
+        <br><br>
 
-    <br>
+        <textarea name="deskripsi"
+                  placeholder="Deskripsi Produk"></textarea>
 
-    <div>
-        <label>Deskripsi</label>
-        <textarea name="deskripsi"></textarea>
-    </div>
+        <br><br>
 
-    <br>
+        <input type="number"
+               name="stok"
+               placeholder="Stok Produk">
 
-    <div>
-        <label>Gambar</label>
-        <input type="file" name="gambar">
-    </div>
+        <br><br>
 
-    <br>
+        <input type="text"
+               name="nomor_wa"
+               placeholder="Nomor WhatsApp">
 
-    <button type="submit">
-        Simpan
-    </button>
+        <br><br>
 
-</form>
+        <input type="file"
+               name="gambar">
+
+        <br><br>
+
+        <button class="btn">
+            Simpan Produk
+        </button>
+
+    </form>
+
+</div>
 
 @endsection

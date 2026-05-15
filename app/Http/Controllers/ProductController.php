@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -11,7 +11,8 @@ class ProductController extends Controller
     {
         $products = Product::all();
 
-        return view('products.index', compact('products'));
+        return view('products.index',
+            compact('products'));
     }
 
     public function create()
@@ -23,10 +24,10 @@ class ProductController extends Controller
     {
         $gambar = null;
 
-        if ($request->hasFile('gambar')) {
+        if($request->hasFile('gambar')) {
 
             $gambar = $request->file('gambar')
-                              ->store('products', 'public');
+                ->store('products', 'public');
         }
 
         Product::create([
@@ -35,11 +36,14 @@ class ProductController extends Controller
 
             'harga' => $request->harga,
 
-            'stok' => $request->stok,
-
             'deskripsi' => $request->deskripsi,
 
-            'gambar' => $gambar
+            'gambar' => $gambar,
+
+            'stok' => $request->stok,
+
+            'nomor_wa' => $request->nomor_wa
+
         ]);
 
         return redirect('/products');

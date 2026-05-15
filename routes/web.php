@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MountainController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,3 +24,5 @@ Route::get('/laporans/create/{id}',
     [LaporanController::class, 'create']);
 
 Route::resource('laporans', LaporanController::class);
+
+Route::resource('products', ProductController::class);

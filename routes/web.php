@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MountainController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TransactionController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,3 +28,6 @@ Route::get('/laporans/create/{id}',
 Route::resource('laporans', LaporanController::class);
 
 Route::resource('products', ProductController::class);
+
+Route::post('/buy/{id}',
+    [TransactionController::class, 'store']);

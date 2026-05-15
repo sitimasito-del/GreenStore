@@ -1,8 +1,14 @@
-<h1>Buat Laporan</h1>
+@extends('layouts.app')
 
-<h2>{{ $mountain->nama_gunung }}</h2>
+@section('content')
 
-<form action="/laporans"
+<div class="card">
+
+<h1>
+Buat Laporan
+</h1>
+
+<form action="/laporans/store"
       method="POST"
       enctype="multipart/form-data">
 
@@ -11,8 +17,6 @@
     <input type="hidden"
            name="mountain_id"
            value="{{ $mountain->id }}">
-
-    <br>
 
     <input type="text"
            name="jenis_laporan"
@@ -25,12 +29,19 @@
 
     <br><br>
 
-    <input type="file" name="foto">
+    <input type="file"
+           name="gambar">
 
     <br><br>
 
-    <button type="submit">
+    <button class="btn">
+
         Kirim Laporan
+
     </button>
 
 </form>
+
+</div>
+
+@endsection

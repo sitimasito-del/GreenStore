@@ -2,46 +2,76 @@
 
 @section('content')
 
-<div>
+<h1>Marketplace GreenStore</h1>
 
-    <div>
-        <h2>Marketplace Pendakian</h2>
+<br>
 
-        <a href="{{ route('products.create') }}">
-            Tambah Produk
-        </a>
-    </div>
+<a href="/products/create"
+   class="btn">
 
-    <hr>
+   Tambah Produk
 
-    @foreach($products as $product)
+</a>
 
-        <div>
+<br><br>
 
-            <h3>{{ $product->nama_produk }}</h3>
+<div class="grid">
 
-            <p>Harga: Rp {{ $product->harga }}</p>
+@foreach($products as $product)
 
-            <p>{{ $product->deskripsi }}</p>
+<div class="card">
 
-            <a href="{{ route('products.edit', $product->id) }}">
-                Edit
-            </a>
+    @if($product->gambar)
 
-            <form action="{{ route('products.destroy', $product->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
+        <img src="{{ asset('storage/' . $product->gambar) }}"
+             width="100%"
+             style="height:200px; object-fit:cover; border-radius:10px;">
 
-                <button type="submit">
-                    Hapus
-                </button>
-            </form>
+    @endif
 
-        </div>
+    <br><br>
 
-        <hr>
+    <h2>{{ $product->nama_produk }}</h2>
 
-    @endforeach
+    <h3>
+        Rp {{ number_format($product->harga) }}
+    </h3>
+
+    <p>{{ $product->deskripsi }}</p>
+
+    <p>
+        Stok:
+        {{ $product->stok }}
+    </p>
+
+    <br>
+
+    <a href="/products/{{ $product->id }}/edit"
+       class="btn">
+
+       Edit
+
+    </a>
+
+    <br><br>
+
+    <form action="/products/{{ $product->id }}"
+          method="POST">
+
+        @csrf
+        @method('DELETE')
+
+        <button class="btn-delete">
+
+            Hapus
+
+        </button>
+
+    </form>
+
+</div>
+
+@endforeach
 
 </div>
 

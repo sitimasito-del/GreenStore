@@ -4,36 +4,34 @@
 
 <div class="card">
 
-<h1>Tambah Produk</h1>
+<h1>Edit Produk</h1>
 
-<br>
-
-<form action="/products"
+<form action="/products/{{ $product->id }}"
       method="POST"
       enctype="multipart/form-data">
 
     @csrf
+    @method('PUT')
 
     <input type="text"
            name="nama_produk"
-           placeholder="Nama Produk">
+           value="{{ $product->nama_produk }}">
 
     <br><br>
 
     <input type="number"
            name="harga"
-           placeholder="Harga">
+           value="{{ $product->harga }}">
 
     <br><br>
 
-    <textarea name="deskripsi"
-              placeholder="Deskripsi Produk"></textarea>
+    <textarea name="deskripsi">{{ $product->deskripsi }}</textarea>
 
     <br><br>
 
     <input type="number"
            name="stok"
-           placeholder="Stok Produk">
+           value="{{ $product->stok }}">
 
     <br><br>
 
@@ -43,9 +41,7 @@
     <br><br>
 
     <button class="btn">
-
-        Simpan Produk
-
+        Update Produk
     </button>
 
 </form>

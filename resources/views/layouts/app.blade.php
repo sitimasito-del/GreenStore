@@ -104,6 +104,15 @@
             gap:20px;
         }
 
+        .btn-danger{
+    background:#dc2626;
+    color:white;
+    padding:10px 18px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
     </style>
 
 </head>
@@ -112,7 +121,7 @@
 
 <div class="navbar">
 
-    <a href="/">GreenStore</a>
+    <a href="/">Home</a>
 
     <a href="/mountains">Gunung</a>
 
@@ -122,7 +131,7 @@
 
     <a href="/products">Marketplace</a>
 
-    <a href="/dashboard">Dashboard</a>
+    
 
 </div>
 

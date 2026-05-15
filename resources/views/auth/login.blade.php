@@ -1,12 +1,13 @@
+@extends('layouts.app')
+
+@section('content')
+
+<div class="card">
+
 <h1>Login GreenStore</h1>
 
-@if(session('error'))
-
-    <p>{{ session('error') }}</p>
-
-@endif
-
-<form action="/login" method="POST">
+<form action="/login"
+      method="POST">
 
     @csrf
 
@@ -22,8 +23,14 @@
 
     <br><br>
 
-    <button type="submit">
+    <button class="btn">
+
         Login
+
     </button>
 
 </form>
+
+</div>
+
+@endsection

@@ -2,42 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Laporan;
 use App\Models\Mountain;
+use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
     public function index()
     {
-        $laporans = Laporan::all();
+        $mountains = Mountain::all();
 
-        return view('laporans.index', compact('laporans'));
+        return view('laporans.index',
+            compact('mountains'));
     }
 
     public function create($id)
     {
-        $mountain = Mountain::findOrFail($id);
+        $mountain = Mountain::find($id);
 
-        return view('laporans.create', compact('mountain'));
+        return view('laporans.create',
+            compact('mountain'));
     }
 
     public function store(Request $request)
     {
-        $foto = null;
+        $gambar = null;
 
-        if ($request->hasFile('foto')) {
+        if($request->hasFile('gambar')) {
 
-            $foto = $request->file('foto')
-                            ->store('laporans', 'public');
+            $gambar = $request->file('gambar')
+                ->store('laporans', 'public');
         }
 
         Laporan::create([
+
             'mountain_id' => $request->mountain_id,
+
             'jenis_laporan' => $request->jenis_laporan,
+
             'deskripsi' => $request->deskripsi,
-            'foto' => $foto,
+
+            'gambar' => $gambar,
+
             'status' => 'pending'
+
         ]);
 
         return redirect('/laporans');

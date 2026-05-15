@@ -1,26 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Data Laporan </h1>
 
-<hr>
+<h1>Pilih Gunung</h1>
 
-@foreach($laporans as $laporan)
+<br>
 
-    <h3>{{ $laporan->jenis_laporan }}</h3>
+<div class="grid">
 
-    <p>{{ $laporan->deskripsi }}</p>
+@foreach($mountains as $mountain)
 
-    <p>Status: {{ $laporan->status }}</p>
+<div class="card">
 
-    <p>Gunung: {{ $laporan->mountain->nama_gunung }}</p>
+    @if($mountain->gambar)
+
+        <img src="{{ asset('storage/' . $mountain->gambar) }}"
+             width="100%">
+
+    @endif
+
+    <h2>{{ $mountain->nama_gunung }}</h2>
+
+    <p>{{ $mountain->lokasi }}</p>
 
     <br>
 
-    <img src="{{ asset('storage/' . $laporan->foto) }}"
-         width="300">
+    <a href="{{ url('/buat-laporan/' . $mountain->id) }}"
+       class="btn">
 
-    <hr>
+       Buat Laporan
+
+    </a>
+
+</div>
 
 @endforeach
+
+</div>
+
 @endsection

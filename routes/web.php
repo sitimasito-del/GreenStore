@@ -1,36 +1,68 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\MountainController;
-use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ArticleController;
 
-
 Route::get('/', function () {
+
     return view('welcome');
+
 });
 
-Route::get('/login', [AuthController::class, 'login']);
 
-Route::post('/login', [AuthController::class, 'authenticate']);
+// ================= LOGIN =================
 
-Route::get('/dashboard', [AuthController::class, 'dashboard']);
+Route::get('/login',
+    [AuthController::class, 'login']);
 
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/login',
+    [AuthController::class, 'authenticate']);
 
-Route::resource('mountains', MountainController::class);
+Route::post('/logout',
+    [AuthController::class, 'logout']);
 
-Route::get('/laporans/create/{id}',
+
+// ================= USER =================
+
+Route::get('/user/dashboard', function () {
+
+    return view('user.dashboard');
+
+});
+
+
+// ================= ADMIN =================
+
+Route::get('/admin/dashboard', function () {
+
+    return view('admin.dashboard');
+
+});
+
+
+// ================= MARKETPLACE =================
+
+Route::resource('products',
+    ProductController::class);
+
+
+// ================= LAPORAN =================
+
+Route::get('/laporans',
+    [LaporanController::class, 'index']);
+
+Route::get('/buat-laporan/{id}',
     [LaporanController::class, 'create']);
 
-Route::resource('laporans', LaporanController::class);
+Route::post('/laporans/store',
+    [LaporanController::class, 'store']);
 
-Route::resource('products', ProductController::class);
 
-Route::post('/buy/{id}',
-    [TransactionController::class, 'store']);
+// ================= EDUKASI =================
 
-Route::resource('articles', ArticleController::class);
+Route::resource('articles',
+    ArticleController::class);

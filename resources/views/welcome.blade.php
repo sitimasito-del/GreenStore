@@ -4,53 +4,70 @@
 
 <div class="hero">
 
-    <h1>GreenStore</h1>
+<h1>GreenStore</h1>
 
-    <h2>Ecology Hiking Marketplace</h2>
+<h2>
+Ecology Hiking Platform
+</h2>
 
-    <p>
-        Platform pendakian modern ramah lingkungan
-    </p>
+<p>
+Pendakian modern ramah lingkungan
+</p>
 
-    <br>
+<br>
 
-    <a href="/mountains" class="btn">
-        Jelajahi Gunung
-    </a>
+<a href="/login"
+   class="btn">
+
+   Login
+
+</a>
 
 </div>
 
+<br>
+
 <div class="grid">
 
-    <div class="card">
+<div class="card">
 
-        <h2>Laporan Gunung</h2>
+<h2>Gunung</h2>
 
-        <p>
-            Laporkan kondisi gunung dengan dokumentasi foto.
-        </p>
+<p>
+Data gunung Mojokerto
+</p>
 
-    </div>
+</div>
 
-    <div class="card">
+<div class="card">
 
-        <h2>Edukasi Lingkungan</h2>
+<h2>Laporan</h2>
 
-        <p>
-            Pelajari cara mendaki ramah lingkungan.
-        </p>
+<p>
+Laporkan kondisi gunung
+</p>
 
-    </div>
+</div>
 
-    <div class="card">
+<div class="card">
 
-        <h2>Marketplace Hiking</h2>
+<h2>Marketplace</h2>
 
-        <p>
-            Temukan alat pendakian terbaik.
-        </p>
+<p>
+Peralatan hiking modern
+</p>
 
-    </div>
+</div>
+
+<div class="card">
+
+<h2>Edukasi</h2>
+
+<p>
+Edukasi lingkungan hiking
+</p>
+
+</div>
 
 </div>
 

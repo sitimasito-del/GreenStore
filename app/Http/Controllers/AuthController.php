@@ -20,7 +20,15 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect('/dashboard');
+            // ROLE USER
+            if(auth()->user()->role == 'user') {
+
+                return redirect('/user/dashboard');
+
+            }
+
+            // SEMUA ADMIN
+            return redirect('/admin/dashboard');
         }
 
         return back()->with('error', 'Login gagal');

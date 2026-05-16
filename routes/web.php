@@ -62,6 +62,10 @@ Route::get('/buat-laporan/{id}',
 Route::post('/laporans/store',
     [LaporanController::class, 'store']);
 
+Route::get('/laporans', function () {
+    return view('laporans.index');
+});
+
 
 // ================= EDUKASI =================
 

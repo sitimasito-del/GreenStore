@@ -1,41 +1,128 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Gunung</title>
 
-@section('content')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<h1>Pilih Gunung</h1>
+    <style>
 
-<br>
+        body{
+            background-color: #eaf2fb;
+        }
 
-<div class="grid">
+        .card-gunung{
+            border-radius: 15px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
 
-@foreach($mountains as $mountain)
+        .card-gunung:hover{
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
 
-<div class="card">
+        .gambar-gunung{
+            height: 220px;
+            object-fit: cover;
+        }
 
-    @if($mountain->gambar)
+    </style>
 
-        <img src="{{ asset('storage/' . $mountain->gambar) }}"
-             width="100%">
+</head>
+<body>
 
-    @endif
+    <!-- Navbar -->
 
-    <h2>{{ $mountain->nama_gunung }}</h2>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
 
-    <p>{{ $mountain->lokasi }}</p>
+            <a class="navbar-brand fw-bold" href="#">
+                GreenStore
+            </a>
+        </div>
+    </nav>
 
-    <br>
+    <div class="container mt-5">
 
-    <a href="{{ url('/buat-laporan/' . $mountain->id) }}"
-       class="btn">
+        <h1 class="fw-bold mb-3">
+            Pilih Gunung
+        </h1>
 
-       Buat Laporan
+        <p class="mb-5">
+            Silakan pilih salah satu gunung untuk membuat laporan.
+        </p>
 
-    </a>
+        <div class="row">
 
-</div>
+            <!-- Gunung Semeru -->
 
-@endforeach
+            <div class="col-md-3 mb-4">
 
-</div>
+                <div class="card card-gunung h-100">
 
-@endsection
+                    <img src="{{ asset('images/semeru.jpg') }}"
+                         class="card-img-top gambar-gunung">
+
+                    <div class="card-body text-center">
+
+                        <h4 class="fw-bold">
+                            Gunung Semeru
+                        </h4>
+
+                        <p>
+                            Laporkan kondisi, aktivitas,
+                            atau kejadian di Gunung Semeru.
+                        </p>
+
+                        <a href="/laporan/create"
+                           class="btn btn-outline-primary">
+
+                            Buat Laporan
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Gunung Arjuno -->
+
+            <div class="col-md-3 mb-4">
+
+                <div class="card card-gunung h-100">
+
+                    <img src="{{ asset('images/arjuno.jpg') }}"
+                         class="card-img-top gambar-gunung">
+
+                    <div class="card-body text-center">
+
+                        <h4 class="fw-bold">
+                            Gunung Arjuno
+                        </h4>
+
+                        <p>
+                            Laporkan kondisi, aktivitas,
+                            atau kejadian di Gunung Arjuno.
+                        </p>
+
+                        <a href="/laporan/create"
+                           class="btn btn-outline-warning">
+
+                            Buat Laporan
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </body>
+
+</html>

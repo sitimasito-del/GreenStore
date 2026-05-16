@@ -123,13 +123,11 @@
 
     <a href="/">Home</a>
 
-    <a href="/mountains">Gunung</a>
-
-    <a href="/laporans">Laporan</a>
+    <a href="/laporans">Lapor</a>
 
     <a href="/articles">Edukasi</a>
 
-    <a href="/products">Marketplace</a>
+    <a href="/products">Belanja</a>
 
     
 

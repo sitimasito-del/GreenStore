@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\MountainController;
 
 Route::get('/', function () {
 

@@ -6,21 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-
-            $table->dropColumn('nomor_wa');
-
+        Schema::create('mountains', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-
-            $table->string('nomor_wa')->nullable();
-
-        });
+        Schema::dropIfExists('mountains');
     }
 };

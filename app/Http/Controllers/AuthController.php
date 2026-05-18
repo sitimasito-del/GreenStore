@@ -4,41 +4,82 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthController extends Controller
 {
+    // HALAMAN LOGIN
     public function login()
     {
         return view('auth.login');
     }
 
+    // PROSES LOGIN
     public function authenticate(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->validate([
 
-        if(Auth::attempt($credentials)) {
+            'email' => 'required|email',
+
+            'password' => 'required'
+
+        ]);
+
+        if(Auth::attempt($credentials)){
 
             $request->session()->regenerate();
 
-            // ROLE USER
-            if(auth()->user()->role == 'user') {
-
-                return redirect('/user/dashboard');
-
-            }
-
-            // SEMUA ADMIN
-            return redirect('/admin/dashboard');
+            return redirect('/user/dashboard');
         }
 
-        return back()->with('error', 'Login gagal');
+        return back()->with(
+
+            'error',
+
+            'Email atau password salah'
+        );
     }
 
-    public function dashboard()
+    // HALAMAN REGISTER
+    public function register()
     {
-        return view('dashboard');
+        return view('auth.register');
     }
 
+    // SIMPAN USER
+    public function store(Request $request)
+    {
+        $request->validate([
+
+            'name' => 'required',
+
+            'email' => 'required|email|unique:users',
+
+            'password' => 'required|min:6'
+
+        ]);
+
+        User::create([
+
+            'name' => $request->name,
+
+            'email' => $request->email,
+
+            'password' => bcrypt($request->password),
+
+            'role' => 'user'
+
+        ]);
+
+        return redirect('/login')->with(
+
+            'success',
+
+            'Register berhasil'
+        );
+    }
+
+    // LOGOUT
     public function logout(Request $request)
     {
         Auth::logout();

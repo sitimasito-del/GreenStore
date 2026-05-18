@@ -13,9 +13,15 @@ class User extends Authenticatable
     protected $fillable = [
 
         'name',
+
         'email',
+
         'password',
+
+        'foto',
+
         'role',
+
         'mountain_id'
 
     ];
@@ -23,6 +29,7 @@ class User extends Authenticatable
     protected $hidden = [
 
         'password',
+
         'remember_token',
 
     ];
@@ -32,13 +39,21 @@ class User extends Authenticatable
         return [
 
             'email_verified_at' => 'datetime',
+
             'password' => 'hashed',
 
         ];
     }
 
+    // RELASI KE GUNUNG
     public function mountain()
     {
         return $this->belongsTo(Mountain::class);
+    }
+
+    // RELASI KE LAPORAN
+    public function laporans()
+    {
+        return $this->hasMany(Laporan::class);
     }
 }

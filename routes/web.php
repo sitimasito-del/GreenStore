@@ -1,22 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\MountainController;
 
 Route::get('/', function () {
 
-    return view('welcome');
+    return redirect('/login');
 
 });
 
-
-// ================= LOGIN =================
-
+// LOGIN
 Route::get('/login',
     [AuthController::class, 'login']);
 
@@ -27,47 +20,17 @@ Route::post('/logout',
     [AuthController::class, 'logout']);
 
 
-// ================= USER =================
-
+// DASHBOARD USER
 Route::get('/user/dashboard', function () {
 
-    return view('user.dashboard');
+    return "Dashboard User";
 
 });
 
 
-// ================= ADMIN =================
+// REGISTER
+Route::get('/register',
+    [AuthController::class, 'register']);
 
-Route::get('/admin/dashboard', function () {
-
-    return view('admin.dashboard');
-
-});
-
-
-// ================= MARKETPLACE =================
-
-Route::resource('products',
-    ProductController::class);
-
-
-// ================= LAPORAN =================
-
-Route::get('/laporans',
-    [LaporanController::class, 'index']);
-
-Route::get('/buat-laporan/{id}',
-    [LaporanController::class, 'create']);
-
-Route::post('/laporans/store',
-    [LaporanController::class, 'store']);
-
-Route::get('/laporans', function () {
-    return view('laporans.index');
-});
-
-
-// ================= EDUKASI =================
-
-Route::resource('articles',
-    ArticleController::class);
+Route::post('/register',
+    [AuthController::class, 'store']);

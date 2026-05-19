@@ -12,7 +12,27 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('laporans', function (Blueprint $table) {
+
             $table->id();
+
+            $table->foreignId('user_id')
+                  ->constrained()
+                  ->onDelete('cascade');
+
+            $table->foreignId('mountain_id')
+                  ->constrained()
+                  ->onDelete('cascade');
+
+            $table->string('jenis_laporan');
+
+            $table->text('deskripsi');
+
+            $table->string('gambar')
+                  ->nullable();
+
+            $table->string('status')
+                  ->default('Pending');
+
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MountainController;
 
 Route::get('/', function () {
 
@@ -20,17 +21,22 @@ Route::post('/logout',
     [AuthController::class, 'logout']);
 
 
-// DASHBOARD USER
-Route::get('/user/dashboard', function () {
-
-    return "Dashboard User";
-
-});
-
-
 // REGISTER
 Route::get('/register',
     [AuthController::class, 'register']);
 
 Route::post('/register',
     [AuthController::class, 'store']);
+
+
+// DASHBOARD USER
+Route::get('/user/dashboard', function () {
+
+    return view('user.dashboard');
+
+});
+
+
+// MOUNTAINS
+Route::get('/mountains',
+    [MountainController::class, 'index']);

@@ -93,7 +93,7 @@
 
                         </p>
 
-                        <a href="#"
+                        <a href="{{ url('laporan/create/'.$mountain->id) }}"
                            class="btn btn-primary">
 
                             Buat Laporan

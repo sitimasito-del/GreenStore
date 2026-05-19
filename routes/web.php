@@ -1,8 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MountainController;
+use App\Http\Controllers\LaporanController;
+
+/*
+|--------------------------------------------------------------------------
+| WEB ROUTES
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
 
@@ -10,26 +18,25 @@ Route::get('/', function () {
 
 });
 
-// LOGIN
-Route::get('/login',
-    [AuthController::class, 'login']);
 
-Route::post('/login',
-    [AuthController::class, 'authenticate']);
+// ================= LOGIN =================
 
-Route::post('/logout',
-    [AuthController::class, 'logout']);
+Route::get('/login', [AuthController::class, 'login']);
 
+Route::post('/login', [AuthController::class, 'authenticate']);
 
-// REGISTER
-Route::get('/register',
-    [AuthController::class, 'register']);
-
-Route::post('/register',
-    [AuthController::class, 'store']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
 
-// DASHBOARD USER
+// ================= REGISTER =================
+
+Route::get('/register', [AuthController::class, 'register']);
+
+Route::post('/register', [AuthController::class, 'store']);
+
+
+// ================= DASHBOARD =================
+
 Route::get('/user/dashboard', function () {
 
     return view('user.dashboard');
@@ -37,6 +44,16 @@ Route::get('/user/dashboard', function () {
 });
 
 
-// MOUNTAINS
+// ================= MOUNTAINS =================
+
 Route::get('/mountains',
     [MountainController::class, 'index']);
+
+
+// ================= LAPORAN =================
+
+Route::get('/laporan/create/{id}',
+    [LaporanController::class, 'create']);
+
+Route::post('/laporan/store',
+    [LaporanController::class, 'store']);

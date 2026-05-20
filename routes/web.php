@@ -6,11 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MountainController;
 use App\Http\Controllers\LaporanController;
 
-/*
-|--------------------------------------------------------------------------
-| WEB ROUTES
-|--------------------------------------------------------------------------
-*/
+
+// ================= HOME =================
 
 Route::get('/', function () {
 
@@ -21,18 +18,23 @@ Route::get('/', function () {
 
 // ================= LOGIN =================
 
-Route::get('/login', [AuthController::class, 'login']);
+Route::get('/login',
+    [AuthController::class, 'login']);
 
-Route::post('/login', [AuthController::class, 'authenticate']);
+Route::post('/login',
+    [AuthController::class, 'authenticate']);
 
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/logout',
+    [AuthController::class, 'logout']);
 
 
 // ================= REGISTER =================
 
-Route::get('/register', [AuthController::class, 'register']);
+Route::get('/register',
+    [AuthController::class, 'register']);
 
-Route::post('/register', [AuthController::class, 'store']);
+Route::post('/register',
+    [AuthController::class, 'store']);
 
 
 // ================= DASHBOARD =================
@@ -52,8 +54,14 @@ Route::get('/mountains',
 
 // ================= LAPORAN =================
 
+// FORM BUAT LAPORAN
 Route::get('/laporan/create/{id}',
     [LaporanController::class, 'create']);
 
+// SIMPAN LAPORAN
 Route::post('/laporan/store',
     [LaporanController::class, 'store']);
+
+// RIWAYAT LAPORAN
+Route::get('/riwayat-laporan',
+    [LaporanController::class, 'riwayat']);

@@ -38,7 +38,26 @@
 
         </h2>
 
-        <form action="/laporan/store"
+        {{-- ERROR VALIDASI --}}
+        @if ($errors->any())
+
+            <div class="alert alert-danger">
+
+                <ul class="mb-0">
+
+                    @foreach ($errors->all() as $error)
+
+                        <li>{{ $error }}</li>
+
+                    @endforeach
+
+                </ul>
+
+            </div>
+
+        @endif
+
+        <form action="{{ url('/laporan/store') }}"
               method="POST"
               enctype="multipart/form-data">
 
@@ -50,7 +69,11 @@
 
             <div class="mb-3">
 
-                <label>Jenis Laporan</label>
+                <label class="form-label">
+
+                    Jenis Laporan
+
+                </label>
 
                 <input type="text"
                        name="jenis_laporan"
@@ -61,7 +84,11 @@
 
             <div class="mb-3">
 
-                <label>Deskripsi</label>
+                <label class="form-label">
+
+                    Deskripsi
+
+                </label>
 
                 <textarea name="deskripsi"
                           class="form-control"
@@ -70,9 +97,13 @@
 
             </div>
 
-            <div class="mb-3">
+            <div class="mb-4">
 
-                <label>Upload Gambar</label>
+                <label class="form-label">
+
+                    Upload Gambar
+
+                </label>
 
                 <input type="file"
                        name="gambar"
@@ -80,7 +111,8 @@
 
             </div>
 
-            <button class="btn btn-primary">
+            <button type="submit"
+                    class="btn btn-primary">
 
                 Kirim Laporan
 

@@ -15,4 +15,16 @@ class Laporan extends Model
         'gambar',
         'status'
     ];
+
+    // RELASI KE GUNUNG
+    public function mountain()
+    {
+        return $this->belongsTo(Mountain::class);
+    }
+
+    // RELASI KE USER
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

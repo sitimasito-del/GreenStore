@@ -8,6 +8,7 @@ use App\Models\Mountain;
 
 class LaporanController extends Controller
 {
+    // FORM LAPORAN
     public function create($id)
     {
         $mountain = Mountain::findOrFail($id);
@@ -18,29 +19,20 @@ class LaporanController extends Controller
         );
     }
 
+    // SIMPAN LAPORAN
     public function store(Request $request)
     {
-        $request->validate([
-
-            'jenis_laporan' => 'required',
-
-            'deskripsi' => 'required',
-
-            'gambar' => 'nullable|image'
-
-        ]);
-
         $gambar = null;
 
         if($request->hasFile('gambar')){
 
             $gambar = $request->file('gambar')
-                              ->store('laporan', 'public');
+                              ->store('laporans', 'public');
         }
 
         Laporan::create([
 
-            'user_id' => auth()->id(),
+            'user_id' => 1,
 
             'mountain_id' => $request->mountain_id,
 
@@ -53,6 +45,19 @@ class LaporanController extends Controller
             'status' => 'Pending'
         ]);
 
-        return redirect('/mountains');
+        return redirect('/riwayat-laporan');
+    }
+
+    // RIWAYAT
+    public function riwayat()
+    {
+        $laporans = Laporan::with('mountain')
+                            ->latest()
+                            ->get();
+
+        return view(
+            'laporans.riwayat',
+            compact('laporans')
+        );
     }
 }

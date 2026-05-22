@@ -10,15 +10,21 @@ class MountainSeeder extends Seeder
     public function run(): void
     {
         Mountain::create([
-            'nama_gunung' => 'Gunung Penanggungan',
-            'lokasi' => 'Mojokerto',
-            'deskripsi' => 'Gunung populer di Mojokerto'
+            'nama' => 'Gunung Arjuno',
+            'foto' => 'https://i.ibb.co.com/d4F80GXY/gunung-arjuno-di-malang.jpg',
+            'tinggi' => '3.339 mdpl'
         ]);
 
         Mountain::create([
-            'nama_gunung' => 'Gunung Welirang',
-            'lokasi' => 'Mojokerto',
-            'deskripsi' => 'Gunung dengan jalur pendakian alami'
+            'nama' => 'Gunung Lawu',
+            'foto' => 'https://i.ibb.co.com/RT7Yb1Tb/Gunung-Lawu.jpg',
+            'tinggi' => '3.265 mdpl'
+        ]);
+
+        Mountain::create([
+            'nama' => 'Gunung Semeru',
+            'foto' => 'https://i.ibb.co.com/qYLqnbCF/semeru21.jpg',
+            'tinggi' => '3.676 mdpl'
         ]);
     }
 }

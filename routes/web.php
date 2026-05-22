@@ -62,6 +62,8 @@ Route::get('/laporan/create/{id}',
 Route::post('/laporan/store',
     [LaporanController::class, 'store']);
 
-// RIWAYAT LAPORAN
 Route::get('/riwayat-laporan',
     [LaporanController::class, 'riwayat']);
+
+Route::delete('/laporan/hapus/{id}',
+    [LaporanController::class, 'destroy']);

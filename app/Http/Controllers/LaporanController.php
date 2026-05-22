@@ -5,59 +5,65 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Laporan;
 use App\Models\Mountain;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class LaporanController extends Controller
 {
-    // FORM LAPORAN
     public function create($id)
     {
         $mountain = Mountain::findOrFail($id);
 
-        return view(
-            'laporans.create',
-            compact('mountain')
-        );
+        return view('laporan.create', compact('mountain'));
     }
 
-    // SIMPAN LAPORAN
     public function store(Request $request)
     {
-        $gambar = null;
+        $request->validate([
+            'mountain_id' => 'required',
+            'judul' => 'required',
+            'deskripsi' => 'required',
+            'foto' => 'nullable|image'
+        ]);
 
-        if($request->hasFile('gambar')){
+        $fotoPath = null;
 
-            $gambar = $request->file('gambar')
-                              ->store('laporans', 'public');
+        if ($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')
+                ->store('laporan', 'public');
         }
 
         Laporan::create([
-
-            'user_id' => 1,
-
+            'user_id' => Auth::id(),
             'mountain_id' => $request->mountain_id,
-
-            'jenis_laporan' => $request->jenis_laporan,
-
+            'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
-
-            'gambar' => $gambar,
-
-            'status' => 'Pending'
+            'foto' => $fotoPath
         ]);
 
         return redirect('/riwayat-laporan');
     }
 
-    // RIWAYAT
     public function riwayat()
     {
         $laporans = Laporan::with('mountain')
-                            ->latest()
-                            ->get();
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get();
 
-        return view(
-            'laporans.riwayat',
-            compact('laporans')
-        );
+        return view('laporan.riwayat', compact('laporans'));
+    }
+
+    public function destroy($id)
+    {
+        $laporan = Laporan::findOrFail($id);
+
+        if ($laporan->foto) {
+            Storage::disk('public')->delete($laporan->foto);
+        }
+
+        $laporan->delete();
+
+        return back();
     }
 }

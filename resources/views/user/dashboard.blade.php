@@ -118,8 +118,8 @@
 
                 </p>
 
-                <a href="#"
-                   class="btn btn-success">
+                <a href="/riwayat-laporan"
+                class="btn btn-success">
 
                     Lihat Riwayat
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 
     <meta charset="UTF-8">
@@ -15,28 +15,29 @@
     <style>
 
         body{
-            background-color: #eaf2fb;
+            background-color:#eaf2fb;
         }
 
         .card-gunung{
-            border-radius: 15px;
-            overflow: hidden;
-            transition: 0.3s;
+            border-radius:15px;
+            overflow:hidden;
+            transition:0.3s;
         }
 
         .card-gunung:hover{
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transform:translateY(-5px);
+            box-shadow:0 5px 20px rgba(0,0,0,0.2);
         }
 
         .gambar-gunung{
-            height: 220px;
-            object-fit: cover;
+            height:220px;
+            object-fit:cover;
         }
 
     </style>
 
 </head>
+
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -46,7 +47,7 @@
         <a class="navbar-brand fw-bold"
            href="/user/dashboard">
 
-            GreenStore
+            EcoHike
 
         </a>
 
@@ -74,9 +75,9 @@
 
             <div class="col-md-4 mb-4">
 
-                <div class="card card-gunung h-100">
+                <div class="card card-gunung h-100 shadow">
 
-                    <img src="{{ asset($mountain->image) }}"
+                    <img src="{{ asset('storage/' . $mountain->image) }}"
                          class="card-img-top gambar-gunung">
 
                     <div class="card-body text-center">
@@ -93,7 +94,7 @@
 
                         </p>
 
-                        <a href="{{ url('laporan/create/'.$mountain->id) }}"
+                        <a href="/laporan/create/{{ $mountain->id }}"
                            class="btn btn-primary">
 
                             Buat Laporan

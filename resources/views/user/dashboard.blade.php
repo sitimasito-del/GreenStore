@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard User</title>
+    <title>Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -15,34 +15,34 @@
     <style>
 
         body{
-            background-color: #eaf2fb;
+            background:#eaf2fb;
         }
 
-        .menu-card{
-            border-radius: 15px;
-            transition: 0.3s;
+        .card-menu{
+            border-radius:20px;
+            transition:0.3s;
         }
 
-        .menu-card:hover{
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        .card-menu:hover{
+            transform:translateY(-5px);
+            box-shadow:0 5px 20px rgba(0,0,0,0.2);
         }
 
     </style>
 
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-dark bg-primary">
 
     <div class="container">
 
-        <a class="navbar-brand fw-bold"
-           href="#">
+        <span class="navbar-brand fw-bold">
 
-            GreenStore
+            EcoHike
 
-        </a>
+        </span>
 
         <form action="/logout"
               method="POST">
@@ -63,73 +63,146 @@
 
 <div class="container mt-5">
 
-    <h2 class="fw-bold mb-4">
+    {{-- ADMIN PUSAT --}}
+    @if(Auth::user()->role == 'admin_pusat')
 
-        Selamat Datang,
-        {{ auth()->user()->name }}
+        <h1 class="fw-bold mb-5">
 
-    </h2>
+            Selamat Datang, Admin Pusat
 
-    <div class="row">
+        </h1>
 
-        <!-- MENU LAPOR -->
-        <div class="col-md-4 mb-4">
+        <div class="row">
 
-            <div class="card p-4 menu-card">
+            {{-- RIWAYAT LAPORAN --}}
+            <div class="col-md-6 mb-4">
 
-                <h4>
+                <div class="card shadow card-menu p-4 h-100">
 
-                    Sistem Laporan
+                    <h2 class="fw-bold mb-3">
 
-                </h4>
+                        Riwayat Laporan
 
-                <p>
+                    </h2>
 
-                    Laporkan kondisi gunung,
-                    sampah, jalur, atau kejadian.
+                    <p>
 
-                </p>
+                        Pantau seluruh laporan gunung.
 
-                <a href="/mountains"
-                   class="btn btn-primary">
+                    </p>
 
-                    Buat Laporan
+                    <a href="/admin/dashboard"
+                       class="btn btn-primary btn-lg">
 
-                </a>
+                        Buka Dashboard
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {{-- KELOLA GUNUNG --}}
+            <div class="col-md-6 mb-4">
+
+                <div class="card shadow card-menu p-4 h-100">
+
+                    <h2 class="fw-bold mb-3">
+
+                        Kelola Gunung
+
+                    </h2>
+
+                    <p>
+
+                        Tambahkan gunung baru dan admin gunung.
+
+                    </p>
+
+                    <a href="/admin/mountains"
+                       class="btn btn-success btn-lg">
+
+                        Kelola Gunung
+
+                    </a>
+
+                </div>
 
             </div>
 
         </div>
 
-        <!-- MENU RIWAYAT -->
-        <div class="col-md-4 mb-4">
+    {{-- USER BIASA --}}
+    @else
 
-            <div class="card p-4 menu-card">
+        <h1 class="fw-bold mb-5">
 
-                <h4>
+            Selamat Datang,
+            {{ Auth::user()->name }}
 
-                    Riwayat Laporan
+        </h1>
 
-                </h4>
+        <div class="row">
 
-                <p>
+            {{-- BUAT LAPORAN --}}
+            <div class="col-md-6 mb-4">
 
-                    Lihat status laporan Anda.
+                <div class="card shadow card-menu p-4 h-100">
 
-                </p>
+                    <h2 class="fw-bold mb-3">
 
-                <a href="#"
-                   class="btn btn-success">
+                        Sistem Laporan
 
-                    Lihat Riwayat
+                    </h2>
 
-                </a>
+                    <p>
+
+                        Laporkan kondisi gunung, sampah, jalur, atau kejadian.
+
+                    </p>
+
+                    <a href="/mountains"
+                       class="btn btn-primary btn-lg">
+
+                        Buat Laporan
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {{-- RIWAYAT USER --}}
+            <div class="col-md-6 mb-4">
+
+                <div class="card shadow card-menu p-4 h-100">
+
+                    <h2 class="fw-bold mb-3">
+
+                        Riwayat Laporan
+
+                    </h2>
+
+                    <p>
+
+                        Lihat status laporan Anda.
+
+                    </p>
+
+                    <a href="/riwayat-laporan"
+                       class="btn btn-success btn-lg">
+
+                        Lihat Riwayat
+
+                    </a>
+
+                </div>
 
             </div>
 
         </div>
 
-    </div>
+    @endif
 
 </div>
 

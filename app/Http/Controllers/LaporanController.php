@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\Laporan;
 use App\Models\Mountain;
 
 class LaporanController extends Controller
 {
-    // FORM LAPORAN
+    // HALAMAN BUAT LAPORAN
     public function create($id)
     {
         $mountain = Mountain::findOrFail($id);
@@ -22,17 +24,33 @@ class LaporanController extends Controller
     // SIMPAN LAPORAN
     public function store(Request $request)
     {
+        $request->validate([
+
+            'mountain_id' => 'required',
+
+            'jenis_laporan' => 'required',
+
+            'deskripsi' => 'required',
+
+            'gambar' => 'nullable|image'
+        ]);
+
+        // UPLOAD GAMBAR
         $gambar = null;
 
-        if($request->hasFile('gambar')){
+        if ($request->hasFile('gambar')) {
 
             $gambar = $request->file('gambar')
-                              ->store('laporans', 'public');
+                ->store(
+                    'laporans',
+                    'public'
+                );
         }
 
+        // SIMPAN LAPORAN
         Laporan::create([
 
-            'user_id' => 1,
+            'user_id' => Auth::id(),
 
             'mountain_id' => $request->mountain_id,
 
@@ -45,15 +63,23 @@ class LaporanController extends Controller
             'status' => 'Pending'
         ]);
 
-        return redirect('/riwayat-laporan');
+        return redirect('/riwayat')
+            ->with(
+                'success',
+                'Laporan berhasil dikirim'
+            );
     }
 
-    // RIWAYAT
+    // RIWAYAT USER
     public function riwayat()
     {
         $laporans = Laporan::with('mountain')
-                            ->latest()
-                            ->get();
+            ->where(
+                'user_id',
+                Auth::id()
+            )
+            ->latest()
+            ->get();
 
         return view(
             'laporans.riwayat',

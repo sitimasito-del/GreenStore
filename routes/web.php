@@ -3,11 +3,13 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MountainController;
 use App\Http\Controllers\LaporanController;
 
-
+//
 // ================= HOME =================
+//
 
 Route::get('/', function () {
 
@@ -16,52 +18,121 @@ Route::get('/', function () {
 });
 
 
-// ================= LOGIN =================
+//
+// ================= AUTH =================
+//
 
-Route::get('/login',
-    [AuthController::class, 'login']);
+Route::get('/register', [
 
-Route::post('/login',
-    [AuthController::class, 'authenticate']);
+    AuthController::class,
+    'register'
 
-Route::post('/logout',
-    [AuthController::class, 'logout']);
+]);
+
+Route::post('/register/store', [
+
+    AuthController::class,
+    'storeRegister'
+
+]);
+
+Route::get('/login', [
+
+    AuthController::class,
+    'login'
+
+]);
+
+Route::post('/login', [
+
+    AuthController::class,
+    'authLogin'
+
+]);
+
+Route::get('/logout', [
+
+    AuthController::class,
+    'logout'
+
+]);
 
 
-// ================= REGISTER =================
+//
+// ================= USER =================
+//
 
-Route::get('/register',
-    [AuthController::class, 'register']);
+Route::get('/user/dashboard', [
 
-Route::post('/register',
-    [AuthController::class, 'store']);
+    MountainController::class,
+    'index'
+
+]);
+
+Route::get('/laporan/create/{id}', [
+
+    LaporanController::class,
+    'create'
+
+]);
+
+Route::post('/laporan/store', [
+
+    LaporanController::class,
+    'store'
+
+]);
+
+Route::get('/riwayat', [
+
+    LaporanController::class,
+    'riwayat'
+
+]);
 
 
-// ================= DASHBOARD =================
+//
+// ================= ADMIN =================
+//
 
-Route::get('/user/dashboard', function () {
+Route::get('/admin/dashboard', [
 
-    return view('user.dashboard');
+    AdminController::class,
+    'dashboard'
 
-});
+]);
 
+Route::get('/admin/laporans', [
 
-// ================= MOUNTAINS =================
+    AdminController::class,
+    'laporans'
 
-Route::get('/mountains',
-    [MountainController::class, 'index']);
+]);
 
+Route::get('/admin/mountains', [
 
-// ================= LAPORAN =================
+    AdminController::class,
+    'mountains'
 
-// FORM BUAT LAPORAN
-Route::get('/laporan/create/{id}',
-    [LaporanController::class, 'create']);
+]);
 
-// SIMPAN LAPORAN
-Route::post('/laporan/store',
-    [LaporanController::class, 'store']);
+Route::get('/admin/mountains/create', [
 
-// RIWAYAT LAPORAN
-Route::get('/riwayat-laporan',
-    [LaporanController::class, 'riwayat']);
+    AdminController::class,
+    'createMountain'
+
+]);
+
+Route::post('/admin/mountains/store', [
+
+    AdminController::class,
+    'storeMountain'
+
+]);
+
+Route::post('/admin/laporan/update-status/{id}', [
+
+    AdminController::class,
+    'updateStatus'
+
+]);

@@ -6,5 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mountain extends Model
 {
-    //
+    protected $fillable = [
+
+        'name',
+        'description',
+        'image',
+        'admin_id'
+    ];
 }

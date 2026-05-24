@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\User;
 
 class AuthController extends Controller
@@ -11,24 +13,36 @@ class AuthController extends Controller
     // HALAMAN LOGIN
     public function login()
     {
-        return view('auth.login');
+        return view('login');
     }
 
     // PROSES LOGIN
-    public function authenticate(Request $request)
+    public function authLogin(Request $request)
     {
-        $credentials = $request->validate([
+        $credentials = [
 
-            'email' => 'required|email',
+            'email' => $request->email,
 
-            'password' => 'required'
+            'password' => $request->password
+        ];
 
-        ]);
-
-        if(Auth::attempt($credentials)){
+        if (Auth::attempt($credentials)) {
 
             $request->session()->regenerate();
 
+            // ADMIN PUSAT
+            if (Auth::user()->role == 'admin_pusat') {
+
+                return redirect('/admin/dashboard');
+            }
+
+            // ADMIN GUNUNG
+            if (Auth::user()->role == 'admin_gunung') {
+
+                return redirect('/admin/dashboard');
+            }
+
+            // USER
             return redirect('/user/dashboard');
         }
 
@@ -43,20 +57,19 @@ class AuthController extends Controller
     // HALAMAN REGISTER
     public function register()
     {
-        return view('auth.register');
+        return view('register');
     }
 
-    // SIMPAN USER
-    public function store(Request $request)
+    // SIMPAN REGISTER
+    public function storeRegister(Request $request)
     {
         $request->validate([
 
             'name' => 'required',
 
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email',
 
-            'password' => 'required|min:6'
-
+            'password' => 'required|min:6',
         ]);
 
         User::create([
@@ -65,28 +78,24 @@ class AuthController extends Controller
 
             'email' => $request->email,
 
-            'password' => bcrypt($request->password),
+            'password' => Hash::make(
+                $request->password
+            ),
 
             'role' => 'user'
-
         ]);
 
-        return redirect('/login')->with(
-
-            'success',
-
-            'Register berhasil'
-        );
+        return redirect('/login');
     }
 
     // LOGOUT
-    public function logout(Request $request)
+    public function logout()
     {
         Auth::logout();
 
-        $request->session()->invalidate();
+        request()->session()->invalidate();
 
-        $request->session()->regenerateToken();
+        request()->session()->regenerateToken();
 
         return redirect('/login');
     }

@@ -7,20 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 class Laporan extends Model
 {
     protected $fillable = [
-        'mountain_id',
+
         'user_id',
-        'judul',
+
+        'mountain_id',
+
+        'jenis_laporan',
+
         'deskripsi',
-        'foto'
+
+        'gambar',
+
+        'status'
     ];
 
-    public function mountain()
-    {
-        return $this->belongsTo(Mountain::class);
-    }
-
+    // RELASI USER
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // RELASI GUNUNG
+    public function mountain()
+    {
+        return $this->belongsTo(Mountain::class);
     }
 }

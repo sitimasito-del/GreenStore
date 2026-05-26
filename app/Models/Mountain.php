@@ -7,22 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 class Mountain extends Model
 {
     protected $fillable = [
-<<<<<<< HEAD
 
         'name',
+
         'description',
+
         'image',
+
         'admin_id'
     ];
-=======
-        'nama',
-        'foto',
-        'tinggi'
-    ];
 
-    public function laporans()
+    // RELASI ADMIN
+    public function admin()
     {
-        return $this->hasMany(Laporan::class);
+        return $this->belongsTo(
+
+            User::class,
+
+            'admin_id'
+        );
     }
->>>>>>> 2649c0eb5aba5c612d50adbe56020bd9fab984a6
 }

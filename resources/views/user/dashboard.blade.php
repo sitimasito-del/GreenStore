@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard</title>
+    <title>GreenStore</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -18,14 +18,15 @@
             background:#eaf2fb;
         }
 
-        .card-menu{
-            border-radius:20px;
-            transition:0.3s;
+        .card-custom{
+            border:none;
+            border-radius:25px;
         }
 
-        .card-menu:hover{
-            transform:translateY(-5px);
-            box-shadow:0 5px 20px rgba(0,0,0,0.2);
+        .mountain-img{
+            height:220px;
+            object-fit:cover;
+            border-radius:20px 20px 0 0;
         }
 
     </style>
@@ -34,140 +35,59 @@
 
 <body>
 
-<nav class="navbar navbar-dark bg-primary">
+<nav class="navbar navbar-dark bg-primary px-5">
 
-    <div class="container">
+    <a class="navbar-brand fw-bold">
 
-        <span class="navbar-brand fw-bold">
+        GreenStore
 
-            EcoHike
+    </a>
 
-        </span>
+    <a href="/logout"
+       class="btn btn-light">
 
-        <form action="/logout"
-              method="POST">
+        Logout
 
-            @csrf
-
-            <button class="btn btn-light">
-
-                Logout
-
-            </button>
-
-        </form>
-
-    </div>
+    </a>
 
 </nav>
 
-<div class="container mt-5">
+<div class="container py-5">
 
-    {{-- ADMIN PUSAT --}}
-    @if(Auth::user()->role == 'admin_pusat')
+    <h1 class="fw-bold mb-5">
 
-        <h1 class="fw-bold mb-5">
+        Selamat Datang,
+        {{ auth()->user()->name }}
 
-            Selamat Datang, Admin Pusat
+    </h1>
 
-        </h1>
+    <div class="row">
 
-        <div class="row">
+        @foreach($mountains as $mountain)
 
-            {{-- RIWAYAT LAPORAN --}}
-            <div class="col-md-6 mb-4">
+        <div class="col-md-6 mb-4">
 
-                <div class="card shadow card-menu p-4 h-100">
+            <div class="card shadow card-custom">
 
-                    <h2 class="fw-bold mb-3">
+                <img src="{{ asset('storage/' . $mountain->image) }}"
+                     class="mountain-img">
 
-                        Riwayat Laporan
+                <div class="card-body p-4">
 
-                    </h2>
+                    <h2 class="fw-bold">
 
-                    <p>
-
-                        Pantau seluruh laporan gunung.
-
-                    </p>
-
-                    <a href="/admin/dashboard"
-                       class="btn btn-primary btn-lg">
-
-                        Buka Dashboard
-
-                    </a>
-
-                </div>
-
-            </div>
-
-            {{-- KELOLA GUNUNG --}}
-            <div class="col-md-6 mb-4">
-
-                <div class="card shadow card-menu p-4 h-100">
-
-                    <h2 class="fw-bold mb-3">
-
-                        Kelola Gunung
+                        {{ $mountain->name }}
 
                     </h2>
 
-                    <p>
+                    <p class="text-muted">
 
-                        Tambahkan gunung baru dan admin gunung.
-
-                    </p>
-
-                    <a href="/admin/mountains"
-                       class="btn btn-success btn-lg">
-
-                        Kelola Gunung
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    {{-- USER BIASA --}}
-    @else
-
-        <h1 class="fw-bold mb-5">
-
-            Selamat Datang,
-            {{ Auth::user()->name }}
-
-        </h1>
-
-        <div class="row">
-
-            {{-- BUAT LAPORAN --}}
-            <div class="col-md-6 mb-4">
-
-                <div class="card shadow card-menu p-4 h-100">
-
-                    <h2 class="fw-bold mb-3">
-
-<<<<<<< HEAD
-                        Sistem Laporan
-=======
-                <a href="/riwayat-laporan"
-                class="btn btn-success">
->>>>>>> 2649c0eb5aba5c612d50adbe56020bd9fab984a6
-
-                    </h2>
-
-                    <p>
-
-                        Laporkan kondisi gunung, sampah, jalur, atau kejadian.
+                        {{ $mountain->description }}
 
                     </p>
 
-                    <a href="/mountains"
-                       class="btn btn-primary btn-lg">
+                    <a href="/laporan/create/{{ $mountain->id }}"
+                       class="btn btn-primary w-100">
 
                         Buat Laporan
 
@@ -177,37 +97,34 @@
 
             </div>
 
-            {{-- RIWAYAT USER --}}
-            <div class="col-md-6 mb-4">
-
-                <div class="card shadow card-menu p-4 h-100">
-
-                    <h2 class="fw-bold mb-3">
-
-                        Riwayat Laporan
-
-                    </h2>
-
-                    <p>
-
-                        Lihat status laporan Anda.
-
-                    </p>
-
-                    <a href="/riwayat-laporan"
-                       class="btn btn-success btn-lg">
-
-                        Lihat Riwayat
-
-                    </a>
-
-                </div>
-
-            </div>
-
         </div>
 
-    @endif
+        @endforeach
+
+    </div>
+
+    <div class="card shadow mt-5 p-4 card-custom">
+
+        <h2 class="fw-bold mb-3">
+
+            Riwayat Laporan
+
+        </h2>
+
+        <p>
+
+            Lihat status laporan Anda.
+
+        </p>
+
+        <a href="/riwayat"
+           class="btn btn-success">
+
+            Lihat Riwayat
+
+        </a>
+
+    </div>
 
 </div>
 

@@ -13,28 +13,31 @@ use App\Http\Controllers\LaporanController;
 
 Route::get('/', function () {
 
-    return redirect('/login');
+    return redirect('/dashboard');
 
 });
 
+//
+// ================= DASHBOARD =================
+//
+
+Route::get('/dashboard', [
+
+    MountainController::class,
+    'dashboard'
+
+]);
+
+Route::get('/mountain/{id}', [
+
+    MountainController::class,
+    'detail'
+
+]);
 
 //
 // ================= AUTH =================
 //
-
-Route::get('/register', [
-
-    AuthController::class,
-    'register'
-
-]);
-
-Route::post('/register/store', [
-
-    AuthController::class,
-    'storeRegister'
-
-]);
 
 Route::get('/login', [
 
@@ -50,6 +53,20 @@ Route::post('/login', [
 
 ]);
 
+Route::get('/register', [
+
+    AuthController::class,
+    'register'
+
+]);
+
+Route::post('/register/store', [
+
+    AuthController::class,
+    'storeRegister'
+
+]);
+
 Route::get('/logout', [
 
     AuthController::class,
@@ -57,17 +74,16 @@ Route::get('/logout', [
 
 ]);
 
+Route::get('/profile', [
 
-//
-// ================= USER =================
-//
-
-Route::get('/user/dashboard', [
-
-    MountainController::class,
-    'index'
+    AuthController::class,
+    'profile'
 
 ]);
+
+//
+// ================= LAPORAN =================
+//
 
 Route::get('/laporan/create/{id}', [
 
@@ -90,11 +106,18 @@ Route::get('/riwayat', [
 
 ]);
 
+Route::delete('/laporan/hapus/{id}', [
+
+    LaporanController::class,
+    'destroy'
+
+]);
 
 //
 // ================= ADMIN =================
 //
 
+// DASHBOARD ADMIN PUSAT
 Route::get('/admin/dashboard', [
 
     AdminController::class,
@@ -102,6 +125,7 @@ Route::get('/admin/dashboard', [
 
 ]);
 
+// ADMIN GUNUNG
 Route::get('/admin/laporans', [
 
     AdminController::class,
@@ -109,6 +133,7 @@ Route::get('/admin/laporans', [
 
 ]);
 
+// DAFTAR GUNUNG
 Route::get('/admin/mountains', [
 
     AdminController::class,
@@ -116,9 +141,9 @@ Route::get('/admin/mountains', [
 
 ]);
 
+// TAMBAH GUNUNG
 Route::get('/admin/mountains/create', [
 
-<<<<<<< HEAD
     AdminController::class,
     'createMountain'
 
@@ -131,16 +156,25 @@ Route::post('/admin/mountains/store', [
 
 ]);
 
+// EDIT GUNUNG
+Route::get('/admin/mountain/edit/{id}', [
+
+    AdminController::class,
+    'editMountain'
+
+]);
+
+Route::post('/admin/mountain/update/{id}', [
+
+    AdminController::class,
+    'updateMountain'
+
+]);
+
+// UPDATE STATUS LAPORAN
 Route::post('/admin/laporan/update-status/{id}', [
 
     AdminController::class,
     'updateStatus'
 
 ]);
-=======
-Route::get('/riwayat-laporan',
-    [LaporanController::class, 'riwayat']);
-
-Route::delete('/laporan/hapus/{id}',
-    [LaporanController::class, 'destroy']);
->>>>>>> 2649c0eb5aba5c612d50adbe56020bd9fab984a6

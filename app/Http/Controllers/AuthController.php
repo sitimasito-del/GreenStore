@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 class AuthController extends Controller
 {
-    // HALAMAN LOGIN
+    // LOGIN
     public function login()
     {
         return view('login');
@@ -19,31 +20,31 @@ class AuthController extends Controller
     // PROSES LOGIN
     public function authLogin(Request $request)
     {
-        $credentials = [
+        $credentials = $request->validate([
 
-            'email' => $request->email,
+            'email' => 'required|email',
 
-            'password' => $request->password
-        ];
+            'password' => 'required'
+        ]);
 
-        if (Auth::attempt($credentials)) {
-
+        if(Auth::attempt($credentials))
+        {
             $request->session()->regenerate();
 
             // ADMIN PUSAT
-            if (Auth::user()->role == 'admin_pusat') {
-
+            if(Auth::user()->role == 'admin_pusat')
+            {
                 return redirect('/admin/dashboard');
             }
 
             // ADMIN GUNUNG
-            if (Auth::user()->role == 'admin_gunung') {
-
-                return redirect('/admin/dashboard');
+            if(Auth::user()->role == 'admin_gunung')
+            {
+                return redirect('/admin/laporans');
             }
 
             // USER
-            return redirect('/user/dashboard');
+            return redirect('/dashboard');
         }
 
         return back()->with(
@@ -54,7 +55,7 @@ class AuthController extends Controller
         );
     }
 
-    // HALAMAN REGISTER
+    // REGISTER
     public function register()
     {
         return view('register');
@@ -67,9 +68,9 @@ class AuthController extends Controller
 
             'name' => 'required',
 
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users',
 
-            'password' => 'required|min:6',
+            'password' => 'required|min:6'
         ]);
 
         User::create([
@@ -85,17 +86,23 @@ class AuthController extends Controller
             'role' => 'user'
         ]);
 
-        return redirect('/login');
+        return redirect('/login')
+            ->with(
+                'success',
+                'Register berhasil'
+            );
+    }
+
+    // PROFILE USER
+    public function profile()
+    {
+        return view('profile');
     }
 
     // LOGOUT
     public function logout()
     {
         Auth::logout();
-
-        request()->session()->invalidate();
-
-        request()->session()->regenerateToken();
 
         return redirect('/login');
     }

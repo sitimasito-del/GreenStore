@@ -12,9 +12,55 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
+    <style>
+
+        body{
+            background:#eef5fb;
+        }
+
+        .card-custom{
+            border:none;
+            border-radius:20px;
+        }
+
+        .mountain-img{
+            width:120px;
+            border-radius:15px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .laporan-img{
+            width:220px;
+            border-radius:15px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .edit-btn{
+            background:#ffc107;
+            color:#000;
+            font-weight:bold;
+            border:none;
+            padding:8px 16px;
+            border-radius:10px;
+            text-decoration:none;
+        }
+
+        .edit-btn:hover{
+            background:#e0a800;
+            color:#000;
+        }
+
+        .badge-status{
+            padding:8px 15px;
+            border-radius:10px;
+            font-size:14px;
+        }
+
+    </style>
+
 </head>
 
-<body style="background:#eef5fb;">
+<body>
 
 <div class="container py-5">
 
@@ -29,7 +75,7 @@
         </h1>
 
         <a href="/logout"
-           class="btn btn-danger">
+           class="btn btn-danger rounded-pill px-4">
 
             Logout
 
@@ -37,10 +83,10 @@
 
     </div>
 
-    <!-- TOMBOL -->
+    <!-- TOMBOL TAMBAH -->
 
     <a href="/admin/mountains/create"
-       class="btn btn-primary mb-5">
+       class="btn btn-primary rounded-pill px-4 mb-5">
 
         + Tambah Gunung
 
@@ -48,7 +94,7 @@
 
     <!-- DAFTAR GUNUNG -->
 
-    <div class="card shadow border-0 rounded-4 p-4 mb-5">
+    <div class="card shadow card-custom p-4 mb-5">
 
         <h2 class="fw-bold mb-4">
 
@@ -70,9 +116,7 @@
 
                         <th>Admin</th>
 
-                        <th>Email</th>
-
-                        <th>No WA</th>
+                        <th>Email Admin</th>
 
                         <th>Aksi</th>
 
@@ -91,8 +135,7 @@
                         <td>
 
                             <img src="{{ asset('storage/' . $mountain->image) }}"
-                                 width="120"
-                                 class="rounded shadow">
+                                 class="mountain-img">
 
                         </td>
 
@@ -124,22 +167,14 @@
 
                         </td>
 
-                        <!-- WA -->
-
-                        <td>
-
-                            {{ $mountain->admin->nomor_wa ?? '-' }}
-
-                        </td>
-
-                        <!-- AKSI -->
+                        <!-- EDIT -->
 
                         <td>
 
                             <a href="/admin/mountain/edit/{{ $mountain->id }}"
-                               class="btn btn-warning btn-sm">
+                               class="edit-btn">
 
-                                Edit
+                               ✏️ Edit
 
                             </a>
 
@@ -157,9 +192,175 @@
 
     </div>
 
+    <!-- REKAP -->
+
+    <div class="row mb-5">
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0 rounded-4 p-4">
+
+                <h5>Total Pending</h5>
+
+                <h1 class="fw-bold text-warning">
+
+                    {{ $totalPending }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0 rounded-4 p-4">
+
+                <h5>Total Proses</h5>
+
+                <h1 class="fw-bold text-primary">
+
+                    {{ $totalProses }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0 rounded-4 p-4">
+
+                <h5>Total Selesai</h5>
+
+                <h1 class="fw-bold text-success">
+
+                    {{ $totalSelesai }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- REKAP BULANAN -->
+
+    <div class="card shadow card-custom p-4 mb-5">
+
+        <h2 class="fw-bold mb-4">
+
+            Rekap Laporan Bulanan
+
+        </h2>
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Bulan</th>
+
+                    <th>Tahun</th>
+
+                    <th>Total Laporan</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach($rekapBulanan as $rekap)
+
+                <tr>
+
+                    <td>
+
+                        {{ $rekap->bulan }}
+
+                    </td>
+
+                    <td>
+
+                        {{ $rekap->tahun }}
+
+                    </td>
+
+                    <td>
+
+                        {{ $rekap->total }}
+
+                    </td>
+
+                </tr>
+
+                @endforeach
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- REKAP TAHUNAN -->
+
+    <div class="card shadow card-custom p-4 mb-5">
+
+        <h2 class="fw-bold mb-4">
+
+            Rekap Laporan Tahunan
+
+        </h2>
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Tahun</th>
+
+                    <th>Total Laporan</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach($rekapTahunan as $rekap)
+
+                <tr>
+
+                    <td>
+
+                        {{ $rekap->tahun }}
+
+                    </td>
+
+                    <td>
+
+                        {{ $rekap->total }}
+
+                    </td>
+
+                </tr>
+
+                @endforeach
+
+            </tbody>
+
+        </table>
+
+    </div>
+
     <!-- RIWAYAT LAPORAN -->
 
-    <div class="card shadow border-0 rounded-4 p-4">
+    <div class="card shadow card-custom p-4">
 
         <h2 class="fw-bold mb-4">
 
@@ -169,9 +370,9 @@
 
         @foreach($laporans as $laporan)
 
-            <div class="border rounded p-4 mb-3">
+            <div class="border rounded-4 p-4 mb-4">
 
-                <div class="row">
+                <div class="row align-items-center">
 
                     <div class="col-md-8">
 
@@ -190,6 +391,7 @@
                         <p>
 
                             <b>Gunung:</b>
+
                             {{ $laporan->mountain->name ?? '-' }}
 
                         </p>
@@ -197,7 +399,16 @@
                         <p>
 
                             <b>User:</b>
+
                             {{ $laporan->user->name ?? '-' }}
+
+                        </p>
+
+                        <p>
+
+                            <b>Tanggal:</b>
+
+                            {{ $laporan->created_at->format('d M Y') }}
 
                         </p>
 
@@ -205,11 +416,31 @@
 
                             <b>Status:</b>
 
-                            <span class="badge bg-primary">
+                            @if($laporan->status == 'Pending')
 
-                                {{ $laporan->status }}
+                                <span class="badge bg-warning text-dark badge-status">
 
-                            </span>
+                                    Pending
+
+                                </span>
+
+                            @elseif($laporan->status == 'Proses')
+
+                                <span class="badge bg-primary badge-status">
+
+                                    Proses
+
+                                </span>
+
+                            @else
+
+                                <span class="badge bg-success badge-status">
+
+                                    Selesai
+
+                                </span>
+
+                            @endif
 
                         </p>
 
@@ -220,8 +451,7 @@
                         @if($laporan->gambar)
 
                             <img src="{{ asset('storage/' . $laporan->gambar) }}"
-                                 width="220"
-                                 class="rounded shadow">
+                                 class="laporan-img">
 
                         @endif
 

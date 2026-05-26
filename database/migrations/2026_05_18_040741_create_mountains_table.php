@@ -4,6 +4,7 @@
 
     <meta charset="UTF-8">
 
+<<<<<<< HEAD
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
@@ -92,3 +93,23 @@
 
 </body>
 </html>
+=======
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('mountains', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama');
+            $table->string('foto');
+            $table->string('tinggi');
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('mountains');
+    }
+};
+>>>>>>> 2649c0eb5aba5c612d50adbe56020bd9fab984a6

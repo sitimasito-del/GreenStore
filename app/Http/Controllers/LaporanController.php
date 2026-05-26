@@ -7,24 +7,26 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Laporan;
 use App\Models\Mountain;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class LaporanController extends Controller
 {
+<<<<<<< HEAD
     // HALAMAN BUAT LAPORAN
+=======
+>>>>>>> 2649c0eb5aba5c612d50adbe56020bd9fab984a6
     public function create($id)
     {
         $mountain = Mountain::findOrFail($id);
 
-        return view(
-            'laporans.create',
-            compact('mountain')
-        );
+        return view('laporan.create', compact('mountain'));
     }
 
-    // SIMPAN LAPORAN
     public function store(Request $request)
     {
         $request->validate([
+<<<<<<< HEAD
 
             'mountain_id' => 'required',
 
@@ -45,22 +47,34 @@ class LaporanController extends Controller
                     'laporans',
                     'public'
                 );
+=======
+            'mountain_id' => 'required',
+            'judul' => 'required',
+            'deskripsi' => 'required',
+            'foto' => 'nullable|image'
+        ]);
+
+        $fotoPath = null;
+
+        if ($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')
+                ->store('laporan', 'public');
+>>>>>>> 2649c0eb5aba5c612d50adbe56020bd9fab984a6
         }
 
         // SIMPAN LAPORAN
         Laporan::create([
+<<<<<<< HEAD
 
             'user_id' => Auth::id(),
 
+=======
+            'user_id' => Auth::id(),
+>>>>>>> 2649c0eb5aba5c612d50adbe56020bd9fab984a6
             'mountain_id' => $request->mountain_id,
-
-            'jenis_laporan' => $request->jenis_laporan,
-
+            'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
-
-            'gambar' => $gambar,
-
-            'status' => 'Pending'
+            'foto' => $fotoPath
         ]);
 
         return redirect('/riwayat')
@@ -70,6 +84,7 @@ class LaporanController extends Controller
             );
     }
 
+<<<<<<< HEAD
     // RIWAYAT USER
     public function riwayat()
     {
@@ -78,12 +93,28 @@ class LaporanController extends Controller
                 'user_id',
                 Auth::id()
             )
+=======
+    public function riwayat()
+    {
+        $laporans = Laporan::with('mountain')
+            ->where('user_id', Auth::id())
+>>>>>>> 2649c0eb5aba5c612d50adbe56020bd9fab984a6
             ->latest()
             ->get();
 
-        return view(
-            'laporans.riwayat',
-            compact('laporans')
-        );
+        return view('laporan.riwayat', compact('laporans'));
+    }
+
+    public function destroy($id)
+    {
+        $laporan = Laporan::findOrFail($id);
+
+        if ($laporan->foto) {
+            Storage::disk('public')->delete($laporan->foto);
+        }
+
+        $laporan->delete();
+
+        return back();
     }
 }

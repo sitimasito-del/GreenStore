@@ -118,6 +118,7 @@ Route::get('/admin/mountains', [
 
 Route::get('/admin/mountains/create', [
 
+<<<<<<< HEAD
     AdminController::class,
     'createMountain'
 
@@ -136,3 +137,10 @@ Route::post('/admin/laporan/update-status/{id}', [
     'updateStatus'
 
 ]);
+=======
+Route::get('/riwayat-laporan',
+    [LaporanController::class, 'riwayat']);
+
+Route::delete('/laporan/hapus/{id}',
+    [LaporanController::class, 'destroy']);
+>>>>>>> 2649c0eb5aba5c612d50adbe56020bd9fab984a6

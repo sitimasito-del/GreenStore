@@ -10,9 +10,6 @@ class MountainController extends Controller
     {
         $mountains = Mountain::all();
 
-        return view(
-            'mountains.index',
-            compact('mountains')
-        );
+        return view('mountains.index', compact('mountains'));
     }
 }

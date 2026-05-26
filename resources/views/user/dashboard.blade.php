@@ -151,7 +151,12 @@
 
                     <h2 class="fw-bold mb-3">
 
+<<<<<<< HEAD
                         Sistem Laporan
+=======
+                <a href="/riwayat-laporan"
+                class="btn btn-success">
+>>>>>>> 2649c0eb5aba5c612d50adbe56020bd9fab984a6
 
                     </h2>
 

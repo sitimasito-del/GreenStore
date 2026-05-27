@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
+    // =========================
     // DASHBOARD ADMIN PUSAT
+    // =========================
 
     public function dashboard()
     {
@@ -90,7 +92,9 @@ class AdminController extends Controller
         );
     }
 
+    // =========================
     // ADMIN GUNUNG
+    // =========================
 
     public function laporans()
     {
@@ -149,7 +153,9 @@ class AdminController extends Controller
         );
     }
 
+    // =========================
     // FORM TAMBAH GUNUNG
+    // =========================
 
     public function createMountain()
     {
@@ -158,7 +164,9 @@ class AdminController extends Controller
         );
     }
 
+    // =========================
     // SIMPAN GUNUNG
+    // =========================
 
     public function storeMountain(Request $request)
     {
@@ -177,7 +185,16 @@ class AdminController extends Controller
             'admin_password' => 'required|min:6'
         ]);
 
-        // ADMIN GUNUNG
+        // SIMPAN FOTO KE DATABASE
+
+        $image = base64_encode(
+
+            file_get_contents(
+                $request->file('image')->path()
+            )
+        );
+
+        // BUAT ADMIN GUNUNG
 
         $admin = User::create([
 
@@ -191,14 +208,6 @@ class AdminController extends Controller
 
             'role' => 'admin_gunung'
         ]);
-
-        // GAMBAR
-
-        $image = $request->file('image')
-            ->store(
-                'mountains',
-                'public'
-            );
 
         // SIMPAN GUNUNG
 
@@ -220,7 +229,9 @@ class AdminController extends Controller
             );
     }
 
+    // =========================
     // EDIT GUNUNG
+    // =========================
 
     public function editMountain($id)
     {
@@ -232,18 +243,31 @@ class AdminController extends Controller
         );
     }
 
+    // =========================
     // UPDATE GUNUNG
+    // =========================
 
     public function updateMountain(Request $request, $id)
     {
         $mountain = Mountain::findOrFail($id);
 
-        $mountain->update([
+        if($request->hasFile('image'))
+        {
+            $image = base64_encode(
 
-            'name' => $request->name,
+                file_get_contents(
+                    $request->file('image')->path()
+                )
+            );
 
-            'description' => $request->description
-        ]);
+            $mountain->image = $image;
+        }
+
+        $mountain->name = $request->name;
+
+        $mountain->description = $request->description;
+
+        $mountain->save();
 
         return redirect('/admin/dashboard')
             ->with(
@@ -252,7 +276,9 @@ class AdminController extends Controller
             );
     }
 
-    // UPDATE STATUS
+    // =========================
+    // UPDATE STATUS LAPORAN
+    // =========================
 
     public function updateStatus(Request $request, $id)
     {

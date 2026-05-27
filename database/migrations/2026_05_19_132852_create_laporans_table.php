@@ -6,26 +6,44 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
+
     public function up(): void
     {
         Schema::create('laporans', function (Blueprint $table) {
+
             $table->id();
 
-            $table->foreignId('user_id')
-                ->constrained()
-                ->onDelete('cascade');
+            // USER
 
-            $table->foreignId('mountain_id')
-                ->constrained()
-                ->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
 
-            $table->string('judul');
+            // GUNUNG
+
+            $table->unsignedBigInteger('mountain_id');
+
+            // JENIS LAPORAN
+
+            $table->string('jenis_laporan');
+
+            // DESKRIPSI
+
             $table->text('deskripsi');
-            $table->string('foto')->nullable();
+
+            // STATUS
+
+            $table->string('status')
+                  ->default('Pending');
 
             $table->timestamps();
         });
     }
+
+    /**
+     * Reverse the migrations.
+     */
 
     public function down(): void
     {

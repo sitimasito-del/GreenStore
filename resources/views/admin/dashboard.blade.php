@@ -7,47 +7,45 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard Admin Pusat</title>
+    <title>Admin Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
     <style>
 
         body{
             background:#eef5fb;
+            font-family:Arial;
         }
 
-        .card-custom{
+        .card-box{
             border:none;
-            border-radius:25px;
-        }
-
-        .mountain-img{
-            width:120px;
-            height:80px;
-            object-fit:cover;
-            border-radius:15px;
-        }
-
-        .laporan-img{
-            width:180px;
-            border-radius:15px;
-        }
-
-        .stat-card{
-            border:none;
-            border-radius:25px;
+            border-radius:20px;
+            padding:25px;
             color:white;
         }
 
-        .table{
-            vertical-align:middle;
+        .table-box{
+            background:white;
+            border-radius:20px;
+            padding:25px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .mountain-img{
+            width:180px;
+            height:120px;
+            object-fit:cover;
+            border-radius:12px;
         }
 
         .badge-status{
-            padding:10px 16px;
-            border-radius:10px;
+            padding:8px 15px;
+            border-radius:20px;
             font-size:14px;
         }
 
@@ -58,8 +56,6 @@
 <body>
 
 <div class="container py-5">
-
-    <!-- HEADER -->
 
     <div class="d-flex justify-content-between align-items-center mb-5">
 
@@ -73,7 +69,7 @@
 
             <p class="text-muted">
 
-                Monitoring seluruh laporan GreenStore
+                Rekap laporan dan data gunung EcoHike
 
             </p>
 
@@ -82,14 +78,15 @@
         <div>
 
             <a href="/admin/mountains/create"
-               class="btn btn-success rounded-pill px-4">
+               class="btn btn-primary">
 
-                + Tambah Gunung
+                <i class="fa-solid fa-plus"></i>
+                Tambah Gunung
 
             </a>
 
             <a href="/logout"
-               class="btn btn-danger rounded-pill px-4">
+               class="btn btn-danger">
 
                 Logout
 
@@ -99,15 +96,19 @@
 
     </div>
 
-    <!-- CARD STATISTIK -->
+    {{-- CARD REKAP --}}
 
     <div class="row mb-5">
 
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4 mb-4">
 
-            <div class="card stat-card bg-warning shadow p-4">
+            <div class="card-box bg-warning">
 
-                <h5>Total Pending</h5>
+                <h5>
+
+                    Pending
+
+                </h5>
 
                 <h1 class="fw-bold">
 
@@ -119,11 +120,15 @@
 
         </div>
 
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4 mb-4">
 
-            <div class="card stat-card bg-primary shadow p-4">
+            <div class="card-box bg-primary">
 
-                <h5>Total Proses</h5>
+                <h5>
+
+                    Proses
+
+                </h5>
 
                 <h1 class="fw-bold">
 
@@ -135,11 +140,15 @@
 
         </div>
 
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4 mb-4">
 
-            <div class="card stat-card bg-success shadow p-4">
+            <div class="card-box bg-success">
 
-                <h5>Total Selesai</h5>
+                <h5>
+
+                    Selesai
+
+                </h5>
 
                 <h1 class="fw-bold">
 
@@ -153,150 +162,23 @@
 
     </div>
 
-    <!-- REKAP -->
+    {{-- DAFTAR GUNUNG --}}
 
-    <div class="row mb-5">
+    <div class="table-box mb-5">
 
-        <!-- REKAP BULANAN -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <div class="col-md-6 mb-4">
+            <h2 class="fw-bold">
 
-            <div class="card shadow card-custom p-4 h-100">
+                Daftar Gunung
 
-                <h4 class="fw-bold mb-4">
-
-                    Rekap Bulanan
-
-                </h4>
-
-                <div class="table-responsive">
-
-                    <table class="table">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>Bulan</th>
-                                <th>Tahun</th>
-                                <th>Total</th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            @foreach($rekapBulanan as $item)
-
-                            <tr>
-
-                                <td>
-
-                                    {{ $item->bulan }}
-
-                                </td>
-
-                                <td>
-
-                                    {{ $item->tahun }}
-
-                                </td>
-
-                                <td>
-
-                                    {{ $item->total }}
-
-                                </td>
-
-                            </tr>
-
-                            @endforeach
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
+            </h2>
 
         </div>
-
-        <!-- REKAP TAHUNAN -->
-
-        <div class="col-md-6 mb-4">
-
-            <div class="card shadow card-custom p-4 h-100">
-
-                <h4 class="fw-bold mb-4">
-
-                    Rekap Tahunan
-
-                </h4>
-
-                <div class="table-responsive">
-
-                    <table class="table">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>Tahun</th>
-                                <th>Total</th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            @foreach($rekapTahunan as $item)
-
-                            <tr>
-
-                                <td>
-
-                                    {{ $item->tahun }}
-
-                                </td>
-
-                                <td>
-
-                                    {{ $item->total }}
-
-                                </td>
-
-                            </tr>
-
-                            @endforeach
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- DAFTAR GUNUNG -->
-
-    <div class="card shadow card-custom p-4 mb-5">
-
-        <h3 class="fw-bold mb-4">
-
-            Daftar Gunung
-
-        </h3>
 
         <div class="table-responsive">
 
-            <table class="table">
+            <table class="table align-middle">
 
                 <thead>
 
@@ -320,18 +202,24 @@
 
                         <td>
 
-                            <img src="{{ asset('storage/' . $mountain->image) }}"
+                            <img src="data:image/jpeg;base64,{{ $mountain->image }}"
                                  class="mountain-img">
 
                         </td>
 
                         <td>
 
-                            <b>
+                            <h5 class="fw-bold">
 
                                 {{ $mountain->name }}
 
-                            </b>
+                            </h5>
+
+                            <small class="text-muted">
+
+                                {{ Str::limit($mountain->description, 80) }}
+
+                            </small>
 
                         </td>
 
@@ -352,6 +240,7 @@
                             <a href="/admin/mountain/edit/{{ $mountain->id }}"
                                class="btn btn-warning rounded-pill">
 
+                                <i class="fa-solid fa-pen"></i>
                                 Edit
 
                             </a>
@@ -370,108 +259,228 @@
 
     </div>
 
-    <!-- RIWAYAT LAPORAN -->
+    {{-- REKAP BULANAN --}}
 
-    <div class="card shadow card-custom p-4">
+    <div class="table-box mb-5">
 
-        <h3 class="fw-bold mb-4">
+        <h2 class="fw-bold mb-4">
 
-            Riwayat Laporan
+            Rekap Bulanan
 
-        </h3>
+        </h2>
 
-        @foreach($laporans as $laporan)
+        <div class="table-responsive">
 
-        <div class="border rounded-4 p-4 mb-4">
+            <table class="table">
 
-            <div class="row align-items-center">
+                <thead>
 
-                <div class="col-md-8">
+                    <tr>
 
-                    <h4 class="fw-bold">
+                        <th>Bulan</th>
+                        <th>Tahun</th>
+                        <th>Total Laporan</th>
 
-                        {{ $laporan->jenis_laporan }}
+                    </tr>
 
-                    </h4>
+                </thead>
 
-                    <p>
+                <tbody>
 
-                        {{ $laporan->deskripsi }}
+                    @foreach($rekapBulanan as $item)
 
-                    </p>
+                    <tr>
 
-                    <p>
+                        <td>
 
-                        <b>Gunung:</b>
+                            {{ $item->bulan }}
 
-                        {{ $laporan->mountain->name ?? '-' }}
+                        </td>
 
-                    </p>
+                        <td>
 
-                    <p>
+                            {{ $item->tahun }}
 
-                        <b>Pelapor:</b>
+                        </td>
 
-                        {{ $laporan->user->name ?? '-' }}
+                        <td>
 
-                    </p>
+                            <span class="badge bg-primary">
 
-                    <p>
-
-                        <b>Tanggal:</b>
-
-                        {{ $laporan->created_at->format('d M Y') }}
-
-                    </p>
-
-                    <p>
-
-                        @if($laporan->status == 'Pending')
-
-                            <span class="badge bg-warning text-dark badge-status">
-
-                                Pending
+                                {{ $item->total }} laporan
 
                             </span>
 
-                        @elseif($laporan->status == 'Proses')
+                        </td>
 
-                            <span class="badge bg-primary badge-status">
+                    </tr>
 
-                                Proses
+                    @endforeach
 
-                            </span>
+                </tbody>
 
-                        @else
-
-                            <span class="badge bg-success badge-status">
-
-                                Selesai
-
-                            </span>
-
-                        @endif
-
-                    </p>
-
-                </div>
-
-                <div class="col-md-4 text-end">
-
-                    @if($laporan->gambar)
-
-                    <img src="{{ asset('storage/' . $laporan->gambar) }}"
-                         class="laporan-img">
-
-                    @endif
-
-                </div>
-
-            </div>
+            </table>
 
         </div>
 
-        @endforeach
+    </div>
+
+    {{-- REKAP TAHUNAN --}}
+
+    <div class="table-box mb-5">
+
+        <h2 class="fw-bold mb-4">
+
+            Rekap Tahunan
+
+        </h2>
+
+        <div class="table-responsive">
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Tahun</th>
+                        <th>Total Laporan</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach($rekapTahunan as $item)
+
+                    <tr>
+
+                        <td>
+
+                            {{ $item->tahun }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                {{ $item->total }} laporan
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    {{-- LAPORAN TERBARU --}}
+
+    <div class="table-box">
+
+        <h2 class="fw-bold mb-4">
+
+            Laporan Terbaru
+
+        </h2>
+
+        <div class="table-responsive">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>User</th>
+                        <th>Gunung</th>
+                        <th>Jenis</th>
+                        <th>Status</th>
+                        <th>Tanggal</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach($laporans as $laporan)
+
+                    <tr>
+
+                        <td>
+
+                            {{ $laporan->user->name ?? '-' }}
+
+                        </td>
+
+                        <td>
+
+                            {{ $laporan->mountain->name ?? '-' }}
+
+                        </td>
+
+                        <td>
+
+                            {{ $laporan->jenis_laporan }}
+
+                        </td>
+
+                        <td>
+
+                            @if($laporan->status == 'Pending')
+
+                                <span class="badge bg-warning text-dark badge-status">
+
+                                    Pending
+
+                                </span>
+
+                            @elseif($laporan->status == 'Proses')
+
+                                <span class="badge bg-primary badge-status">
+
+                                    Proses
+
+                                </span>
+
+                            @else
+
+                                <span class="badge bg-success badge-status">
+
+                                    Selesai
+
+                                </span>
+
+                            @endif
+
+                        </td>
+
+                        <td>
+
+                            {{ $laporan->created_at->format('d M Y') }}
+
+                        </td>
+
+                    </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 

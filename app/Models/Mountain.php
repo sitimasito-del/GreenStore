@@ -17,13 +17,10 @@ class Mountain extends Model
         'admin_id'
     ];
 
-    // RELASI ADMIN
     public function admin()
     {
         return $this->belongsTo(
-
             User::class,
-
             'admin_id'
         );
     }

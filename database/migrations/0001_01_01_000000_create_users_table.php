@@ -9,6 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
@@ -23,11 +24,17 @@ return new class extends Migration
 
             $table->string('password');
 
-            // ROLE USER / ADMIN
+            // FOTO USER / ADMIN
+
+            $table->longText('foto')->nullable();
+
+            // ROLE
+
             $table->string('role')
                   ->default('user');
 
             // ADMIN GUNUNG
+
             $table->unsignedBigInteger('mountain_id')
                   ->nullable();
 
@@ -69,6 +76,7 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
+
     public function down(): void
     {
         Schema::dropIfExists('users');

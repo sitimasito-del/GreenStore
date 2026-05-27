@@ -11,13 +11,19 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    // ===============================
     // LOGIN
+    // ===============================
+
     public function login()
     {
         return view('login');
     }
 
+    // ===============================
     // PROSES LOGIN
+    // ===============================
+
     public function authLogin(Request $request)
     {
         $credentials = $request->validate([
@@ -32,19 +38,22 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // ADMIN PUSAT
+
             if(Auth::user()->role == 'admin_pusat')
             {
                 return redirect('/admin/dashboard');
             }
 
             // ADMIN GUNUNG
+
             if(Auth::user()->role == 'admin_gunung')
             {
                 return redirect('/admin/laporans');
             }
 
             // USER
-            return redirect('/dashboard');
+
+            return redirect('/');
         }
 
         return back()->with(
@@ -55,13 +64,19 @@ class AuthController extends Controller
         );
     }
 
+    // ===============================
     // REGISTER
+    // ===============================
+
     public function register()
     {
         return view('register');
     }
 
+    // ===============================
     // SIMPAN REGISTER
+    // ===============================
+
     public function storeRegister(Request $request)
     {
         $request->validate([
@@ -93,17 +108,27 @@ class AuthController extends Controller
             );
     }
 
+    // ===============================
     // PROFILE USER
+    // ===============================
+
     public function profile()
     {
         return view('profile');
     }
 
+    // ===============================
     // LOGOUT
+    // ===============================
+
     public function logout()
     {
         Auth::logout();
 
-        return redirect('/login');
+        return redirect('/')
+            ->with(
+                'success',
+                'Berhasil logout'
+            );
     }
 }

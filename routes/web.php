@@ -11,11 +11,12 @@ use App\Http\Controllers\LaporanController;
 // ================= HOME =================
 //
 
-Route::get('/', function () {
+Route::get('/', [
 
-    return redirect('/dashboard');
+    MountainController::class,
+    'dashboard'
 
-});
+]);
 
 //
 // ================= DASHBOARD =================
@@ -118,6 +119,7 @@ Route::delete('/laporan/hapus/{id}', [
 //
 
 // DASHBOARD ADMIN PUSAT
+
 Route::get('/admin/dashboard', [
 
     AdminController::class,
@@ -126,6 +128,7 @@ Route::get('/admin/dashboard', [
 ]);
 
 // ADMIN GUNUNG
+
 Route::get('/admin/laporans', [
 
     AdminController::class,
@@ -134,6 +137,7 @@ Route::get('/admin/laporans', [
 ]);
 
 // DAFTAR GUNUNG
+
 Route::get('/admin/mountains', [
 
     AdminController::class,
@@ -142,6 +146,7 @@ Route::get('/admin/mountains', [
 ]);
 
 // TAMBAH GUNUNG
+
 Route::get('/admin/mountains/create', [
 
     AdminController::class,
@@ -157,6 +162,7 @@ Route::post('/admin/mountains/store', [
 ]);
 
 // EDIT GUNUNG
+
 Route::get('/admin/mountain/edit/{id}', [
 
     AdminController::class,
@@ -172,6 +178,7 @@ Route::post('/admin/mountain/update/{id}', [
 ]);
 
 // UPDATE STATUS LAPORAN
+
 Route::post('/admin/laporan/update-status/{id}', [
 
     AdminController::class,

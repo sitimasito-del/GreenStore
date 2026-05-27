@@ -20,38 +20,33 @@
 
         .card-custom{
             border:none;
-            border-radius:20px;
+            border-radius:25px;
         }
 
         .mountain-img{
             width:120px;
+            height:80px;
+            object-fit:cover;
             border-radius:15px;
-            box-shadow:0 4px 10px rgba(0,0,0,0.2);
         }
 
         .laporan-img{
-            width:220px;
+            width:180px;
             border-radius:15px;
-            box-shadow:0 4px 10px rgba(0,0,0,0.2);
         }
 
-        .edit-btn{
-            background:#ffc107;
-            color:#000;
-            font-weight:bold;
+        .stat-card{
             border:none;
-            padding:8px 16px;
-            border-radius:10px;
-            text-decoration:none;
+            border-radius:25px;
+            color:white;
         }
 
-        .edit-btn:hover{
-            background:#e0a800;
-            color:#000;
+        .table{
+            vertical-align:middle;
         }
 
         .badge-status{
-            padding:8px 15px;
+            padding:10px 16px;
             border-radius:10px;
             font-size:14px;
         }
@@ -68,56 +63,249 @@
 
     <div class="d-flex justify-content-between align-items-center mb-5">
 
-        <h1 class="fw-bold">
+        <div>
 
-            Dashboard Admin Pusat
+            <h1 class="fw-bold">
 
-        </h1>
+                Dashboard Admin Pusat
 
-        <a href="/logout"
-           class="btn btn-danger rounded-pill px-4">
+            </h1>
 
-            Logout
+            <p class="text-muted">
 
-        </a>
+                Monitoring seluruh laporan GreenStore
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <a href="/admin/mountains/create"
+               class="btn btn-success rounded-pill px-4">
+
+                + Tambah Gunung
+
+            </a>
+
+            <a href="/logout"
+               class="btn btn-danger rounded-pill px-4">
+
+                Logout
+
+            </a>
+
+        </div>
 
     </div>
 
-    <!-- TOMBOL TAMBAH -->
+    <!-- CARD STATISTIK -->
 
-    <a href="/admin/mountains/create"
-       class="btn btn-primary rounded-pill px-4 mb-5">
+    <div class="row mb-5">
 
-        + Tambah Gunung
+        <div class="col-md-4 mb-3">
 
-    </a>
+            <div class="card stat-card bg-warning shadow p-4">
+
+                <h5>Total Pending</h5>
+
+                <h1 class="fw-bold">
+
+                    {{ $totalPending }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card stat-card bg-primary shadow p-4">
+
+                <h5>Total Proses</h5>
+
+                <h1 class="fw-bold">
+
+                    {{ $totalProses }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card stat-card bg-success shadow p-4">
+
+                <h5>Total Selesai</h5>
+
+                <h1 class="fw-bold">
+
+                    {{ $totalSelesai }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- REKAP -->
+
+    <div class="row mb-5">
+
+        <!-- REKAP BULANAN -->
+
+        <div class="col-md-6 mb-4">
+
+            <div class="card shadow card-custom p-4 h-100">
+
+                <h4 class="fw-bold mb-4">
+
+                    Rekap Bulanan
+
+                </h4>
+
+                <div class="table-responsive">
+
+                    <table class="table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Bulan</th>
+                                <th>Tahun</th>
+                                <th>Total</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach($rekapBulanan as $item)
+
+                            <tr>
+
+                                <td>
+
+                                    {{ $item->bulan }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ $item->tahun }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ $item->total }}
+
+                                </td>
+
+                            </tr>
+
+                            @endforeach
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- REKAP TAHUNAN -->
+
+        <div class="col-md-6 mb-4">
+
+            <div class="card shadow card-custom p-4 h-100">
+
+                <h4 class="fw-bold mb-4">
+
+                    Rekap Tahunan
+
+                </h4>
+
+                <div class="table-responsive">
+
+                    <table class="table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Tahun</th>
+                                <th>Total</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach($rekapTahunan as $item)
+
+                            <tr>
+
+                                <td>
+
+                                    {{ $item->tahun }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ $item->total }}
+
+                                </td>
+
+                            </tr>
+
+                            @endforeach
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
     <!-- DAFTAR GUNUNG -->
 
     <div class="card shadow card-custom p-4 mb-5">
 
-        <h2 class="fw-bold mb-4">
+        <h3 class="fw-bold mb-4">
 
             Daftar Gunung
 
-        </h2>
+        </h3>
 
         <div class="table-responsive">
 
-            <table class="table align-middle">
+            <table class="table">
 
                 <thead>
 
                     <tr>
 
                         <th>Gambar</th>
-
                         <th>Gunung</th>
-
                         <th>Admin</th>
-
-                        <th>Email Admin</th>
-
+                        <th>Email</th>
                         <th>Aksi</th>
 
                     </tr>
@@ -130,16 +318,12 @@
 
                     <tr>
 
-                        <!-- GAMBAR -->
-
                         <td>
 
                             <img src="{{ asset('storage/' . $mountain->image) }}"
                                  class="mountain-img">
 
                         </td>
-
-                        <!-- NAMA -->
 
                         <td>
 
@@ -151,15 +335,11 @@
 
                         </td>
 
-                        <!-- ADMIN -->
-
                         <td>
 
                             {{ $mountain->admin->name ?? '-' }}
 
                         </td>
-
-                        <!-- EMAIL -->
 
                         <td>
 
@@ -167,14 +347,12 @@
 
                         </td>
 
-                        <!-- EDIT -->
-
                         <td>
 
                             <a href="/admin/mountain/edit/{{ $mountain->id }}"
-                               class="edit-btn">
+                               class="btn btn-warning rounded-pill">
 
-                               ✏️ Edit
+                                Edit
 
                             </a>
 
@@ -192,274 +370,106 @@
 
     </div>
 
-    <!-- REKAP -->
-
-    <div class="row mb-5">
-
-        <div class="col-md-4">
-
-            <div class="card shadow border-0 rounded-4 p-4">
-
-                <h5>Total Pending</h5>
-
-                <h1 class="fw-bold text-warning">
-
-                    {{ $totalPending }}
-
-                </h1>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4">
-
-            <div class="card shadow border-0 rounded-4 p-4">
-
-                <h5>Total Proses</h5>
-
-                <h1 class="fw-bold text-primary">
-
-                    {{ $totalProses }}
-
-                </h1>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4">
-
-            <div class="card shadow border-0 rounded-4 p-4">
-
-                <h5>Total Selesai</h5>
-
-                <h1 class="fw-bold text-success">
-
-                    {{ $totalSelesai }}
-
-                </h1>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- REKAP BULANAN -->
-
-    <div class="card shadow card-custom p-4 mb-5">
-
-        <h2 class="fw-bold mb-4">
-
-            Rekap Laporan Bulanan
-
-        </h2>
-
-        <table class="table">
-
-            <thead>
-
-                <tr>
-
-                    <th>Bulan</th>
-
-                    <th>Tahun</th>
-
-                    <th>Total Laporan</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                @foreach($rekapBulanan as $rekap)
-
-                <tr>
-
-                    <td>
-
-                        {{ $rekap->bulan }}
-
-                    </td>
-
-                    <td>
-
-                        {{ $rekap->tahun }}
-
-                    </td>
-
-                    <td>
-
-                        {{ $rekap->total }}
-
-                    </td>
-
-                </tr>
-
-                @endforeach
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    <!-- REKAP TAHUNAN -->
-
-    <div class="card shadow card-custom p-4 mb-5">
-
-        <h2 class="fw-bold mb-4">
-
-            Rekap Laporan Tahunan
-
-        </h2>
-
-        <table class="table">
-
-            <thead>
-
-                <tr>
-
-                    <th>Tahun</th>
-
-                    <th>Total Laporan</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                @foreach($rekapTahunan as $rekap)
-
-                <tr>
-
-                    <td>
-
-                        {{ $rekap->tahun }}
-
-                    </td>
-
-                    <td>
-
-                        {{ $rekap->total }}
-
-                    </td>
-
-                </tr>
-
-                @endforeach
-
-            </tbody>
-
-        </table>
-
-    </div>
-
     <!-- RIWAYAT LAPORAN -->
 
     <div class="card shadow card-custom p-4">
 
-        <h2 class="fw-bold mb-4">
+        <h3 class="fw-bold mb-4">
 
-            Semua Riwayat Laporan
+            Riwayat Laporan
 
-        </h2>
+        </h3>
 
         @foreach($laporans as $laporan)
 
-            <div class="border rounded-4 p-4 mb-4">
+        <div class="border rounded-4 p-4 mb-4">
 
-                <div class="row align-items-center">
+            <div class="row align-items-center">
 
-                    <div class="col-md-8">
+                <div class="col-md-8">
 
-                        <h4 class="fw-bold">
+                    <h4 class="fw-bold">
 
-                            {{ $laporan->jenis_laporan }}
+                        {{ $laporan->jenis_laporan }}
 
-                        </h4>
+                    </h4>
 
-                        <p>
+                    <p>
 
-                            {{ $laporan->deskripsi }}
+                        {{ $laporan->deskripsi }}
 
-                        </p>
+                    </p>
 
-                        <p>
+                    <p>
 
-                            <b>Gunung:</b>
+                        <b>Gunung:</b>
 
-                            {{ $laporan->mountain->name ?? '-' }}
+                        {{ $laporan->mountain->name ?? '-' }}
 
-                        </p>
+                    </p>
 
-                        <p>
+                    <p>
 
-                            <b>User:</b>
+                        <b>Pelapor:</b>
 
-                            {{ $laporan->user->name ?? '-' }}
+                        {{ $laporan->user->name ?? '-' }}
 
-                        </p>
+                    </p>
 
-                        <p>
+                    <p>
 
-                            <b>Tanggal:</b>
+                        <b>Tanggal:</b>
 
-                            {{ $laporan->created_at->format('d M Y') }}
+                        {{ $laporan->created_at->format('d M Y') }}
 
-                        </p>
+                    </p>
 
-                        <p>
+                    <p>
 
-                            <b>Status:</b>
+                        @if($laporan->status == 'Pending')
 
-                            @if($laporan->status == 'Pending')
+                            <span class="badge bg-warning text-dark badge-status">
 
-                                <span class="badge bg-warning text-dark badge-status">
+                                Pending
 
-                                    Pending
+                            </span>
 
-                                </span>
+                        @elseif($laporan->status == 'Proses')
 
-                            @elseif($laporan->status == 'Proses')
+                            <span class="badge bg-primary badge-status">
 
-                                <span class="badge bg-primary badge-status">
+                                Proses
 
-                                    Proses
+                            </span>
 
-                                </span>
+                        @else
 
-                            @else
+                            <span class="badge bg-success badge-status">
 
-                                <span class="badge bg-success badge-status">
+                                Selesai
 
-                                    Selesai
-
-                                </span>
-
-                            @endif
-
-                        </p>
-
-                    </div>
-
-                    <div class="col-md-4 text-end">
-
-                        @if($laporan->gambar)
-
-                            <img src="{{ asset('storage/' . $laporan->gambar) }}"
-                                 class="laporan-img">
+                            </span>
 
                         @endif
 
-                    </div>
+                    </p>
+
+                </div>
+
+                <div class="col-md-4 text-end">
+
+                    @if($laporan->gambar)
+
+                    <img src="{{ asset('storage/' . $laporan->gambar) }}"
+                         class="laporan-img">
+
+                    @endif
 
                 </div>
 
             </div>
+
+        </div>
 
         @endforeach
 

@@ -1,3 +1,4 @@
+```blade
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -28,17 +29,24 @@
     <div class="card shadow border-0 rounded-4 p-4">
 
         <h2 class="fw-bold mb-4">
-
-            Buat Laporan -
-            {{ $mountain->name }}
-
+            Buat Laporan - {{ $mountain->name }}
         </h2>
+
+        @if(session('success'))
+
+            <div class="alert alert-success">
+
+                {{ session('success') }}
+
+            </div>
+
+        @endif
 
         @if ($errors->any())
 
             <div class="alert alert-danger">
 
-                <ul>
+                <ul class="mb-0">
 
                     @foreach ($errors->all() as $error)
 
@@ -70,10 +78,35 @@
 
                 </label>
 
-                <input type="text"
-                       name="jenis_laporan"
-                       class="form-control"
-                       required>
+                <select name="jenis_laporan"
+                        class="form-control"
+                        required>
+
+                    <option value="">
+                        -- Pilih Jenis Laporan --
+                    </option>
+
+                    <option value="Sampah">
+                        Sampah
+                    </option>
+
+                    <option value="Kerusakan Jalur">
+                        Kerusakan Jalur
+                    </option>
+
+                    <option value="Fasilitas">
+                        Fasilitas
+                    </option>
+
+                    <option value="Keamanan">
+                        Keamanan
+                    </option>
+
+                    <option value="Lainnya">
+                        Lainnya
+                    </option>
+
+                </select>
 
             </div>
 
@@ -96,17 +129,23 @@
 
                 <label class="form-label">
 
-                    Foto (Opsional)
+                    Foto Bukti (Opsional)
 
                 </label>
 
                 <input type="file"
                        name="gambar"
-                       class="form-control">
+                       class="form-control"
+                       accept="image/*">
+
+                <small class="text-muted">
+                    Format: JPG, JPEG, PNG (maksimal 2MB)
+                </small>
 
             </div>
 
-            <button class="btn btn-primary">
+            <button type="submit"
+                    class="btn btn-primary">
 
                 Kirim Laporan
 
@@ -120,3 +159,4 @@
 
 </body>
 </html>
+```

@@ -1,3 +1,4 @@
+```blade
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -18,48 +19,34 @@
 
 <div class="container py-5">
 
-    <!-- HEADER -->
-
     <div class="d-flex justify-content-between align-items-center mb-5">
 
         <div>
 
             <h1 class="fw-bold">
-
                 Admin Gunung
-
             </h1>
 
             <h4>
-
                 {{ $mountain->name }}
-
             </h4>
 
         </div>
 
         <a href="/logout"
            class="btn btn-danger">
-
             Logout
-
         </a>
 
     </div>
 
-    <!-- ALERT -->
-
     @if(session('success'))
 
         <div class="alert alert-success">
-
             {{ session('success') }}
-
         </div>
 
     @endif
-
-    <!-- LAPORAN -->
 
     @foreach($laporans as $laporan)
 
@@ -67,28 +54,24 @@
 
             <div class="row align-items-center">
 
-                <!-- KIRI -->
-
                 <div class="col-md-8">
 
                     <h3 class="fw-bold">
-
                         {{ $laporan->jenis_laporan }}
-
                     </h3>
 
                     <p>
-
                         {{ $laporan->deskripsi }}
-
                     </p>
 
                     <p>
-
                         <b>User:</b>
-
                         {{ $laporan->user->name ?? '-' }}
+                    </p>
 
+                    <p>
+                        <b>Tanggal Laporan:</b>
+                        {{ $laporan->created_at->format('d-m-Y H:i') }}
                     </p>
 
                     <p>
@@ -98,32 +81,24 @@
                         @if($laporan->status == 'Pending')
 
                             <span class="badge bg-warning text-dark">
-
                                 Pending
-
                             </span>
 
                         @elseif($laporan->status == 'Proses')
 
                             <span class="badge bg-primary">
-
                                 Proses
-
                             </span>
 
                         @else
 
                             <span class="badge bg-success">
-
                                 Selesai
-
                             </span>
 
                         @endif
 
                     </p>
-
-                    <!-- FORM UPDATE STATUS -->
 
                     <form action="/admin/laporan/update-status/{{ $laporan->id }}"
                           method="POST"
@@ -138,22 +113,19 @@
                                 <select name="status"
                                         class="form-select">
 
-                                    <option value="Pending">
-
+                                    <option value="Pending"
+                                        {{ $laporan->status == 'Pending' ? 'selected' : '' }}>
                                         Pending
-
                                     </option>
 
-                                    <option value="Proses">
-
+                                    <option value="Proses"
+                                        {{ $laporan->status == 'Proses' ? 'selected' : '' }}>
                                         Proses
-
                                     </option>
 
-                                    <option value="Selesai">
-
+                                    <option value="Selesai"
+                                        {{ $laporan->status == 'Selesai' ? 'selected' : '' }}>
                                         Selesai
-
                                     </option>
 
                                 </select>
@@ -163,9 +135,7 @@
                             <div class="col-md-4">
 
                                 <button class="btn btn-primary">
-
                                     Update Status
-
                                 </button>
 
                             </div>
@@ -176,15 +146,20 @@
 
                 </div>
 
-                <!-- KANAN -->
-
                 <div class="col-md-4 text-end">
 
                     @if($laporan->gambar)
 
                         <img src="{{ asset('storage/' . $laporan->gambar) }}"
+                             alt="Foto Laporan"
                              width="250"
-                             class="rounded shadow">
+                             class="rounded shadow img-fluid">
+
+                    @else
+
+                        <div class="text-muted">
+                            Tidak ada gambar
+                        </div>
 
                     @endif
 
@@ -200,3 +175,4 @@
 
 </body>
 </html>
+```

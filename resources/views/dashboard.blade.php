@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>EcoHike</title>
+    <title>GreenStore</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -167,7 +167,7 @@
 
             <h1>
 
-                ECOHIKE
+                GreenStore
 
             </h1>
 
@@ -285,7 +285,7 @@
 
         <h2 class="fw-bold mb-5">
 
-            Market Outdoor
+            Market 
 
         </h2>
 
@@ -343,14 +343,14 @@
 
     </section>
 
-    <!-- ARTIKEL -->
+    <!-- Yuuk Membaca -->
 
     <section class="section"
              id="artikel">
 
         <h2 class="fw-bold mb-5">
 
-            Artikel Pendakian
+             Yuuk MemBaca
 
         </h2>
 

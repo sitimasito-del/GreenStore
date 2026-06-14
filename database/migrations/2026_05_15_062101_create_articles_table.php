@@ -12,8 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('articles', function (Blueprint $table) {
+
             $table->id();
+
+            $table->string('title');
+
+            $table->string('category');
+
+            $table->text('link');
+
+            $table->unsignedBigInteger('views')->default(0);
+
             $table->timestamps();
+
         });
     }
 

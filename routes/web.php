@@ -188,28 +188,50 @@ Route::post('/admin/laporan/update-status/{id}', [
 
 ]);
 // ================= ARTIKEL =================
-//
 
 Route::get('/artikel', [
-
     ArticleController::class,
     'index'
-
 ])->name('artikel.index');
 
 Route::get('/artikel/baca/{id}', [
-
     ArticleController::class,
     'read'
-
 ])->name('artikel.read');
-Route::get('/admin/articles', [
 
+Route::get('/admin/articles', [
     AdminController::class,
     'articles'
+]);
+
+Route::get('/admin/articles-create', [
+    AdminController::class,
+    'createArticle'
+]);
+
+Route::post('/admin/articles-store', [
+    AdminController::class,
+    'storeArticle'
+]);
+Route::delete('/admin/articles-delete/{id}', [
+
+    AdminController::class,
+    'deleteArticle'
+
+]);
+Route::get('/admin/articles-edit/{id}', [
+
+    AdminController::class,
+    'editArticle'
 
 ]);
 
-Route::get('/tesartikel', function () {
-    return 'TES ARTIKEL BERHASIL';
+Route::post('/admin/articles-update/{id}', [
+
+    AdminController::class,
+    'updateArticle'
+
+]);
+Route::get('/tesedit', function () {
+    return 'EDIT BERHASIL';
 });

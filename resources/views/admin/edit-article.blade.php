@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Tambah Artikel</title>
+    <title>Edit Artikel</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -18,13 +18,15 @@
 
 <div class="container py-5">
 
-    <h1 class="fw-bold mb-4">
-        Tambah Artikel
-    </h1>
+    <div class="card shadow border-0 rounded-4 p-4">
 
-    <div class="card p-4 shadow border-0 rounded-4">
+        <h2 class="fw-bold mb-4">
 
-        <form action="/admin/articles-store"
+            Edit Artikel
+
+        </h2>
+
+        <form action="/admin/articles-update/{{ $article->id }}"
               method="POST">
 
             @csrf
@@ -32,12 +34,15 @@
             <div class="mb-3">
 
                 <label class="form-label">
-                    Judul Artikel
+
+                    Judul
+
                 </label>
 
                 <input type="text"
                        name="title"
                        class="form-control"
+                       value="{{ $article->title }}"
                        required>
 
             </div>
@@ -45,54 +50,47 @@
             <div class="mb-3">
 
                 <label class="form-label">
+
                     Kategori
+
                 </label>
 
-                <select name="category"
-                        class="form-select">
-
-                    <option value="Keselamatan">
-                        Keselamatan
-                    </option>
-
-                    <option value="Lingkungan">
-                        Lingkungan
-                    </option>
-
-                    <option value="Cuaca">
-                        Cuaca
-                    </option>
-
-                    <option value="Peralatan">
-                        Peralatan
-                    </option>
-
-                    <option value="Kesehatan">
-                        Kesehatan
-                    </option>
-
-                </select>
+                <input type="text"
+                       name="category"
+                       class="form-control"
+                       value="{{ $article->category }}"
+                       required>
 
             </div>
 
             <div class="mb-4">
 
                 <label class="form-label">
+
                     Link Artikel
+
                 </label>
 
-                <input type="url"
+                <input type="text"
                        name="link"
                        class="form-control"
+                       value="{{ $article->link }}"
                        required>
 
             </div>
 
-            <button class="btn btn-success">
+            <button class="btn btn-primary">
 
-                Simpan Artikel
+                Simpan Perubahan
 
             </button>
+
+            <a href="/admin/articles"
+               class="btn btn-secondary">
+
+                Kembali
+
+            </a>
 
         </form>
 

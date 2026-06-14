@@ -18,32 +18,47 @@
 
 <div class="container py-5">
 
-    <div class="d-flex justify-content-between align-items-center">
+    @if(session('success'))
 
-    <h1 class="fw-bold">
-        Admin Artikel
-    </h1>
+        <div class="alert alert-success">
 
-    <a href="/admin/articles/create"
-       class="btn btn-success">
+            {{ session('success') }}
 
-        + Tambah Artikel
+        </div>
 
-    </a>
+    @endif
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h1 class="fw-bold">
+
+            Admin Artikel
+
+        </h1>
+
+        <a href="/admin/articles-create"
+           class="btn btn-success">
+
+            + Tambah Artikel
+
+        </a>
 
     </div>
+
     <div class="card shadow border-0 rounded-4 p-4 mb-4">
 
         <h4>
+
             Total Artikel :
             {{ $articles->count() }}
+
         </h4>
 
     </div>
 
     <div class="card shadow border-0 rounded-4 p-4">
 
-        <table class="table">
+        <table class="table table-bordered align-middle">
 
             <thead>
 
@@ -54,6 +69,8 @@
                     <th>Kategori</th>
 
                     <th>Views</th>
+
+                    <th width="180">Aksi</th>
 
                 </tr>
 
@@ -66,15 +83,49 @@
                     <tr>
 
                         <td>
+
                             {{ $article->title }}
+
                         </td>
 
                         <td>
+
                             {{ $article->category }}
+
                         </td>
 
                         <td>
+
                             {{ $article->views }}
+
+                        </td>
+
+                        <td>
+
+                            <a href="/admin/articles-edit/{{ $article->id }}"
+                               class="btn btn-warning btn-sm">
+
+                                Edit
+
+                            </a>
+
+                            <form action="/admin/articles-delete/{{ $article->id }}"
+                                  method="POST"
+                                  class="d-inline">
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Yakin ingin menghapus artikel ini?')">
+
+                                    Hapus
+
+                                </button>
+
+                            </form>
+
                         </td>
 
                     </tr>
@@ -83,7 +134,7 @@
 
                     <tr>
 
-                        <td colspan="3"
+                        <td colspan="4"
                             class="text-center">
 
                             Belum ada artikel

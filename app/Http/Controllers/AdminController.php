@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Mountain;
 use App\Models\Laporan;
 use App\Models\User;
+use App\Models\Article;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -292,6 +293,17 @@ class AdminController extends Controller
         return back()->with(
             'success',
             'Status berhasil diupdate'
+        );
+    }
+    // ADMIN ARTIKEL
+
+    public function articles()
+    {
+        $articles = Article::latest()->get();
+
+        return view(
+            'admin.articles',
+            compact('articles')
         );
     }
 }

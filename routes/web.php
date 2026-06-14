@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MountainController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ArticleController;
+
 
 //
 // ================= HOME =================
@@ -185,3 +187,29 @@ Route::post('/admin/laporan/update-status/{id}', [
     'updateStatus'
 
 ]);
+// ================= ARTIKEL =================
+//
+
+Route::get('/artikel', [
+
+    ArticleController::class,
+    'index'
+
+])->name('artikel.index');
+
+Route::get('/artikel/baca/{id}', [
+
+    ArticleController::class,
+    'read'
+
+])->name('artikel.read');
+Route::get('/admin/articles', [
+
+    AdminController::class,
+    'articles'
+
+]);
+
+Route::get('/tesartikel', function () {
+    return 'TES ARTIKEL BERHASIL';
+});

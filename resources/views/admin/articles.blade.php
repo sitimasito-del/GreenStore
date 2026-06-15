@@ -47,12 +47,49 @@
 
     <div class="card shadow border-0 rounded-4 p-4 mb-4">
 
-        <h4>
+        <div class="row">
 
-            Total Artikel :
-            {{ $articles->count() }}
+    <div class="col-md-3">
 
-        </h4>
+        <h5>Total Artikel</h5>
+
+        <h2>{{ $totalArtikel }}</h2>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <h5>Total Klik</h5>
+
+        <h2>{{ $totalKlik }}</h2>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <h5>Artikel Terpopuler</h5>
+
+        <p>
+
+            {{ $artikelTerpopuler->title ?? '-' }}
+
+        </p>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <h5>Kategori Terpopuler</h5>
+
+        <p>
+
+            {{ $kategoriTerpopuler->category ?? '-' }}
+
+        </p>
+
+    </div>
+
+</div>
 
     </div>
 

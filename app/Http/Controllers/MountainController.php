@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Mountain;
+use App\Models\Article;
 
 class MountainController extends Controller
 {
@@ -16,11 +17,18 @@ class MountainController extends Controller
     {
         $mountains = Mountain::latest()->get();
 
+        $popularArticles = Article::orderByDesc('views')
+            ->take(3)
+            ->get();
+
         return view(
 
             'dashboard',
 
-            compact('mountains')
+            compact(
+                'mountains',
+                'popularArticles'
+            )
         );
     }
 

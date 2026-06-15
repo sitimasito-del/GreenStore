@@ -51,6 +51,13 @@ class AuthController extends Controller
                 return redirect('/admin/laporans');
             }
 
+            // ADMIN ARTIKEL
+
+            if(Auth::user()->role == 'admin_artikel')
+            {
+                return redirect('/admin/articles');
+            }
+
             // USER
 
             return redirect('/');

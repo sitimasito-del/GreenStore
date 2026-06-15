@@ -356,67 +356,57 @@
 
         <div class="row">
 
-            <div class="col-md-4 mb-4">
+    @forelse($popularArticles as $article)
 
-                <div class="card shadow p-4">
+        <div class="col-md-4 mb-4">
 
-                    <h4>
+            <div class="card shadow p-4 h-100">
 
-                        Tips Mendaki Aman
+                <h4>
 
-                    </h4>
+                    {{ $article->title }}
 
-                    <p>
+                </h4>
 
-                        Persiapkan fisik dan logistik sebelum mendaki.
+                <p class="text-muted">
 
-                    </p>
+                    {{ $article->category }}
 
-                </div>
+                </p>
 
-            </div>
+                <p>
 
-            <div class="col-md-4 mb-4">
+                    👁 {{ $article->views }} Views
 
-                <div class="card shadow p-4">
+                </p>
 
-                    <h4>
+                <a href="/artikel/baca/{{ $article->id }}"
+                   target="_blank"
+                   class="btn btn-success">
 
-                        Etika Pendaki
+                    Baca Artikel
 
-                    </h4>
-
-                    <p>
-
-                        Jangan meninggalkan sampah di gunung.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-4 mb-4">
-
-                <div class="card shadow p-4">
-
-                    <h4>
-
-                        Cek Cuaca
-
-                    </h4>
-
-                    <p>
-
-                        Selalu cek cuaca sebelum pendakian.
-
-                    </p>
-
-                </div>
+                </a>
 
             </div>
 
         </div>
+
+    @empty
+
+        <div class="col-12">
+
+            <div class="alert alert-info">
+
+                Belum ada artikel.
+
+            </div>
+
+        </div>
+
+    @endforelse
+
+</div>
 
     </section>
 

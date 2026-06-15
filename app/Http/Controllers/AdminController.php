@@ -301,9 +301,30 @@ public function articles()
 {
     $articles = Article::latest()->get();
 
+    $totalArtikel = Article::count();
+
+    $totalKlik = Article::sum('views');
+
+    $artikelTerpopuler = Article::orderByDesc('views')
+        ->first();
+
+    $kategoriTerpopuler = Article::select(
+            'category',
+            DB::raw('SUM(views) as total_views')
+        )
+        ->groupBy('category')
+        ->orderByDesc('total_views')
+        ->first();
+
     return view(
         'admin.articles',
-        compact('articles')
+        compact(
+            'articles',
+            'totalArtikel',
+            'totalKlik',
+            'artikelTerpopuler',
+            'kategoriTerpopuler'
+        )
     );
 }
 

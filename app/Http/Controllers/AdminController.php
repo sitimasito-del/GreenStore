@@ -295,10 +295,21 @@ class AdminController extends Controller
             'Status berhasil diupdate'
         );
     }
- // ADMIN ARTIKEL
+// ADMIN ARTIKEL
 
 public function articles()
 {
+    if(
+        !Auth::check() ||
+        (
+            Auth::user()->role != 'admin_artikel' &&
+            Auth::user()->role != 'admin_pusat'
+        )
+    )
+    {
+        abort(403);
+    }
+
     $articles = Article::latest()->get();
 
     $totalArtikel = Article::count();
@@ -364,18 +375,6 @@ public function storeArticle(Request $request)
         );
 }
 
-public function deleteArticle($id)
-{
-    $article = Article::findOrFail($id);
-
-    $article->delete();
-
-    return redirect('/admin/articles')
-        ->with(
-            'success',
-            'Artikel berhasil dihapus'
-        );
-}
 public function editArticle($id)
 {
     $article = Article::findOrFail($id);
@@ -414,6 +413,19 @@ public function updateArticle(Request $request, $id)
         ->with(
             'success',
             'Artikel berhasil diperbarui'
+        );
+}
+
+public function deleteArticle($id)
+{
+    $article = Article::findOrFail($id);
+
+    $article->delete();
+
+    return redirect('/admin/articles')
+        ->with(
+            'success',
+            'Artikel berhasil dihapus'
         );
 }
 }

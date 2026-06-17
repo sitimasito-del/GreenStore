@@ -1,78 +1,265 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="id">
+<head>
 
-@section('content')
+    <meta charset="UTF-8">
 
-<h1>Marketplace GreenStore</h1>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<br>
+    <title>Admin Market GreenStore</title>
 
-<a href="/products/create"
-   class="btn">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 
-   Tambah Produk
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
-</a>
+    <style>
 
-<br><br>
+        body{
+            background:#eef5fb;
+            font-family:Arial;
+        }
 
-<div class="grid">
+        .card-box{
+            border:none;
+            border-radius:20px;
+            padding:25px;
+            color:white;
+        }
 
-@foreach($products as $product)
+        .table-box{
+            background:white;
+            border-radius:20px;
+            padding:25px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.08);
+        }
 
-<div class="card">
+        .product-img{
+            width:120px;
+            height:90px;
+            object-fit:cover;
+            border-radius:12px;
+        }
 
-    @if($product->gambar)
+    </style>
 
-        <img src="{{ asset('storage/' . $product->gambar) }}"
-             width="100%"
-             style="height:200px; object-fit:cover; border-radius:10px;">
+</head>
 
-    @endif
+<body>
 
-    <br><br>
+<div class="container py-5">
 
-    <h2>{{ $product->nama_produk }}</h2>
+    <div class="d-flex justify-content-between align-items-center mb-5">
 
-    <h3>
-        Rp {{ number_format($product->harga) }}
-    </h3>
+        <div>
 
-    <p>{{ $product->deskripsi }}</p>
+            <h1 class="fw-bold">
 
-    <p>
-        Stok:
-        {{ $product->stok }}
-    </p>
+                Admin Market GreenStore
 
-    <br>
+            </h1>
 
-    <a href="/products/{{ $product->id }}/edit"
-       class="btn">
+            <p class="text-muted">
 
-       Edit
+                Kelola produk marketplace GreenStore
 
-    </a>
+            </p>
 
-    <br><br>
+        </div>
 
-    <form action="/products/{{ $product->id }}"
-          method="POST">
+        <div>
 
-        @csrf
-        @method('DELETE')
+            <a href="/admin/products/create"
+               class="btn btn-success">
 
-        <button class="btn-delete">
+                <i class="fa-solid fa-plus"></i>
+                Tambah Produk
 
-            Hapus
+            </a>
 
-        </button>
+            <a href="/logout"
+               class="btn btn-danger">
 
-    </form>
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="row mb-5">
+
+        <div class="col-md-6">
+
+            <div class="card-box bg-primary">
+
+                <h5>Total Produk</h5>
+
+                <h1 class="fw-bold">
+
+                    {{ $products->count() }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card-box bg-success">
+
+                <h5>Total Stok</h5>
+
+                <h1 class="fw-bold">
+
+                    {{ $products->sum('stok') }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="table-box">
+
+        <h2 class="fw-bold mb-4">
+
+            Daftar Produk
+
+        </h2>
+
+        <div class="table-responsive">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Gambar</th>
+                        <th>Produk</th>
+                        <th>Kategori</th>
+                        <th>Harga</th>
+                        <th>Stok</th>
+                        <th>Aksi</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @forelse($products as $product)
+
+                    <tr>
+
+                        <td>
+
+                            @if($product->gambar)
+
+                                <img src="{{ asset('storage/' . $product->gambar) }}"
+                                     class="product-img">
+
+                            @else
+
+                                -
+
+                            @endif
+
+                        </td>
+
+                        <td>
+
+                            <strong>
+
+                                {{ $product->nama_produk }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {{ $product->kategori }}
+
+                        </td>
+
+                        <td>
+
+                            Rp {{ number_format($product->harga) }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                {{ $product->stok }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="/admin/products/edit/{{ $product->id }}"
+                               class="btn btn-warning btn-sm">
+
+                                Edit
+
+                            </a>
+
+                            <form action="/admin/products/delete/{{ $product->id }}"
+                                  method="POST"
+                                  class="d-inline">
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Hapus produk ini?')">
+
+                                    Hapus
+
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                    @empty
+
+                    <tr>
+
+                        <td colspan="6"
+                            class="text-center">
+
+                            Belum ada produk
+
+                        </td>
+
+                    </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 
 </div>
 
-@endforeach
-
-</div>
-
-@endsection
+</body>
+</html>

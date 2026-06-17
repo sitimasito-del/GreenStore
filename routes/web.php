@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MountainController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ProductController;
 
 
 //
@@ -235,3 +236,16 @@ Route::post('/admin/articles-update/{id}', [
 Route::get('/tesedit', function () {
     return 'EDIT BERHASIL';
 });
+// ================= MARKET =================
+
+Route::get('/admin/products', [ProductController::class, 'index']);
+
+Route::get('/admin/products/create', [ProductController::class, 'create']);
+
+Route::post('/admin/products/store', [ProductController::class, 'store']);
+
+Route::get('/admin/products/edit/{id}', [ProductController::class, 'edit']);
+
+Route::post('/admin/products/update/{id}', [ProductController::class, 'update']);
+
+Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy']);

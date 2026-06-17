@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Tambah Produk</title>
+    <title>Edit Produk</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -22,11 +22,11 @@
 
         <h2 class="fw-bold mb-4">
 
-            Tambah Produk
+            Edit Produk
 
         </h2>
 
-        <form action="/admin/products/store"
+        <form action="/admin/products/update/{{ $product->id }}"
               method="POST"
               enctype="multipart/form-data">
 
@@ -43,6 +43,7 @@
                 <input type="text"
                        name="nama_produk"
                        class="form-control"
+                       value="{{ $product->nama_produk }}"
                        required>
 
             </div>
@@ -55,17 +56,10 @@
 
                 </label>
 
-                <select name="kategori"
-                        class="form-select">
-
-                    <option value="Tenda">Tenda</option>
-                    <option value="Carrier">Carrier</option>
-                    <option value="Sleeping Bag">Sleeping Bag</option>
-                    <option value="Sepatu">Sepatu</option>
-                    <option value="Jaket">Jaket</option>
-                    <option value="Kompor">Kompor</option>
-
-                </select>
+                <input type="text"
+                       name="kategori"
+                       class="form-control"
+                       value="{{ $product->kategori }}">
 
             </div>
 
@@ -80,6 +74,7 @@
                 <input type="number"
                        name="harga"
                        class="form-control"
+                       value="{{ $product->harga }}"
                        required>
 
             </div>
@@ -95,6 +90,7 @@
                 <input type="number"
                        name="stok"
                        class="form-control"
+                       value="{{ $product->stok }}"
                        required>
 
             </div>
@@ -109,15 +105,15 @@
 
                 <textarea name="deskripsi"
                           class="form-control"
-                          rows="4"></textarea>
+                          rows="4">{{ $product->deskripsi }}</textarea>
 
             </div>
 
-            <div class="mb-4">
+            <div class="mb-3">
 
                 <label class="form-label">
 
-                    Gambar Produk
+                    Gambar Baru (Opsional)
 
                 </label>
 
@@ -127,9 +123,21 @@
 
             </div>
 
-            <button class="btn btn-success">
+            @if($product->gambar)
 
-                Simpan Produk
+                <div class="mb-4">
+
+                    <img src="{{ asset('storage/' . $product->gambar) }}"
+                         width="200"
+                         class="rounded shadow">
+
+                </div>
+
+            @endif
+
+            <button class="btn btn-primary">
+
+                Simpan Perubahan
 
             </button>
 

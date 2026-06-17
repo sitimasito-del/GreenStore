@@ -132,7 +132,7 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return redirect('/')
+        return redirect('/dashboard')
             ->with(
                 'success',
                 'Berhasil logout'

@@ -36,12 +36,20 @@
 
         </h1>
 
-        <a href="/admin/articles-create"
-           class="btn btn-success">
+        <div>
+            <a href="/admin/articles-create"
+               class="btn btn-success me-2">
 
-            + Tambah Artikel
+                + Tambah Artikel
 
-        </a>
+            </a>
+            <a href="/logout"
+               class="btn btn-danger">
+
+                Logout
+
+            </a>
+        </div>
 
     </div>
 

@@ -58,6 +58,13 @@ class AuthController extends Controller
                 return redirect('/admin/articles');
             }
 
+            // ADMIN MARKET
+
+            if(Auth::user()->role == 'admin_market')
+            {
+                return redirect('/admin/products');
+            }
+
             // USER
 
             return redirect('/');

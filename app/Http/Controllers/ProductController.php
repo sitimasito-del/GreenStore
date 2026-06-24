@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -14,6 +15,11 @@ class ProductController extends Controller
 
     public function index()
     {
+        if($response = $this->authorizeProductAdmin())
+        {
+            return $response;
+        }
+
         $products = Product::latest()->get();
 
         return view(
@@ -28,6 +34,11 @@ class ProductController extends Controller
 
     public function create()
     {
+        if($response = $this->authorizeProductAdmin())
+        {
+            return $response;
+        }
+
         return view('products.create');
     }
 
@@ -37,6 +48,11 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        if($response = $this->authorizeProductAdmin())
+        {
+            return $response;
+        }
+
         $data = $request->validate([
             'nama_produk' => 'required|string|max:255',
             'kategori' => 'required|string|max:255',
@@ -64,6 +80,11 @@ class ProductController extends Controller
 
     public function edit($id)
     {
+        if($response = $this->authorizeProductAdmin())
+        {
+            return $response;
+        }
+
         $product = Product::findOrFail($id);
 
         return view(
@@ -78,6 +99,11 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+        if($response = $this->authorizeProductAdmin())
+        {
+            return $response;
+        }
+
         $product = Product::findOrFail($id);
 
         $data = $request->validate([
@@ -115,6 +141,11 @@ class ProductController extends Controller
 
     public function addStock(Request $request, $id)
     {
+        if($response = $this->authorizeProductAdmin())
+        {
+            return $response;
+        }
+
         $data = $request->validate([
             'jumlah_stok' => 'required|integer|min:1',
         ]);
@@ -136,6 +167,11 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
+        if($response = $this->authorizeProductAdmin())
+        {
+            return $response;
+        }
+
         $product = Product::findOrFail($id);
 
         $product->delete();
@@ -145,5 +181,27 @@ class ProductController extends Controller
                 'success',
                 'Produk berhasil dihapus'
             );
+    }
+
+    private function authorizeProductAdmin()
+    {
+        if(!Auth::check())
+        {
+            return redirect('/login')
+                ->with(
+                    'error',
+                    'Silakan login sebagai admin market terlebih dahulu'
+                );
+        }
+
+        if(
+            Auth::user()->role != 'admin_market' &&
+            Auth::user()->role != 'admin_pusat'
+        )
+        {
+            abort(403);
+        }
+
+        return null;
     }
 }

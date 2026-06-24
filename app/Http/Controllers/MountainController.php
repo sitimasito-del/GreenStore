@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Mountain;
 use App\Models\Article;
+use App\Models\Product;
 
 class MountainController extends Controller
 {
@@ -21,13 +22,18 @@ class MountainController extends Controller
             ->take(3)
             ->get();
 
+        $products = Product::latest()
+            ->take(3)
+            ->get();
+
         return view(
 
             'dashboard',
 
             compact(
                 'mountains',
-                'popularArticles'
+                'popularArticles',
+                'products'
             )
         );
     }

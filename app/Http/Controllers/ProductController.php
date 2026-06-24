@@ -29,6 +29,59 @@ class ProductController extends Controller
     }
 
     // =========================
+    // SEMUA PRODUK USER
+    // =========================
+
+    public function publicIndex()
+    {
+        $products = Product::latest()->get();
+
+        return view(
+            'products.all',
+            compact('products')
+        );
+    }
+
+    // =========================
+    // DETAIL PRODUK USER
+    // =========================
+
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+
+        return view(
+            'products.show',
+            compact('product')
+        );
+    }
+
+    // =========================
+    // TAMBAH KERANJANG
+    // =========================
+
+    public function addToCart(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        $cart = session()->get('cart', []);
+
+        $cart[$product->id] = [
+            'product_id' => $product->id,
+            'nama_produk' => $product->nama_produk,
+            'harga' => $product->harga,
+            'jumlah' => ($cart[$product->id]['jumlah'] ?? 0) + 1,
+        ];
+
+        session()->put('cart', $cart);
+
+        return back()->with(
+            'success',
+            'Produk berhasil ditambahkan ke keranjang'
+        );
+    }
+
+    // =========================
     // FORM TAMBAH PRODUK
     // =========================
 

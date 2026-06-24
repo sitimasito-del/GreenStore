@@ -236,6 +236,15 @@ Route::post('/admin/articles-update/{id}', [
 Route::get('/tesedit', function () {
     return 'EDIT BERHASIL';
 });
+
+// ================= PRODUK USER =================
+
+Route::get('/products', [ProductController::class, 'publicIndex']);
+
+Route::get('/product/{id}', [ProductController::class, 'show']);
+
+Route::post('/cart/add/{id}', [ProductController::class, 'addToCart']);
+
 // ================= MARKET =================
 
 Route::get('/admin/products', [ProductController::class, 'index']);

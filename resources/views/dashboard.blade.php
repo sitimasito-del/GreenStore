@@ -108,6 +108,13 @@
             object-fit:cover;
         }
 
+        .product-img{
+            width:100%;
+            height:210px;
+            object-fit:cover;
+            background:#eef5fb;
+        }
+
         .search-box{
             max-width:400px;
             margin-bottom:40px;
@@ -283,61 +290,87 @@
     <section class="section"
              id="market">
 
-        <h2 class="fw-bold mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-5">
 
-            Market 
+            <h2 class="fw-bold mb-0">
 
-        </h2>
+                Market
+
+            </h2>
+
+            <a href="/products"
+               class="btn btn-success">
+
+                Semua Produk
+
+            </a>
+
+        </div>
 
         <div class="row">
 
-            <div class="col-md-3 mb-4">
+            @forelse($products as $product)
 
-                <div class="card shadow p-4">
+                <div class="col-md-4 mb-4">
 
-                    <h4>Tenda</h4>
+                    <div class="card shadow h-100">
 
-                    <p>Peralatan camping terbaik untuk pendakian.</p>
+                        <img src="{{ $product->gambar ? asset('storage/' . $product->gambar) : asset('images/product-placeholder.svg') }}"
+                             class="product-img"
+                             alt="{{ $product->nama_produk }}">
+
+                        <div class="card-body p-4">
+
+                            <h4 class="fw-bold">
+
+                                {{ $product->nama_produk }}
+
+                            </h4>
+
+                            <p class="text-muted mb-2">
+
+                                {{ $product->kategori }}
+
+                            </p>
+
+                            <p class="fw-bold mb-2">
+
+                                Rp {{ number_format($product->harga) }}
+
+                            </p>
+
+                            <p class="mb-3">
+
+                                Stok: {{ $product->stok }}
+
+                            </p>
+
+                            <a href="/product/{{ $product->id }}"
+                               class="btn btn-primary">
+
+                                Detail Produk
+
+                            </a>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
-            </div>
+            @empty
 
-            <div class="col-md-3 mb-4">
+                <div class="col-12">
 
-                <div class="card shadow p-4">
+                    <div class="alert alert-info">
 
-                    <h4>Carrier</h4>
+                        Belum ada produk.
 
-                    <p>Tas gunung berkualitas dan nyaman.</p>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-3 mb-4">
-
-                <div class="card shadow p-4">
-
-                    <h4>Sleeping Bag</h4>
-
-                    <p>Nyaman digunakan di cuaca dingin.</p>
+                    </div>
 
                 </div>
 
-            </div>
-
-            <div class="col-md-3 mb-4">
-
-                <div class="card shadow p-4">
-
-                    <h4>Kompor Outdoor</h4>
-
-                    <p>Peralatan memasak praktis pendaki.</p>
-
-                </div>
-
-            </div>
+            @endforelse
 
         </div>
 

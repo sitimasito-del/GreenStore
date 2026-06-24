@@ -26,6 +26,24 @@
 
         </h2>
 
+        @if($errors->any())
+
+            <div class="alert alert-danger">
+
+                <ul class="mb-0">
+
+                    @foreach($errors->all() as $error)
+
+                        <li>{{ $error }}</li>
+
+                    @endforeach
+
+                </ul>
+
+            </div>
+
+        @endif
+
         <form action="/admin/products/store"
               method="POST"
               enctype="multipart/form-data">
@@ -123,7 +141,9 @@
 
                 <input type="file"
                        name="gambar"
-                       class="form-control">
+                       class="form-control"
+                       accept="image/jpeg,image/png,image/webp"
+                       required>
 
             </div>
 

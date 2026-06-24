@@ -26,6 +26,24 @@
 
         </h2>
 
+        @if($errors->any())
+
+            <div class="alert alert-danger">
+
+                <ul class="mb-0">
+
+                    @foreach($errors->all() as $error)
+
+                        <li>{{ $error }}</li>
+
+                    @endforeach
+
+                </ul>
+
+            </div>
+
+        @endif
+
         <form action="/admin/products/update/{{ $product->id }}"
               method="POST"
               enctype="multipart/form-data">
@@ -119,21 +137,19 @@
 
                 <input type="file"
                        name="gambar"
-                       class="form-control">
+                       class="form-control"
+                       accept="image/jpeg,image/png,image/webp">
 
             </div>
 
-            @if($product->gambar)
+            <div class="mb-4">
 
-                <div class="mb-4">
+                <img src="{{ $product->gambar ? asset('storage/' . $product->gambar) : asset('images/product-placeholder.svg') }}"
+                     width="200"
+                     class="rounded shadow"
+                     alt="{{ $product->nama_produk }}">
 
-                    <img src="{{ asset('storage/' . $product->gambar) }}"
-                         width="200"
-                         class="rounded shadow">
-
-                </div>
-
-            @endif
+            </div>
 
             <button class="btn btn-primary">
 

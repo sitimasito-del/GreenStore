@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -36,31 +37,19 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
-
-        $gambar = null;
-
-        if($request->hasFile('gambar'))
-        {
-            $gambar = $request->file('gambar')
-                ->store('products', 'public');
-        }
-
-        Product::create([
-
-            'nama_produk' => $request->nama_produk,
-
-            'kategori' => $request->kategori,
-
-            'harga' => $request->harga,
-
-            'deskripsi' => $request->deskripsi,
-
-            'gambar' => $gambar,
-
-            'stok' => $request->stok
-
+        $data = $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'kategori' => 'required|string|max:255',
+            'harga' => 'required|numeric|min:0',
+            'deskripsi' => 'nullable|string',
+            'gambar' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'stok' => 'required|integer|min:0',
         ]);
+
+        $data['gambar'] = $request->file('gambar')
+            ->store('products', 'public');
+
+        Product::create($data);
 
         return redirect('/admin/products')
             ->with(
@@ -91,29 +80,27 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        $gambar = $product->gambar;
+        $data = $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'kategori' => 'required|string|max:255',
+            'harga' => 'required|numeric|min:0',
+            'deskripsi' => 'nullable|string',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'stok' => 'required|integer|min:0',
+        ]);
 
         if($request->hasFile('gambar'))
         {
-            $gambar = $request->file('gambar')
+            if($product->gambar)
+            {
+                Storage::disk('public')->delete($product->gambar);
+            }
+
+            $data['gambar'] = $request->file('gambar')
                 ->store('products', 'public');
         }
 
-        $product->update([
-
-            'nama_produk' => $request->nama_produk,
-
-            'kategori' => $request->kategori,
-
-            'harga' => $request->harga,
-
-            'deskripsi' => $request->deskripsi,
-
-            'gambar' => $gambar,
-
-            'stok' => $request->stok
-
-        ]);
+        $product->update($data);
 
         return redirect('/admin/products')
             ->with(

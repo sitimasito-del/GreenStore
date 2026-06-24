@@ -161,16 +161,9 @@
 
                         <td>
 
-                            @if($product->gambar)
-
-                                <img src="{{ asset('storage/' . $product->gambar) }}"
-                                     class="product-img">
-
-                            @else
-
-                                -
-
-                            @endif
+                            <img src="{{ $product->gambar ? asset('storage/' . $product->gambar) : asset('images/product-placeholder.svg') }}"
+                                 class="product-img"
+                                 alt="{{ $product->nama_produk }}">
 
                         </td>
 

@@ -110,6 +110,27 @@ class ProductController extends Controller
     }
 
     // =========================
+    // TAMBAH STOK CEPAT
+    // =========================
+
+    public function addStock(Request $request, $id)
+    {
+        $data = $request->validate([
+            'jumlah_stok' => 'required|integer|min:1',
+        ]);
+
+        $product = Product::findOrFail($id);
+
+        $product->increment('stok', $data['jumlah_stok']);
+
+        return redirect('/admin/products')
+            ->with(
+                'success',
+                'Stok produk berhasil ditambahkan'
+            );
+    }
+
+    // =========================
     // HAPUS PRODUK
     // =========================
 

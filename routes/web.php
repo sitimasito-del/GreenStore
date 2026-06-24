@@ -248,4 +248,6 @@ Route::get('/admin/products/edit/{id}', [ProductController::class, 'edit']);
 
 Route::post('/admin/products/update/{id}', [ProductController::class, 'update']);
 
+Route::post('/admin/products/add-stock/{id}', [ProductController::class, 'addStock']);
+
 Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy']);

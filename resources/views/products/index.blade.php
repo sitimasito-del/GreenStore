@@ -43,6 +43,17 @@
             border-radius:12px;
         }
 
+        .stock-form{
+            display:inline-flex;
+            gap:6px;
+            align-items:center;
+            margin-right:6px;
+        }
+
+        .stock-input{
+            width:72px;
+        }
+
     </style>
 
 </head>
@@ -134,6 +145,34 @@
 
         </h2>
 
+        @if(session('success'))
+
+            <div class="alert alert-success">
+
+                {{ session('success') }}
+
+            </div>
+
+        @endif
+
+        @if($errors->any())
+
+            <div class="alert alert-danger">
+
+                <ul class="mb-0">
+
+                    @foreach($errors->all() as $error)
+
+                        <li>{{ $error }}</li>
+
+                    @endforeach
+
+                </ul>
+
+            </div>
+
+        @endif
+
         <div class="table-responsive">
 
             <table class="table align-middle">
@@ -200,6 +239,28 @@
                         </td>
 
                         <td>
+
+                            <form action="/admin/products/add-stock/{{ $product->id }}"
+                                  method="POST"
+                                  class="stock-form">
+
+                                @csrf
+
+                                <input type="number"
+                                       name="jumlah_stok"
+                                       class="form-control form-control-sm stock-input"
+                                       min="1"
+                                       value="1"
+                                       required>
+
+                                <button type="submit"
+                                        class="btn btn-success btn-sm">
+
+                                    +Stock
+
+                                </button>
+
+                            </form>
 
                             <a href="/admin/products/edit/{{ $product->id }}"
                                class="btn btn-warning btn-sm">

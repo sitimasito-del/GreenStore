@@ -33,10 +33,19 @@
 
         </div>
 
-        <a href="/logout"
-           class="btn btn-danger">
-            Logout
-        </a>
+        <div class="d-flex gap-2">
+
+            <a href="/admin/mountains/create"
+               class="btn btn-primary">
+                Tambah Gunung
+            </a>
+
+            <a href="/logout"
+               class="btn btn-danger">
+                Logout
+            </a>
+
+        </div>
 
     </div>
 

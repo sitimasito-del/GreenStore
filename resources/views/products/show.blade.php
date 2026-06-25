@@ -42,12 +42,23 @@
 
 <div class="container py-5">
 
-    <a href="/products"
-       class="btn btn-secondary mb-4">
+    <div class="d-flex gap-2 mb-4">
 
-        Kembali ke Semua Produk
+        <a href="/products"
+           class="btn btn-secondary">
 
-    </a>
+            Kembali ke Semua Produk
+
+        </a>
+
+        <a href="/cart"
+           class="btn btn-success">
+
+            Keranjang
+
+        </a>
+
+    </div>
 
     @if(session('success'))
 

@@ -26,6 +26,24 @@
 
         </h2>
 
+        @if($errors->any())
+
+            <div class="alert alert-danger">
+
+                <ul class="mb-0">
+
+                    @foreach($errors->all() as $error)
+
+                        <li>{{ $error }}</li>
+
+                    @endforeach
+
+                </ul>
+
+            </div>
+
+        @endif
+
         <form action="/admin/mountains/store"
               method="POST"
               enctype="multipart/form-data">
@@ -43,6 +61,7 @@
                 <input type="text"
                        name="name"
                        class="form-control"
+                       value="{{ old('name') }}"
                        required>
 
             </div>
@@ -58,7 +77,7 @@
                 <textarea name="description"
                           class="form-control"
                           rows="4"
-                          required></textarea>
+                          required>{{ old('description') }}</textarea>
 
             </div>
 
@@ -73,77 +92,92 @@
                 <input type="file"
                        name="image"
                        class="form-control"
+                       accept="image/jpeg,image/png,image/webp"
                        required>
 
             </div>
 
-            <hr>
+            @if(Auth::user()->role == 'admin_pusat')
 
-            <h4 class="fw-bold mb-3">
+                <hr>
 
-                Admin Gunung
+                <h4 class="fw-bold mb-3">
 
-            </h4>
+                    Admin Gunung
 
-            <div class="mb-3">
+                </h4>
 
-                <label class="form-label">
+                <div class="mb-3">
 
-                    Nama Admin
+                    <label class="form-label">
 
-                </label>
+                        Nama Admin
 
-                <input type="text"
-                       name="admin_name"
-                       class="form-control"
-                       required>
+                    </label>
 
-            </div>
+                    <input type="text"
+                           name="admin_name"
+                           class="form-control"
+                           value="{{ old('admin_name') }}"
+                           required>
 
-            <div class="mb-3">
+                </div>
 
-                <label class="form-label">
+                <div class="mb-3">
 
-                    Email Admin
+                    <label class="form-label">
 
-                </label>
+                        Email Admin
 
-                <input type="email"
-                       name="admin_email"
-                       class="form-control"
-                       required>
+                    </label>
 
-            </div>
+                    <input type="email"
+                           name="admin_email"
+                           class="form-control"
+                           value="{{ old('admin_email') }}"
+                           required>
 
-            <div class="mb-3">
+                </div>
 
-                <label class="form-label">
+                <div class="mb-3">
 
-                    Nomor WA Admin
+                    <label class="form-label">
 
-                </label>
+                        Nomor WA Admin
 
-                <input type="text"
-                       name="nomor_wa"
-                       class="form-control"
-                       required>
+                    </label>
 
-            </div>
+                    <input type="text"
+                           name="nomor_wa"
+                           class="form-control"
+                           value="{{ old('nomor_wa') }}">
 
-            <div class="mb-4">
+                </div>
 
-                <label class="form-label">
+                <div class="mb-4">
 
-                    Password Admin
+                    <label class="form-label">
 
-                </label>
+                        Password Admin
 
-                <input type="password"
-                       name="admin_password"
-                       class="form-control"
-                       required>
+                    </label>
 
-            </div>
+                    <input type="password"
+                           name="admin_password"
+                           class="form-control"
+                           required>
+
+                </div>
+
+            @else
+
+                <div class="alert alert-info">
+
+                    Gunung baru akan terhubung ke akun admin gunung yang sedang login.
+
+                </div>
+
+            @endif
 
             <button class="btn btn-primary">
 

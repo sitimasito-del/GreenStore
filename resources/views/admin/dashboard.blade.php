@@ -202,7 +202,7 @@
 
                         <td>
 
-                            <img src="data:image/jpeg;base64,{{ $mountain->image }}"
+                            <img src="{{ $mountain->image_url }}"
                                  class="mountain-img">
 
                         </td>
@@ -235,17 +235,34 @@
 
                         </td>
 
-                        <td>
+                        <td class="d-flex gap-2">
 
                             <a href="/admin/mountain/edit/{{ $mountain->id }}"
-                               class="btn btn-warning rounded-pill">
+                                class="btn btn-warning rounded-pill">
 
                                 <i class="fa-solid fa-pen"></i>
-                                Edit
+                                    Edit
 
-                            </a>
+                                </a>
 
-                        </td>
+                        <form action="/admin/mountain/delete/{{ $mountain->id }}"
+                            method="POST"
+                            onsubmit="return confirm('Yakin ingin menghapus gunung ini?')">
+
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit"
+                            class="btn btn-danger rounded-pill">
+
+                        <i class="fa-solid fa-trash"></i>
+                            Hapus
+
+                    </button>
+
+                </form>
+
+            </td>
 
                     </tr>
 

@@ -29,9 +29,9 @@
         }
 
         .gambar-gunung{
-            height:220px;
-            object-fit:cover;
-        }
+    height:140px;
+    object-fit:cover;
+}
 
     </style>
 

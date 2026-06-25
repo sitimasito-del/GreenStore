@@ -41,6 +41,13 @@
             background:#157347;
         }
 
+        .preview-img{
+            width:100%;
+            max-height:280px;
+            object-fit:cover;
+            border-radius:18px;
+        }
+
     </style>
 
 </head>
@@ -63,8 +70,27 @@
 
                 <!-- FORM -->
 
+                @if($errors->any())
+
+                    <div class="alert alert-danger">
+
+                        <ul class="mb-0">
+
+                            @foreach($errors->all() as $error)
+
+                                <li>{{ $error }}</li>
+
+                            @endforeach
+
+                        </ul>
+
+                    </div>
+
+                @endif
+
                 <form action="/admin/mountain/update/{{ $mountain->id }}"
-                      method="POST">
+                      method="POST"
+                      enctype="multipart/form-data">
 
                     @csrf
 
@@ -81,7 +107,7 @@
                         <input type="text"
                                name="name"
                                class="form-control"
-                               value="{{ $mountain->name }}">
+                               value="{{ old('name', $mountain->name) }}">
 
                     </div>
 
@@ -97,7 +123,32 @@
 
                         <textarea name="description"
                                   class="form-control"
-                                  rows="6">{{ $mountain->description }}</textarea>
+                                  rows="6">{{ old('description', $mountain->description) }}</textarea>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="fw-bold mb-2">
+
+                            Gambar Gunung
+
+                        </label>
+
+                        <img src="{{ $mountain->image_url }}"
+                             class="preview-img mb-3"
+                             alt="{{ $mountain->name }}">
+
+                        <input type="file"
+                               name="image"
+                               class="form-control"
+                               accept="image/jpeg,image/png,image/webp">
+
+                        <small class="text-muted">
+
+                            Kosongkan jika tidak ingin mengganti gambar.
+
+                        </small>
 
                     </div>
 

@@ -12,6 +12,7 @@ use App\Models\Article;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -155,11 +156,40 @@ class AdminController extends Controller
     }
 
     // =========================
+    // DAFTAR GUNUNG
+    // =========================
+
+    public function mountains()
+    {
+        if($response = $this->authorizeMountainAdmin())
+        {
+            return $response;
+        }
+
+        $mountains = Mountain::with('admin')
+            ->when(Auth::user()->role == 'admin_gunung', function($query) {
+                $query->where('admin_id', Auth::id());
+            })
+            ->latest()
+            ->get();
+
+        return view(
+            'admin.mountains',
+            compact('mountains')
+        );
+    }
+
+    // =========================
     // FORM TAMBAH GUNUNG
     // =========================
 
     public function createMountain()
     {
+        if($response = $this->authorizeMountainAdmin())
+        {
+            return $response;
+        }
+
         return view(
             'admin.create-mountain'
         );
@@ -171,59 +201,79 @@ class AdminController extends Controller
 
     public function storeMountain(Request $request)
     {
-        $request->validate([
+        if($response = $this->authorizeMountainAdmin())
+        {
+            return $response;
+        }
 
-            'name' => 'required',
+        $adminRules = Auth::user()->role == 'admin_pusat'
+            ? [
+                'admin_name' => 'required|string|max:255',
+                'admin_email' => 'required|email|unique:users,email',
+                'nomor_wa' => 'nullable|string|max:30',
+                'admin_password' => 'required|min:6',
+            ]
+            : [];
 
-            'description' => 'required',
+        $data = $request->validate(array_merge([
 
-            'image' => 'required|image',
+            'name' => 'required|string|max:255',
 
-            'admin_name' => 'required',
+            'description' => 'required|string',
 
-            'admin_email' => 'required|email|unique:users,email',
+            'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
 
-            'admin_password' => 'required|min:6'
-        ]);
+        ], $adminRules));
 
-        // SIMPAN FOTO KE DATABASE
-
-        $image = base64_encode(
-
-            file_get_contents(
-                $request->file('image')->path()
-            )
-        );
+        $image = $request->file('image')
+            ->store('mountains', 'public');
 
         // BUAT ADMIN GUNUNG
 
-        $admin = User::create([
+        if(Auth::user()->role == 'admin_pusat')
+        {
+            $admin = User::create([
 
-            'name' => $request->admin_name,
+                'name' => $data['admin_name'],
 
-            'email' => $request->admin_email,
+                'email' => $data['admin_email'],
 
-            'password' => Hash::make(
-                $request->admin_password
-            ),
+                'password' => Hash::make(
+                    $data['admin_password']
+                ),
 
-            'role' => 'admin_gunung'
-        ]);
+                'role' => 'admin_gunung',
+
+                'nomor_wa' => $data['nomor_wa'] ?? null,
+            ]);
+        }
+        else
+        {
+            $admin = Auth::user();
+        }
 
         // SIMPAN GUNUNG
 
-        Mountain::create([
+        $mountain = Mountain::create([
 
-            'name' => $request->name,
+            'name' => $data['name'],
 
-            'description' => $request->description,
+            'description' => $data['description'],
 
             'image' => $image,
 
             'admin_id' => $admin->id
         ]);
 
-        return redirect('/admin/dashboard')
+        $admin->update([
+            'mountain_id' => $mountain->id,
+        ]);
+
+        $redirectTo = Auth::user()->role == 'admin_pusat'
+            ? '/admin/dashboard'
+            : '/admin/mountains';
+
+        return redirect($redirectTo)
             ->with(
                 'success',
                 'Gunung berhasil ditambahkan'
@@ -236,7 +286,12 @@ class AdminController extends Controller
 
     public function editMountain($id)
     {
-        $mountain = Mountain::findOrFail($id);
+        if($response = $this->authorizeMountainAdmin())
+        {
+            return $response;
+        }
+
+        $mountain = $this->findAuthorizedMountain($id);
 
         return view(
             'admin.edit-mountain',
@@ -250,31 +305,123 @@ class AdminController extends Controller
 
     public function updateMountain(Request $request, $id)
     {
-        $mountain = Mountain::findOrFail($id);
+        if($response = $this->authorizeMountainAdmin())
+        {
+            return $response;
+        }
+
+        $mountain = $this->findAuthorizedMountain($id);
+
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
 
         if($request->hasFile('image'))
         {
-            $image = base64_encode(
+            if($mountain->image && str_starts_with($mountain->image, 'mountains/'))
+            {
+                Storage::disk('public')->delete($mountain->image);
+            }
 
-                file_get_contents(
-                    $request->file('image')->path()
-                )
-            );
-
-            $mountain->image = $image;
+            $mountain->image = $request->file('image')
+                ->store('mountains', 'public');
         }
 
-        $mountain->name = $request->name;
+        $mountain->name = $data['name'];
 
-        $mountain->description = $request->description;
+        $mountain->description = $data['description'];
 
         $mountain->save();
 
-        return redirect('/admin/dashboard')
+        $redirectTo = Auth::user()->role == 'admin_pusat'
+            ? '/admin/dashboard'
+            : '/admin/mountains';
+
+        return redirect($redirectTo)
             ->with(
                 'success',
                 'Gunung berhasil diupdate'
             );
+    }
+
+    // =========================
+    // HAPUS GUNUNG
+    // =========================
+
+    public function destroyMountain($id)
+    {
+        if($response = $this->authorizeMountainAdmin())
+        {
+            return $response;
+        }
+
+        $mountain = $this->findAuthorizedMountain($id);
+
+        $totalLaporan = Laporan::where('mountain_id', $mountain->id)
+            ->count();
+
+        if($totalLaporan > 0)
+        {
+            return back()
+                ->with(
+                    'error',
+                    'Gunung tidak bisa dihapus karena sudah memiliki laporan'
+                );
+        }
+
+        if($mountain->image && str_starts_with($mountain->image, 'mountains/'))
+        {
+            Storage::disk('public')->delete($mountain->image);
+        }
+
+        User::where('mountain_id', $mountain->id)
+            ->update([
+                'mountain_id' => null,
+            ]);
+
+        $mountain->delete();
+
+        return redirect('/admin/mountains')
+            ->with(
+                'success',
+                'Gunung berhasil dihapus'
+            );
+    }
+
+    private function authorizeMountainAdmin()
+    {
+        if(!Auth::check())
+        {
+            return redirect('/login')
+                ->with(
+                    'error',
+                    'Silakan login sebagai admin gunung terlebih dahulu'
+                );
+        }
+
+        if(
+            Auth::user()->role != 'admin_gunung' &&
+            Auth::user()->role != 'admin_pusat'
+        )
+        {
+            abort(403);
+        }
+
+        return null;
+    }
+
+    private function findAuthorizedMountain($id)
+    {
+        $query = Mountain::query();
+
+        if(Auth::user()->role == 'admin_gunung')
+        {
+            $query->where('admin_id', Auth::id());
+        }
+
+        return $query->findOrFail($id);
     }
 
     // =========================
@@ -426,6 +573,31 @@ public function deleteArticle($id)
         ->with(
             'success',
             'Artikel berhasil dihapus'
+        );
+}
+
+public function deleteMountain($id)
+{
+    $mountain = Mountain::findOrFail($id);
+
+    Laporan::where(
+        'mountain_id',
+        $mountain->id
+    )->delete();
+
+    if ($mountain->admin_id) {
+        User::where(
+            'id',
+            $mountain->admin_id
+        )->delete();
+    }
+
+    $mountain->delete();
+
+    return redirect('/admin/dashboard')
+        ->with(
+            'success',
+            'Gunung berhasil dihapus'
         );
 }
 }

@@ -24,9 +24,12 @@
 
         .hero-img{
             width:100%;
-            height:500px;
+            max-width:600px;
+            height:250px;
             object-fit:cover;
             border-radius:25px;
+            display:block;
+            margin:0 auto;
         }
 
         .card{
@@ -51,7 +54,7 @@
 
     <div class="card shadow p-4">
 
-        <img src="{{ asset('storage/' . $mountain->image) }}"
+        <img src="{{ $mountain->image_url }}"
              class="hero-img mb-4">
 
         <h1 class="fw-bold">

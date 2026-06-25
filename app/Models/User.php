@@ -20,6 +20,8 @@ class User extends Authenticatable
 
         'foto',
 
+        'nomor_wa',
+
         'role',
 
         'mountain_id'

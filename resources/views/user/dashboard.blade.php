@@ -69,7 +69,7 @@
 
             <div class="card shadow card-custom">
 
-                <img src="{{ asset('storage/' . $mountain->image) }}"
+                <img src="{{ $mountain->image_url }}"
                      class="mountain-img">
 
                 <div class="card-body p-4">

@@ -24,6 +24,24 @@
 
     </h1>
 
+    <div class="mb-4">
+
+        <a href="/admin/mountains/create"
+           class="btn btn-primary">
+
+            Tambah Gunung
+
+        </a>
+
+        <a href="/admin/dashboard"
+           class="btn btn-secondary">
+
+            Kembali
+
+        </a>
+
+    </div>
+
     <div class="card shadow p-4">
 
         <table class="table table-bordered">
@@ -34,6 +52,8 @@
 
                     <th>No</th>
 
+                    <th>Gambar</th>
+
                     <th>Gunung</th>
 
                     <th>Deskripsi</th>
@@ -43,6 +63,8 @@
                     <th>Email</th>
 
                     <th>No WA</th>
+
+                    <th>Aksi</th>
 
                 </tr>
 
@@ -57,6 +79,14 @@
                         <td>
 
                             {{ $loop->iteration }}
+
+                        </td>
+
+                        <td>
+
+                            <img src="{{ $mountain->image_url }}"
+                                 alt="{{ $mountain->name }}"
+                                 style="width:120px;height:85px;object-fit:cover;border-radius:12px;">
 
                         </td>
 
@@ -87,6 +117,17 @@
                         <td>
 
                             {{ $mountain->admin->nomor_wa ?? '-' }}
+
+                        </td>
+
+                        <td>
+
+                            <a href="/admin/mountain/edit/{{ $mountain->id }}"
+                               class="btn btn-warning btn-sm">
+
+                                Edit
+
+                            </a>
 
                         </td>
 

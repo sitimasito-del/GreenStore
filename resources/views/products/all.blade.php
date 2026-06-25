@@ -32,6 +32,10 @@
             overflow:hidden;
         }
 
+        .search-box{
+            max-width:520px;
+        }
+
     </style>
 
 </head>
@@ -58,14 +62,69 @@
 
         </div>
 
-        <a href="/dashboard#market"
-           class="btn btn-secondary">
+        <div class="d-flex gap-2">
 
-            Kembali
+            <a href="/cart"
+               class="btn btn-success">
 
-        </a>
+                Keranjang
+
+            </a>
+
+            <a href="/dashboard#market"
+               class="btn btn-secondary">
+
+                Kembali
+
+            </a>
+
+        </div>
 
     </div>
+
+    <form action="/products"
+          method="GET"
+          class="search-box mb-4">
+
+        <div class="input-group input-group-lg">
+
+            <input type="text"
+                   name="search"
+                   class="form-control"
+                   placeholder="Cari Produk..."
+                   value="{{ $search }}">
+
+            <button type="submit"
+                    class="btn btn-primary">
+
+                Cari
+
+            </button>
+
+            @if($search)
+
+                <a href="/products"
+                   class="btn btn-outline-secondary">
+
+                    Reset
+
+                </a>
+
+            @endif
+
+        </div>
+
+    </form>
+
+    @if(session('success'))
+
+        <div class="alert alert-success">
+
+            {{ session('success') }}
+
+        </div>
+
+    @endif
 
     <div class="row">
 
@@ -105,12 +164,31 @@
 
                         </p>
 
-                        <a href="/product/{{ $product->id }}"
-                           class="btn btn-primary">
+                        <div class="d-flex gap-2 flex-wrap">
 
-                            Detail Produk
+                            <a href="/product/{{ $product->id }}"
+                               class="btn btn-primary">
 
-                        </a>
+                                Detail Produk
+
+                            </a>
+
+                            <form action="/cart/add/{{ $product->id }}"
+                                  method="POST">
+
+                                @csrf
+
+                                <button type="submit"
+                                        class="btn btn-success"
+                                        @if($product->stok < 1) disabled @endif>
+
+                                    Tambah
+
+                                </button>
+
+                            </form>
+
+                        </div>
 
                     </div>
 
@@ -124,7 +202,7 @@
 
                 <div class="alert alert-info">
 
-                    Belum ada produk.
+                    Tidak ada produk yang cocok.
 
                 </div>
 

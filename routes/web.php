@@ -180,6 +180,13 @@ Route::post('/admin/mountain/update/{id}', [
 
 ]);
 
+Route::delete('/admin/mountain/delete/{id}', [
+
+    AdminController::class,
+    'destroyMountain'
+
+]);
+
 // UPDATE STATUS LAPORAN
 
 Route::post('/admin/laporan/update-status/{id}', [
@@ -243,7 +250,13 @@ Route::get('/products', [ProductController::class, 'publicIndex']);
 
 Route::get('/product/{id}', [ProductController::class, 'show']);
 
+Route::get('/cart', [ProductController::class, 'cart']);
+
 Route::post('/cart/add/{id}', [ProductController::class, 'addToCart']);
+
+Route::post('/cart/update/{id}', [ProductController::class, 'updateCart']);
+
+Route::delete('/cart/remove/{id}', [ProductController::class, 'removeFromCart']);
 
 // ================= MARKET =================
 

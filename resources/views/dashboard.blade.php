@@ -232,7 +232,7 @@
 
                     <!-- GAMBAR -->
 
-                    <img src="data:image/jpeg;base64,{{ $mountain->image }}"
+                    <img src="{{ $mountain->image_url }}"
                          class="mountain-img">
 
                     <div class="card-body p-4">
@@ -249,7 +249,14 @@
 
                         </p>
 
-                        <div class="mt-3">
+                        <div class="mt-3 d-flex gap-2 flex-wrap">
+
+                            <a href="/mountain/{{ $mountain->id }}"
+                               class="btn btn-success">
+
+                                Detail Gunung
+
+                            </a>
 
                             @if(Auth::check())
 

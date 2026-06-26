@@ -64,7 +64,7 @@
 
                 <h1 class="fw-bold mb-4">
 
-                    ✏️ Edit Gunung
+                    Edit Gunung
 
                 </h1>
 

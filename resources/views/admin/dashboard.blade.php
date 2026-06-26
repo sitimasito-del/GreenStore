@@ -50,7 +50,7 @@
         }
 
     </style>
-
+    <link rel="stylesheet" href="{{ asset('css/soft-ui.css') }}">
 </head>
 
 <body>

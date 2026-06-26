@@ -61,30 +61,27 @@
         .hero{
             height:100vh;
             background:linear-gradient(
-                rgba(255,255,255,0.6),
-                rgba(255,255,255,0.6)
+                rgba(255,255,255,0.35),
+                rgba(255,255,255,0.35)
             ),
-            url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b');
+            url("{{ asset('images/hero-wallpaper.jpg') }}");
 
             background-size:cover;
             background-position:center;
             display:flex;
             align-items:center;
+            justify-content:center;
+            text-align:center;
         }
 
         .hero-text{
-            padding-left:80px;
+            padding:0 24px;
         }
 
         .hero-text h1{
             font-size:90px;
             font-weight:bold;
             color:#2f3b52;
-        }
-
-        .hero-text h3{
-            color:#1673ff;
-            letter-spacing:3px;
         }
 
         .section{
@@ -121,7 +118,7 @@
         }
 
     </style>
-
+    <link rel="stylesheet" href="{{ asset('css/soft-ui.css') }}">
 </head>
 
 <body>
@@ -177,12 +174,6 @@
                 GreenStore
 
             </h1>
-
-            <h3>
-
-                PLATFORM PENDAKIAN & MARKET OUTDOOR
-
-            </h3>
 
             <div class="mt-4">
 

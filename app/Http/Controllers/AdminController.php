@@ -225,8 +225,9 @@ class AdminController extends Controller
 
         ], $adminRules));
 
-        $image = $request->file('image')
-            ->store('mountains', 'public');
+        $image = $this->encodeMountainImage(
+            $request->file('image')
+        );
 
         // BUAT ADMIN GUNUNG
 
@@ -325,8 +326,9 @@ class AdminController extends Controller
                 Storage::disk('public')->delete($mountain->image);
             }
 
-            $mountain->image = $request->file('image')
-                ->store('mountains', 'public');
+            $mountain->image = $this->encodeMountainImage(
+                $request->file('image')
+            );
         }
 
         $mountain->name = $data['name'];
@@ -422,6 +424,17 @@ class AdminController extends Controller
         }
 
         return $query->findOrFail($id);
+    }
+
+    private function encodeMountainImage($image)
+    {
+        $mimeType = $image->getMimeType() ?: 'image/jpeg';
+
+        $imageData = base64_encode(
+            file_get_contents($image->getRealPath())
+        );
+
+        return 'data:' . $mimeType . ';base64,' . $imageData;
     }
 
     // =========================

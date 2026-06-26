@@ -31,26 +31,35 @@ class Mountain extends Model
 
     public function getImageUrlAttribute()
     {
-        if(!$this->image)
+        $image = $this->image;
+
+        if(!$image)
         {
             return asset('images/product-placeholder.svg');
         }
 
-        if(str_starts_with($this->image, 'http'))
+        if(str_starts_with($image, 'http'))
         {
-            return $this->image;
+            return $image;
         }
 
-        if(str_starts_with($this->image, 'data:image'))
+        if(str_starts_with($image, 'data:image'))
         {
-            return $this->image;
+            return $image;
         }
 
-        if(str_starts_with($this->image, 'mountains/'))
+        if(str_starts_with($image, 'mountains/'))
         {
-            return asset('storage/' . $this->image);
+            return asset('storage/' . $image);
         }
 
-        return 'data:image/jpeg;base64,' . $this->image;
+        $normalizedImage = preg_replace('/\s+/', '', $image);
+
+        if(base64_decode($normalizedImage, true) !== false)
+        {
+            return 'data:image/jpeg;base64,' . $normalizedImage;
+        }
+
+        return 'data:image/jpeg;base64,' . base64_encode($image);
     }
 }

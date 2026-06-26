@@ -43,8 +43,8 @@
 
     <div class="container">
 
-        <a class="navbar-brand fw-bold"
-           href="/user/dashboard">
+          <a class="navbar-brand fw-bold"
+              href="{{ url('/dashboard') }}">
 
             EcoHike
 
@@ -71,50 +71,24 @@
 
             <div class="card card-gunung h-100">
 
-<<<<<<< HEAD
-                <div class="card card-gunung h-100 shadow">
-
-                    <img src="{{ asset('storage/' . $mountain->image) }}"
-                         class="card-img-top gambar-gunung">
-=======
-                <img src="https://i.ibb.co.com/d4F80GXY/gunung-arjuno-di-malang.jpg"
+                <img src="{{ asset('storage/' . $mountain->image) }}"
                      class="card-img-top gambar-gunung"
-                     alt="Arjuno">
+                     alt="{{ $mountain->name }}">
 
                 <div class="card-body text-center">
->>>>>>> 2649c0eb5aba5c612d50adbe56020bd9fab984a6
 
                     <h4 class="fw-bold">
-                        Gunung Arjuno
+                        {{ $mountain->name }}
                     </h4>
 
                     <p>
-                        Tinggi: 3.339 mdpl
+                        {{ $mountain->description }}
                     </p>
 
-                    <a href="/laporan/create/1"
+                    <a href="/laporan/create/{{ $mountain->id }}"
                        class="btn btn-primary">
-
-                        Lapor
-
-<<<<<<< HEAD
-                        <p>
-
-                            {{ $mountain->description }}
-
-                        </p>
-
-                        <a href="/laporan/create/{{ $mountain->id }}"
-                           class="btn btn-primary">
-
-                            Buat Laporan
-
-                        </a>
-
-                    </div>
-=======
+                        Buat Laporan
                     </a>
->>>>>>> 2649c0eb5aba5c612d50adbe56020bd9fab984a6
 
                 </div>
 

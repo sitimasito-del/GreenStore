@@ -18,20 +18,21 @@
     <style>
 
         body{
-            background:#eef5fb;
+            background:#edf8ff;
             font-family:Arial;
         }
 
         .sidebar{
             width:90px;
             height:100vh;
-            background:white;
+            background:rgba(255,255,255,0.78);
             position:fixed;
             left:0;
             top:0;
-            box-shadow:0 0 10px rgba(0,0,0,0.1);
+            box-shadow:12px 0 34px rgba(73,145,193,0.13);
             padding-top:20px;
             z-index:999;
+            backdrop-filter:blur(12px);
         }
 
         .sidebar a{
@@ -42,15 +43,15 @@
             justify-content:center;
             border-radius:50%;
             margin:15px auto;
-            background:#f3f3f3;
-            color:#333;
+            background:#e4f5ff;
+            color:#3d95c9;
             text-decoration:none;
             font-size:25px;
             transition:0.3s;
         }
 
         .sidebar a:hover{
-            background:#2d8cff;
+            background:#3d95c9;
             color:white;
         }
 
@@ -61,8 +62,8 @@
         .hero{
             height:100vh;
             background:linear-gradient(
-                rgba(255,255,255,0.35),
-                rgba(255,255,255,0.35)
+                rgba(237,248,255,0.42),
+                rgba(237,248,255,0.62)
             ),
             url("{{ asset('images/hero-wallpaper.jpg') }}");
 
@@ -81,7 +82,7 @@
         .hero-text h1{
             font-size:90px;
             font-weight:bold;
-            color:#2f3b52;
+            color:#24384a;
         }
 
         .section{
@@ -108,6 +109,13 @@
         .product-img{
             width:100%;
             height:210px;
+            object-fit:cover;
+            background:#eef5fb;
+        }
+
+        .article-img{
+            width:100%;
+            height:230px;
             object-fit:cover;
             background:#eef5fb;
         }
@@ -402,7 +410,15 @@
 
         <div class="col-md-4 mb-4">
 
-            <div class="card shadow p-4 h-100">
+            <div class="card shadow h-100">
+
+                @if($article->image)
+                    <img src="{{ $article->image_url }}"
+                         class="article-img"
+                         alt="{{ $article->title }}">
+                @endif
+
+                <div class="card-body p-4">
 
                 <h4>
 
@@ -429,6 +445,8 @@
                     Baca Artikel
 
                 </a>
+
+                </div>
 
             </div>
 

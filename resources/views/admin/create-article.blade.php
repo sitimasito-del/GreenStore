@@ -25,7 +25,8 @@
     <div class="card p-4 shadow border-0 rounded-4">
 
         <form action="/admin/articles-store"
-              method="POST">
+              method="POST"
+              enctype="multipart/form-data">
 
             @csrf
 
@@ -72,6 +73,20 @@
                     </option>
 
                 </select>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Gambar Artikel
+                </label>
+
+                <input type="file"
+                       name="image"
+                       class="form-control"
+                       accept="image/jpeg,image/png,image/webp"
+                       required>
 
             </div>
 

@@ -237,13 +237,20 @@
 
                 </h3>
 
-                <a href="https://wa.me/6281345469594?text={{ urlencode($message) }}"
-                   target="_blank"
-                   class="btn btn-success btn-lg">
+                <form action="/cart/checkout-whatsapp"
+                      method="POST"
+                      target="_blank">
 
-                    Checkout WhatsApp
+                    @csrf
 
-                </a>
+                    <button type="submit"
+                            class="btn btn-success btn-lg">
+
+                        Checkout WhatsApp
+
+                    </button>
+
+                </form>
 
             </div>
 

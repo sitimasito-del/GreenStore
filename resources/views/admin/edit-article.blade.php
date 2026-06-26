@@ -27,7 +27,8 @@
         </h2>
 
         <form action="/admin/articles-update/{{ $article->id }}"
-              method="POST">
+              method="POST"
+              enctype="multipart/form-data">
 
             @csrf
 
@@ -60,6 +61,32 @@
                        class="form-control"
                        value="{{ $article->category }}"
                        required>
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="form-label">
+
+                    Gambar Artikel
+
+                </label>
+
+                @if($article->image)
+                    <img src="{{ $article->image_url }}"
+                         class="img-fluid mb-3"
+                         style="max-height:200px; object-fit:cover; width:100%;"
+                         alt="{{ $article->title }}">
+                @endif
+
+                <input type="file"
+                       name="image"
+                       class="form-control"
+                       accept="image/jpeg,image/png,image/webp">
+
+                <small class="text-muted">
+                    Kosongkan jika tidak ingin mengganti gambar.
+                </small>
 
             </div>
 

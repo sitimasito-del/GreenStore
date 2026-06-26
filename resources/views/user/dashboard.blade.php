@@ -15,18 +15,30 @@
     <style>
 
         body{
-            background:#eaf2fb;
+            background:
+                radial-gradient(circle at 14% 8%, rgba(255,255,255,0.92), transparent 16rem),
+                radial-gradient(circle at 78% 2%, rgba(174,219,250,0.55), transparent 26rem),
+                linear-gradient(180deg, #f7fcff 0%, #e8f6ff 48%, #edf8ff 100%);
+            color:#24384a;
         }
 
         .card-custom{
             border:none;
             border-radius:25px;
+            background:rgba(255,255,255,0.88);
+            box-shadow:0 14px 34px rgba(73,145,193,0.12);
+            backdrop-filter:blur(10px);
         }
 
         .mountain-img{
             height:220px;
             object-fit:cover;
             border-radius:20px 20px 0 0;
+        }
+
+        .navbar{
+            background:#66afe4 !important;
+            box-shadow:0 10px 26px rgba(73,145,193,0.16);
         }
 
     </style>

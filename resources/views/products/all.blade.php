@@ -126,6 +126,16 @@
 
     @endif
 
+    @if(session('error'))
+
+        <div class="alert alert-danger">
+
+            {{ session('error') }}
+
+        </div>
+
+    @endif
+
     <div class="row">
 
         @forelse($products as $product)

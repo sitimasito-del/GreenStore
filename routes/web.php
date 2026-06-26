@@ -30,6 +30,13 @@ Route::get('/dashboard', [
     MountainController::class,
     'dashboard'
 
+])->name('dashboard');
+
+Route::get('/user/dashboard', [
+
+    MountainController::class,
+    'dashboard'
+
 ]);
 
 Route::get('/mountain/{id}', [
@@ -257,6 +264,8 @@ Route::post('/cart/add/{id}', [ProductController::class, 'addToCart']);
 Route::post('/cart/update/{id}', [ProductController::class, 'updateCart']);
 
 Route::delete('/cart/remove/{id}', [ProductController::class, 'removeFromCart']);
+
+Route::post('/cart/checkout-whatsapp', [ProductController::class, 'checkoutWhatsapp']);
 
 // ================= MARKET =================
 

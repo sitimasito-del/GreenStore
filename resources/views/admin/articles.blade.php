@@ -109,6 +109,8 @@
 
                 <tr>
 
+                    <th>Gambar</th>
+
                     <th>Judul</th>
 
                     <th>Kategori</th>
@@ -126,6 +128,18 @@
                 @forelse($articles as $article)
 
                     <tr>
+
+                        <td>
+
+                            @if($article->image)
+                                <img src="{{ $article->image_url }}"
+                                     style="max-width:120px; max-height:80px; object-fit:cover;"
+                                     alt="{{ $article->title }}">
+                            @else
+                                -
+                            @endif
+
+                        </td>
 
                         <td>
 

@@ -152,6 +152,86 @@
 
                     </div>
 
+                    @if(Auth::user()->role == 'admin_pusat')
+
+                        <hr>
+
+                        <h4 class="fw-bold mb-3">
+
+                            Admin Gunung
+
+                        </h4>
+
+                        <div class="mb-4">
+
+                            <label class="fw-bold mb-2">
+
+                                Nama Admin
+
+                            </label>
+
+                            <input type="text"
+                                   name="admin_name"
+                                   class="form-control"
+                                   value="{{ old('admin_name', $mountain->admin->name ?? '') }}"
+                                   required>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="fw-bold mb-2">
+
+                                Email Admin
+
+                            </label>
+
+                            <input type="email"
+                                   name="admin_email"
+                                   class="form-control"
+                                   value="{{ old('admin_email', $mountain->admin->email ?? '') }}"
+                                   required>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="fw-bold mb-2">
+
+                                Nomor WA Admin
+
+                            </label>
+
+                            <input type="text"
+                                   name="nomor_wa"
+                                   class="form-control"
+                                   value="{{ old('nomor_wa', $mountain->admin->nomor_wa ?? '') }}">
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="fw-bold mb-2">
+
+                                Password Admin
+
+                            </label>
+
+                            <input type="password"
+                                   name="admin_password"
+                                   class="form-control"
+                                   @if(!$mountain->admin) required @endif>
+
+                            <small class="text-muted">
+
+                                Kosongkan jika tidak ingin mengganti password.
+
+                            </small>
+
+                        </div>
+
+                    @endif
+
                     <!-- BUTTON -->
 
                     <div class="d-flex gap-3">

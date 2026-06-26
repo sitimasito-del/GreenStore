@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -74,13 +75,23 @@ class ProductController extends Controller
 
         $cart = session()->get('cart', []);
 
+        $nextJumlah = ($cart[$product->id]['jumlah'] ?? 0) + 1;
+
+        if($nextJumlah > $product->stok)
+        {
+            return back()->with(
+                'error',
+                'Stok produk tidak mencukupi'
+            );
+        }
+
         $cart[$product->id] = [
             'product_id' => $product->id,
             'nama_produk' => $product->nama_produk,
             'harga' => $product->harga,
             'gambar' => $product->gambar,
             'gambar_url' => $product->gambar_url,
-            'jumlah' => ($cart[$product->id]['jumlah'] ?? 0) + 1,
+            'jumlah' => $nextJumlah,
         ];
 
         session()->put('cart', $cart);
@@ -131,6 +142,14 @@ class ProductController extends Controller
 
         $cart[$id]['jumlah'] = $data['jumlah'];
 
+        $product = Product::findOrFail($id);
+
+        if($data['jumlah'] > $product->stok)
+        {
+            return redirect('/cart')
+                ->with('error', 'Stok ' . $product->nama_produk . ' tidak mencukupi');
+        }
+
         session()->put('cart', $cart);
 
         return redirect('/cart')
@@ -172,6 +191,64 @@ class ProductController extends Controller
         $lines[] = 'Rp ' . number_format($total, 0, ',', '.');
 
         return implode("\n", $lines);
+    }
+
+    public function checkoutWhatsapp()
+    {
+        $cart = session()->get('cart', []);
+
+        if(count($cart) < 1)
+        {
+            return redirect('/cart')
+                ->with('error', 'Keranjang masih kosong');
+        }
+
+        $total = collect($cart)->sum(function($item) {
+            return $item['harga'] * $item['jumlah'];
+        });
+
+        $message = $this->buildWhatsappMessage($cart, $total);
+
+        $stockError = null;
+
+        DB::transaction(function() use ($cart, &$stockError) {
+            foreach($cart as $id => $item)
+            {
+                $product = Product::where('id', $id)
+                    ->lockForUpdate()
+                    ->first();
+
+                if(!$product)
+                {
+                    $stockError = 'Produk ' . $item['nama_produk'] . ' tidak ditemukan';
+                    return;
+                }
+
+                if($product->stok < $item['jumlah'])
+                {
+                    $stockError = 'Stok ' . $product->nama_produk . ' tidak mencukupi';
+                    return;
+                }
+            }
+
+            foreach($cart as $id => $item)
+            {
+                Product::where('id', $id)
+                    ->decrement('stok', $item['jumlah']);
+            }
+        });
+
+        if($stockError)
+        {
+            return redirect('/cart')
+                ->with('error', $stockError);
+        }
+
+        session()->forget('cart');
+
+        return redirect()->away(
+            'https://wa.me/6281345469594?text=' . urlencode($message)
+        );
     }
 
     // =========================

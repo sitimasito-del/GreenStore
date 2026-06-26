@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -225,7 +226,7 @@ class AdminController extends Controller
 
         ], $adminRules));
 
-        $image = $this->encodeMountainImage(
+        $image = $this->storeMountainImage(
             $request->file('image')
         );
 
@@ -313,11 +314,24 @@ class AdminController extends Controller
 
         $mountain = $this->findAuthorizedMountain($id);
 
-        $data = $request->validate([
+        $adminRules = Auth::user()->role == 'admin_pusat'
+            ? [
+                'admin_name' => 'required|string|max:255',
+                'admin_email' => [
+                    'required',
+                    'email',
+                    Rule::unique('users', 'email')->ignore($mountain->admin_id),
+                ],
+                'nomor_wa' => 'nullable|string|max:30',
+                'admin_password' => $mountain->admin ? 'nullable|min:6' : 'required|min:6',
+            ]
+            : [];
+
+        $data = $request->validate(array_merge([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        ]);
+        ], $adminRules));
 
         if($request->hasFile('image'))
         {
@@ -326,7 +340,7 @@ class AdminController extends Controller
                 Storage::disk('public')->delete($mountain->image);
             }
 
-            $mountain->image = $this->encodeMountainImage(
+            $mountain->image = $this->storeMountainImage(
                 $request->file('image')
             );
         }
@@ -334,6 +348,32 @@ class AdminController extends Controller
         $mountain->name = $data['name'];
 
         $mountain->description = $data['description'];
+
+        if(Auth::user()->role == 'admin_pusat')
+        {
+            $adminData = [
+                'name' => $data['admin_name'],
+                'email' => $data['admin_email'],
+                'nomor_wa' => $data['nomor_wa'] ?? null,
+                'role' => 'admin_gunung',
+                'mountain_id' => $mountain->id,
+            ];
+
+            if(!empty($data['admin_password']))
+            {
+                $adminData['password'] = Hash::make($data['admin_password']);
+            }
+
+            if($mountain->admin)
+            {
+                $mountain->admin->update($adminData);
+            }
+            else
+            {
+                $admin = User::create($adminData);
+                $mountain->admin_id = $admin->id;
+            }
+        }
 
         $mountain->save();
 
@@ -426,15 +466,14 @@ class AdminController extends Controller
         return $query->findOrFail($id);
     }
 
-    private function encodeMountainImage($image)
+    private function storeMountainImage($image)
     {
-        $mimeType = $image->getMimeType() ?: 'image/jpeg';
+        return $image->store('mountains', 'public');
+    }
 
-        $imageData = base64_encode(
-            file_get_contents($image->getRealPath())
-        );
-
-        return 'data:' . $mimeType . ';base64,' . $imageData;
+    private function storeArticleImage($image)
+    {
+        return $image->store('articles', 'public');
     }
 
     // =========================
@@ -446,7 +485,6 @@ class AdminController extends Controller
         $laporan = Laporan::findOrFail($id);
 
         $laporan->update([
-
             'status' => $request->status
         ]);
 
@@ -455,162 +493,128 @@ class AdminController extends Controller
             'Status berhasil diupdate'
         );
     }
-// ADMIN ARTIKEL
 
-public function articles()
-{
-    if(
-        !Auth::check() ||
-        (
-            Auth::user()->role != 'admin_artikel' &&
-            Auth::user()->role != 'admin_pusat'
-        )
-    )
+    // =========================
+    // ADMIN ARTIKEL
+    // =========================
+
+    public function articles()
     {
-        abort(403);
+        if(
+            !Auth::check() ||
+            (
+                Auth::user()->role != 'admin_artikel' &&
+                Auth::user()->role != 'admin_pusat'
+            )
+        )
+        {
+            abort(403);
+        }
+
+        $articles = Article::latest()->get();
+        $totalArtikel = Article::count();
+        $totalKlik = Article::sum('views');
+        $artikelTerpopuler = Article::orderByDesc('views')->first();
+        $kategoriTerpopuler = Article::select(
+                'category',
+                DB::raw('SUM(views) as total_views')
+            )
+            ->groupBy('category')
+            ->orderByDesc('total_views')
+            ->first();
+
+        return view(
+            'admin.articles',
+            compact(
+                'articles',
+                'totalArtikel',
+                'totalKlik',
+                'artikelTerpopuler',
+                'kategoriTerpopuler'
+            )
+        );
     }
 
-    $articles = Article::latest()->get();
-
-    $totalArtikel = Article::count();
-
-    $totalKlik = Article::sum('views');
-
-    $artikelTerpopuler = Article::orderByDesc('views')
-        ->first();
-
-    $kategoriTerpopuler = Article::select(
-            'category',
-            DB::raw('SUM(views) as total_views')
-        )
-        ->groupBy('category')
-        ->orderByDesc('total_views')
-        ->first();
-
-    return view(
-        'admin.articles',
-        compact(
-            'articles',
-            'totalArtikel',
-            'totalKlik',
-            'artikelTerpopuler',
-            'kategoriTerpopuler'
-        )
-    );
-}
-
-public function createArticle()
-{
-    return view('admin.create-article');
-}
-
-public function storeArticle(Request $request)
-{
-    $request->validate([
-
-        'title' => 'required',
-
-        'category' => 'required',
-
-        'link' => 'required'
-
-    ]);
-
-    Article::create([
-
-        'title' => $request->title,
-
-        'category' => $request->category,
-
-        'link' => $request->link,
-
-        'views' => 0
-
-    ]);
-
-    return redirect('/admin/articles')
-        ->with(
-            'success',
-            'Artikel berhasil ditambahkan'
-        );
-}
-
-public function editArticle($id)
-{
-    $article = Article::findOrFail($id);
-
-    return view(
-        'admin.edit-article',
-        compact('article')
-    );
-}
-
-public function updateArticle(Request $request, $id)
-{
-    $request->validate([
-
-        'title' => 'required',
-
-        'category' => 'required',
-
-        'link' => 'required'
-
-    ]);
-
-    $article = Article::findOrFail($id);
-
-    $article->update([
-
-        'title' => $request->title,
-
-        'category' => $request->category,
-
-        'link' => $request->link
-
-    ]);
-
-    return redirect('/admin/articles')
-        ->with(
-            'success',
-            'Artikel berhasil diperbarui'
-        );
-}
-
-public function deleteArticle($id)
-{
-    $article = Article::findOrFail($id);
-
-    $article->delete();
-
-    return redirect('/admin/articles')
-        ->with(
-            'success',
-            'Artikel berhasil dihapus'
-        );
-}
-
-public function deleteMountain($id)
-{
-    $mountain = Mountain::findOrFail($id);
-
-    Laporan::where(
-        'mountain_id',
-        $mountain->id
-    )->delete();
-
-    if ($mountain->admin_id) {
-        User::where(
-            'id',
-            $mountain->admin_id
-        )->delete();
+    public function createArticle()
+    {
+        return view('admin.create-article');
     }
 
-    $mountain->delete();
+    public function storeArticle(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'category' => 'required',
+            'link' => 'required',
+            'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048'
+        ]);
 
-    return redirect('/admin/dashboard')
-        ->with(
-            'success',
-            'Gunung berhasil dihapus'
+        Article::create([
+            'title' => $request->title,
+            'category' => $request->category,
+            'link' => $request->link,
+            'image' => $this->storeArticleImage($request->file('image')),
+            'views' => 0,
+        ]);
+
+        return redirect('/admin/articles')
+            ->with('success', 'Artikel berhasil ditambahkan');
+    }
+
+    public function editArticle($id)
+    {
+        $article = Article::findOrFail($id);
+
+        return view(
+            'admin.edit-article',
+            compact('article')
         );
-}
+    }
+
+    public function updateArticle(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'category' => 'required',
+            'link' => 'required',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
+        ]);
+
+        $article = Article::findOrFail($id);
+
+        $data = [
+            'title' => $request->title,
+            'category' => $request->category,
+            'link' => $request->link,
+        ];
+
+        if ($request->hasFile('image')) {
+            if ($article->image && str_starts_with($article->image, 'articles/')) {
+                Storage::disk('public')->delete($article->image);
+            }
+
+            $data['image'] = $this->storeArticleImage(
+                $request->file('image')
+            );
+        }
+
+        $article->update($data);
+
+        return redirect('/admin/articles')
+            ->with('success', 'Artikel berhasil diperbarui');
+    }
+
+    public function deleteArticle($id)
+    {
+        $article = Article::findOrFail($id);
+
+        if ($article->image && str_starts_with($article->image, 'articles/')) {
+            Storage::disk('public')->delete($article->image);
+        }
+
+        $article->delete();
+
+        return redirect('/admin/articles')
+            ->with('success', 'Artikel berhasil dihapus');
+    }
 }

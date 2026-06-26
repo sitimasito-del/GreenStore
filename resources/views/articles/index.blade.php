@@ -12,31 +12,85 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/soft-ui.css') }}">
+    <style>
+        body{
+            background:#eef5fb;
+            font-family:Arial, sans-serif;
+        }
+
+        .card{
+            border:none;
+            border-radius:18px;
+            overflow:hidden;
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:translateY(-3px);
+            box-shadow:0 15px 35px rgba(0,0,0,0.08);
+        }
+
+        .article-img{
+            width:100%;
+            height:230px;
+            object-fit:cover;
+            background:#eef5fb;
+        }
+
+        .search-box{
+            max-width:520px;
+            margin-bottom:30px;
+        }
+    </style>
 </head>
 
 <body style="background:#eef5fb;">
 
 <div class="container py-5">
 
-    <h1 class="fw-bold mb-4">
+    <div class="d-flex justify-content-between align-items-start mb-4 flex-column flex-md-row gap-3">
 
-        Artikel Edukasi
+        <div>
 
-    </h1>
+            <h1 class="fw-bold mb-1">
 
-    <form method="GET"
-          action="/artikel"
-          class="row mb-4">
+                Artikel Edukasi
 
-        <div class="col-md-5">
+            </h1>
 
-            <input type="text"
-                   name="search"
-                   class="form-control"
-                   placeholder="Cari artikel..."
-                   value="{{ request('search') }}">
+            <p class="text-muted mb-0">
+
+                Temukan tips, berita, dan edukasi outdoor terbaru.
+
+            </p>
 
         </div>
+
+        <form method="GET"
+              action="/artikel"
+              class="search-box w-100">
+
+            <div class="input-group">
+
+                <input type="text"
+                       name="search"
+                       class="form-control"
+                       placeholder="Cari artikel..."
+                       value="{{ request('search') }}">
+
+                <button class="btn btn-success">
+
+                    Cari
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="row mb-4">
 
         <div class="col-md-4">
 
@@ -80,31 +134,33 @@
 
             <div class="col-md-4 mb-4">
 
-                <div class="card shadow border-0 rounded-4 h-100">
+                <div class="card shadow h-100">
 
-                    <div class="card-body">
+                    @if($article->image)
+                        <img src="{{ $article->image_url }}"
+                             class="article-img"
+                             alt="{{ $article->title }}">
+                    @endif
 
-                        <h5 class="fw-bold">
+                    <div class="card-body p-4">
+
+                        <h5 class="fw-bold mb-3">
 
                             {{ $article->title }}
 
                         </h5>
 
-                        <p class="text-muted">
+                        <p class="text-muted mb-2">
 
                             {{ $article->category }}
 
                         </p>
 
-                        <p>
+                        <p class="fw-bold mb-3">
 
                             👁 {{ $article->views }} Views
 
                         </p>
-
-                    </div>
-
-                    <div class="card-footer bg-white border-0">
 
                         <a href="/artikel/baca/{{ $article->id }}"
                            class="btn btn-success w-100">

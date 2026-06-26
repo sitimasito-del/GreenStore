@@ -25,14 +25,14 @@
         .sidebar{
             width:90px;
             height:100vh;
-            background:rgba(255,255,255,0.78);
+            background:rgba(255,255,255,0.72);
             position:fixed;
             left:0;
             top:0;
-            box-shadow:12px 0 34px rgba(73,145,193,0.13);
+            box-shadow:16px 0 44px rgba(73,145,193,0.14);
             padding-top:20px;
             z-index:999;
-            backdrop-filter:blur(12px);
+            backdrop-filter:blur(18px);
         }
 
         .sidebar a{
@@ -43,16 +43,18 @@
             justify-content:center;
             border-radius:50%;
             margin:15px auto;
-            background:#e4f5ff;
+            background:rgba(225,244,255,0.92);
             color:#3d95c9;
             text-decoration:none;
             font-size:25px;
             transition:0.3s;
+            box-shadow:0 10px 24px rgba(80,160,213,0.11);
         }
 
         .sidebar a:hover{
-            background:#3d95c9;
+            background:#66afe4;
             color:white;
+            box-shadow:0 16px 32px rgba(80,160,213,0.22);
         }
 
         .main{
@@ -61,32 +63,82 @@
 
         .hero{
             height:100vh;
-            background:linear-gradient(
-                rgba(237,248,255,0.42),
-                rgba(237,248,255,0.62)
-            ),
-            url("{{ asset('images/hero-wallpaper.jpg') }}");
-
+            min-height:720px;
+            position:relative;
+            isolation:isolate;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(247,252,255,0.92) 0%,
+                    rgba(231,246,255,0.78) 44%,
+                    rgba(206,234,252,0.58) 100%
+                ),
+                linear-gradient(
+                    180deg,
+                    rgba(255,255,255,0.16) 0%,
+                    rgba(237,248,255,0.38) 56%,
+                    rgba(237,248,255,0.94) 100%
+                ),
+                url("{{ asset('images/hero-wallpaper.jpg.jpeg') }}");
             background-size:cover;
             background-position:center;
             display:flex;
             align-items:center;
             justify-content:center;
             text-align:center;
+            overflow:hidden;
+        }
+
+        .hero::before{
+            content:"";
+            position:absolute;
+            inset:0;
+            background:
+                radial-gradient(circle at 20% 18%, rgba(255,255,255,0.82), transparent 18rem),
+                radial-gradient(circle at 78% 20%, rgba(162,213,247,0.36), transparent 22rem),
+                linear-gradient(180deg, transparent 0%, rgba(237,248,255,0.22) 62%, rgba(237,248,255,0.86) 100%);
+            z-index:-1;
+        }
+
+        .hero::after{
+            content:"";
+            position:absolute;
+            left:-6%;
+            right:-6%;
+            bottom:-90px;
+            height:210px;
+            background:rgba(237,248,255,0.94);
+            border-radius:50% 50% 0 0 / 58% 58% 0 0;
+            box-shadow:0 -24px 70px rgba(255,255,255,0.72);
+            z-index:-1;
         }
 
         .hero-text{
             padding:0 24px;
+            max-width:1180px;
         }
 
         .hero-text h1{
-            font-size:90px;
+            font-size:clamp(4rem, 7vw, 8.25rem);
             font-weight:bold;
-            color:#24384a;
+            color:#20364a;
+            line-height:1.12;
+            text-shadow:0 18px 40px rgba(255,255,255,0.86);
+        }
+
+        .hero .btn{
+            padding:0.85rem 1.75rem;
+            background:#62afe8 !important;
+            box-shadow:0 18px 44px rgba(64,143,199,0.24);
         }
 
         .section{
             padding:80px 50px;
+            background:linear-gradient(180deg, rgba(237,248,255,0.78), rgba(247,252,255,0.94));
+        }
+
+        .section h2{
+            color:#20364a;
         }
 
         .card{
@@ -94,10 +146,13 @@
             border-radius:25px;
             overflow:hidden;
             transition:0.3s;
+            background:rgba(255,255,255,0.9);
+            box-shadow:0 16px 38px rgba(73,145,193,0.12);
         }
 
         .card:hover{
             transform:translateY(-5px);
+            box-shadow:0 22px 52px rgba(73,145,193,0.18);
         }
 
         .mountain-img{
@@ -123,6 +178,24 @@
         .search-box{
             max-width:400px;
             margin-bottom:40px;
+        }
+
+        .search-box .form-control{
+            background:rgba(255,255,255,0.84) !important;
+            border-color:rgba(116,183,234,0.2) !important;
+            box-shadow:0 14px 32px rgba(73,145,193,0.1);
+        }
+
+        @media (max-width: 768px){
+            .hero{
+                min-height:640px;
+                padding:5rem 1.25rem;
+                align-items:center;
+            }
+
+            .hero-text h1{
+                font-size:3.35rem;
+            }
         }
 
     </style>

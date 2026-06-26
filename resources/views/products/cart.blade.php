@@ -143,7 +143,7 @@
 
                                     <div class="d-flex align-items-center gap-3">
 
-                                        <img src="{{ ($item['gambar'] ?? null) ? asset('storage/' . $item['gambar']) : asset('images/product-placeholder.svg') }}"
+                                        <img src="{{ $item['gambar_url'] ?? asset('images/product-placeholder.svg') }}"
                                              class="product-img"
                                              alt="{{ $item['nama_produk'] }}">
 

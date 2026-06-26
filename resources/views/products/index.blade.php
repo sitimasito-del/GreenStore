@@ -200,7 +200,7 @@
 
                         <td>
 
-                            <img src="{{ $product->gambar ? asset('storage/' . $product->gambar) : asset('images/product-placeholder.svg') }}"
+                            <img src="{{ $product->gambar_url }}"
                                  class="product-img"
                                  alt="{{ $product->nama_produk }}">
 

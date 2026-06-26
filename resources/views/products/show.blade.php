@@ -76,7 +76,7 @@
 
             <div class="col-md-6 mb-4 mb-md-0">
 
-                <img src="{{ $product->gambar ? asset('storage/' . $product->gambar) : asset('images/product-placeholder.svg') }}"
+                <img src="{{ $product->gambar_url }}"
                      class="product-img"
                      alt="{{ $product->nama_produk }}">
 

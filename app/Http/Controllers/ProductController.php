@@ -79,6 +79,7 @@ class ProductController extends Controller
             'nama_produk' => $product->nama_produk,
             'harga' => $product->harga,
             'gambar' => $product->gambar,
+            'gambar_url' => $product->gambar_url,
             'jumlah' => ($cart[$product->id]['jumlah'] ?? 0) + 1,
         ];
 
@@ -207,8 +208,9 @@ class ProductController extends Controller
             'stok' => 'required|integer|min:0',
         ]);
 
-        $data['gambar'] = $request->file('gambar')
-            ->store('products', 'public');
+        $data['gambar'] = $this->encodeProductImage(
+            $request->file('gambar')
+        );
 
         Product::create($data);
 
@@ -262,13 +264,14 @@ class ProductController extends Controller
 
         if($request->hasFile('gambar'))
         {
-            if($product->gambar)
+            if($product->gambar && str_starts_with($product->gambar, 'products/'))
             {
                 Storage::disk('public')->delete($product->gambar);
             }
 
-            $data['gambar'] = $request->file('gambar')
-                ->store('products', 'public');
+            $data['gambar'] = $this->encodeProductImage(
+                $request->file('gambar')
+            );
         }
 
         $product->update($data);
@@ -319,6 +322,11 @@ class ProductController extends Controller
 
         $product = Product::findOrFail($id);
 
+        if($product->gambar && str_starts_with($product->gambar, 'products/'))
+        {
+            Storage::disk('public')->delete($product->gambar);
+        }
+
         $product->delete();
 
         return redirect('/admin/products')
@@ -348,5 +356,16 @@ class ProductController extends Controller
         }
 
         return null;
+    }
+
+    private function encodeProductImage($image)
+    {
+        $mimeType = $image->getMimeType() ?: 'image/jpeg';
+
+        $imageData = base64_encode(
+            file_get_contents($image->getRealPath())
+        );
+
+        return 'data:' . $mimeType . ';base64,' . $imageData;
     }
 }

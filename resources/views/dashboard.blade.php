@@ -313,7 +313,7 @@
 
                     <div class="card shadow h-100">
 
-                        <img src="{{ $product->gambar ? asset('storage/' . $product->gambar) : asset('images/product-placeholder.svg') }}"
+                        <img src="{{ $product->gambar_url }}"
                              class="product-img"
                              alt="{{ $product->nama_produk }}">
 
@@ -379,11 +379,22 @@
     <section class="section"
              id="artikel">
 
-        <h2 class="fw-bold mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+
+            <h2 class="fw-bold mb-0">
 
              Yuuk MemBaca
 
-        </h2>
+            </h2>
+
+            <a href="/artikel"
+               class="btn btn-success">
+
+                Semua Artikel
+
+            </a>
+
+        </div>
 
         <div class="row">
 

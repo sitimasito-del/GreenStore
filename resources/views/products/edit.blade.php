@@ -144,7 +144,7 @@
 
             <div class="mb-4">
 
-                <img src="{{ $product->gambar ? asset('storage/' . $product->gambar) : asset('images/product-placeholder.svg') }}"
+                <img src="{{ $product->gambar_url }}"
                      width="200"
                      class="rounded shadow"
                      alt="{{ $product->nama_produk }}">

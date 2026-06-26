@@ -65,11 +65,31 @@
 
                         <b>Status:</b>
 
-                        <span class="badge bg-primary">
+                        @if($laporan->status == 'Pending')
 
-                            {{ $laporan->status }}
+                            <span class="badge bg-warning text-dark">
 
-                        </span>
+                                Pending
+
+                            </span>
+
+                        @elseif($laporan->status == 'Terima' || $laporan->status == 'Proses')
+
+                            <span class="badge bg-primary">
+
+                                Terima
+
+                            </span>
+
+                        @else
+
+                            <span class="badge bg-success">
+
+                                Selesai
+
+                            </span>
+
+                        @endif
 
                     </p>
 

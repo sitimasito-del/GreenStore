@@ -202,6 +202,13 @@ Route::post('/admin/laporan/update-status/{id}', [
     'updateStatus'
 
 ]);
+
+Route::delete('/admin/laporan/delete/{id}', [
+
+    AdminController::class,
+    'destroyLaporan'
+
+]);
 // ================= ARTIKEL =================
 
 Route::get('/artikel', [

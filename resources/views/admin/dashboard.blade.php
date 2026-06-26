@@ -126,13 +126,13 @@
 
                 <h5>
 
-                    Proses
+                    Terima
 
                 </h5>
 
                 <h1 class="fw-bold">
 
-                    {{ $totalProses }}
+                    {{ $totalTerima }}
 
                 </h1>
 
@@ -463,11 +463,11 @@
 
                                 </span>
 
-                            @elseif($laporan->status == 'Proses')
+                            @elseif($laporan->status == 'Terima' || $laporan->status == 'Proses')
 
                                 <span class="badge bg-primary badge-status">
 
-                                    Proses
+                                    Terima
 
                                 </span>
 

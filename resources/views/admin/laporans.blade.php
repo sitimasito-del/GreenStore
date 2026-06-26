@@ -1,4 +1,3 @@
-```blade
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -35,9 +34,9 @@
 
         <div class="d-flex gap-2">
 
-            <a href="/admin/mountains/create"
+            <a href="/admin/mountains"
                class="btn btn-primary">
-                Tambah Gunung
+                Data Gunung
             </a>
 
             <a href="/logout"
@@ -57,7 +56,52 @@
 
     @endif
 
-    @foreach($laporans as $laporan)
+    @if(session('error'))
+
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+
+    @endif
+
+    <div class="row mb-4">
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card shadow border-0 rounded-4 p-4">
+
+                <p class="text-muted mb-1">Pending</p>
+                <h2 class="fw-bold mb-0">{{ $rekap['pending'] }}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card shadow border-0 rounded-4 p-4">
+
+                <p class="text-muted mb-1">Terima</p>
+                <h2 class="fw-bold mb-0">{{ $rekap['terima'] }}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card shadow border-0 rounded-4 p-4">
+
+                <p class="text-muted mb-1">Selesai</p>
+                <h2 class="fw-bold mb-0">{{ $rekap['selesai'] }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    @forelse($laporans as $laporan)
 
         <div class="card shadow border-0 rounded-4 p-4 mb-4">
 
@@ -79,6 +123,11 @@
                     </p>
 
                     <p>
+                        <b>Gunung:</b>
+                        {{ $laporan->mountain->name ?? $mountain->name }}
+                    </p>
+
+                    <p>
                         <b>Tanggal Laporan:</b>
                         {{ $laporan->created_at->format('d-m-Y H:i') }}
                     </p>
@@ -93,10 +142,10 @@
                                 Pending
                             </span>
 
-                        @elseif($laporan->status == 'Proses')
+                        @elseif($laporan->status == 'Terima' || $laporan->status == 'Proses')
 
                             <span class="badge bg-primary">
-                                Proses
+                                Terima
                             </span>
 
                         @else
@@ -109,47 +158,66 @@
 
                     </p>
 
-                    <form action="/admin/laporan/update-status/{{ $laporan->id }}"
-                          method="POST"
-                          class="mt-3">
+                    <div class="mt-3">
+
+                        <p class="fw-bold mb-2">
+                            Aksi Status
+                        </p>
+
+                        <form action="/admin/laporan/update-status/{{ $laporan->id }}"
+                              method="POST">
 
                         @csrf
 
-                        <div class="row">
+                            <div class="d-flex gap-2 flex-wrap">
 
-                            <div class="col-md-6">
+                                <button type="submit"
+                                        name="status"
+                                        value="Pending"
+                                        class="btn btn-warning text-dark">
 
-                                <select name="status"
-                                        class="form-select">
+                                    Pending
 
-                                    <option value="Pending"
-                                        {{ $laporan->status == 'Pending' ? 'selected' : '' }}>
-                                        Pending
-                                    </option>
+                                </button>
 
-                                    <option value="Proses"
-                                        {{ $laporan->status == 'Proses' ? 'selected' : '' }}>
-                                        Proses
-                                    </option>
+                                <button type="submit"
+                                        name="status"
+                                        value="Terima"
+                                        class="btn btn-primary">
 
-                                    <option value="Selesai"
-                                        {{ $laporan->status == 'Selesai' ? 'selected' : '' }}>
-                                        Selesai
-                                    </option>
+                                    Terima
 
-                                </select>
+                                </button>
 
-                            </div>
+                                <button type="submit"
+                                        name="status"
+                                        value="Selesai"
+                                        class="btn btn-success">
 
-                            <div class="col-md-4">
+                                    Selesai
 
-                                <button class="btn btn-primary">
-                                    Update Status
                                 </button>
 
                             </div>
 
-                        </div>
+                        </form>
+
+                    </div>
+
+                    <form action="/admin/laporan/delete/{{ $laporan->id }}"
+                          method="POST"
+                          class="mt-3"
+                          onsubmit="return confirm('Yakin ingin menghapus laporan ini?')">
+
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit"
+                                class="btn btn-danger">
+
+                            Hapus Laporan
+
+                        </button>
 
                     </form>
 
@@ -178,10 +246,23 @@
 
         </div>
 
-    @endforeach
+    @empty
+
+        <div class="card shadow border-0 rounded-4 p-5 text-center">
+
+            <h3 class="fw-bold">
+                Belum ada laporan untuk {{ $mountain->name }}
+            </h3>
+
+            <p class="text-muted mb-0">
+                Laporan user akan muncul di sini jika user membuat laporan pada gunung ini.
+            </p>
+
+        </div>
+
+    @endforelse
 
 </div>
 
 </body>
 </html>
-```

@@ -66,9 +66,9 @@ class AdminController extends Controller
             'Pending'
         )->count();
 
-        $totalProses = Laporan::where(
+        $totalTerima = Laporan::whereIn(
             'status',
-            'Proses'
+            ['Terima', 'Proses']
         )->count();
 
         $totalSelesai = Laporan::where(
@@ -89,7 +89,7 @@ class AdminController extends Controller
                 'rekapTahunan',
 
                 'totalPending',
-                'totalProses',
+                'totalTerima',
                 'totalSelesai'
             )
         );
@@ -101,13 +101,17 @@ class AdminController extends Controller
 
     public function laporans()
     {
-        $mountain = Mountain::where(
+        if(
+            !Auth::check() ||
+            Auth::user()->role != 'admin_gunung'
+        )
+        {
+            abort(403);
+        }
 
-            'admin_id',
-
-            Auth::id()
-
-        )->first();
+        $mountain = Mountain::where('admin_id', Auth::id())
+            ->orWhere('id', Auth::user()->mountain_id)
+            ->first();
 
         if(!$mountain)
         {
@@ -119,7 +123,7 @@ class AdminController extends Controller
             );
         }
 
-        $laporans = Laporan::with('user')
+        $laporans = Laporan::with('user', 'mountain')
             ->where(
                 'mountain_id',
                 $mountain->id
@@ -135,8 +139,8 @@ class AdminController extends Controller
                 ->where('status', 'Pending')
                 ->count(),
 
-            'proses' => $laporans
-                ->where('status', 'Proses')
+            'terima' => $laporans
+                ->whereIn('status', ['Terima', 'Proses'])
                 ->count(),
 
             'selesai' => $laporans
@@ -482,16 +486,73 @@ class AdminController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        $laporan = Laporan::findOrFail($id);
+        if(!Auth::check())
+        {
+            return redirect('/login');
+        }
+
+        $data = $request->validate([
+            'status' => 'required|in:Pending,Terima,Selesai',
+        ]);
+
+        $laporan = $this->findAuthorizedLaporan($id);
 
         $laporan->update([
-            'status' => $request->status
+            'status' => $data['status']
         ]);
 
         return back()->with(
             'success',
             'Status berhasil diupdate'
         );
+    }
+
+    // =========================
+    // HAPUS LAPORAN ADMIN GUNUNG
+    // =========================
+
+    public function destroyLaporan($id)
+    {
+        $laporan = $this->findAuthorizedLaporan($id);
+
+        if($laporan->gambar)
+        {
+            Storage::disk('public')->delete($laporan->gambar);
+        }
+
+        $laporan->delete();
+
+        return back()->with(
+            'success',
+            'Laporan berhasil dihapus'
+        );
+    }
+
+    private function findAuthorizedLaporan($id)
+    {
+        if(
+            !Auth::check() ||
+            Auth::user()->role != 'admin_gunung'
+        )
+        {
+            abort(403);
+        }
+
+        $laporan = Laporan::with('mountain')
+            ->findOrFail($id);
+
+        $isOwnMountain = $laporan->mountain &&
+            (
+                $laporan->mountain->admin_id == Auth::id() ||
+                $laporan->mountain_id == Auth::user()->mountain_id
+            );
+
+        if(!$isOwnMountain)
+        {
+            abort(403);
+        }
+
+        return $laporan;
     }
 
     // =========================

@@ -76,12 +76,15 @@
                 <select name="kategori"
                         class="form-select">
 
-                    <option value="Tenda">Tenda</option>
-                    <option value="Carrier">Carrier</option>
-                    <option value="Sleeping Bag">Sleeping Bag</option>
-                    <option value="Sepatu">Sepatu</option>
-                    <option value="Jaket">Jaket</option>
-                    <option value="Kompor">Kompor</option>
+                    <option value="Penyimpanan">Penyimpanan</option>
+                    <option value="Alat Tidur">Alat Tidur</option>
+                    <option value="Tempat Tinggal">Tempat Tinggal</option>
+                    <option value="Pakaian">Pakaian</option>
+                    <option value="Navigasi">Navigasi</option>
+                    <option value="Keselamatan">Keselamatan</option>
+                    <option value="Alat Masak">Alat Masak</option>
+                    <option value="Logistik">Logistik</option>
+                    <option value="Alat Bantu">Alat Bantu</option>
 
                 </select>
 

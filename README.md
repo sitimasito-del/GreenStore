@@ -1,59 +1,278 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🌿 GreenStore
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+GreenStore adalah aplikasi berbasis web yang dikembangkan menggunakan **Laravel 12** sebagai platform informasi dan marketplace perlengkapan pendakian gunung. Aplikasi ini menyediakan informasi gunung, artikel edukasi, sistem pelaporan pendakian, serta marketplace yang memungkinkan pengguna membeli perlengkapan outdoor melalui WhatsApp.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📌 Teknologi yang Digunakan
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Laravel 12
+- PHP 8.2+
+- MySQL
+- Bootstrap 5
+- HTML, CSS, JavaScript
+- Railway (Deployment)
+- GitHub
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+# ✨ Fitur Aplikasi
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 👤 User
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Login & Register
+- Melihat daftar gunung
+- Detail gunung
+- Membuat laporan pendakian
+- Riwayat laporan
+- Membaca artikel
+- Melihat marketplace
+- Detail produk
+- Keranjang belanja
+- Checkout melalui WhatsApp
+- Pencarian produk
+- Filter kategori
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🏔 Admin Gunung
 
-### Premium Partners
+- Login Admin Gunung
+- Melihat laporan pendakian
+- Mengubah status laporan
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 📰 Admin Artikel
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Login Admin Artikel
+- Menambah artikel
+- Mengedit artikel
+- Menghapus artikel
+- Dashboard artikel
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🛒 Admin Market
 
-## Security Vulnerabilities
+- Login Admin Market
+- Dashboard market
+- Menambah produk
+- Mengedit produk
+- Menghapus produk
+- Upload gambar produk
+- Tambah stok cepat
+- Melihat total produk
+- Melihat total stok
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 👑 Admin Pusat
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Dashboard Admin
+- Kelola data gunung
+- Tambah gunung
+- Edit gunung
+- Rekap laporan
+- Statistik laporan
+
+---
+
+# 📂 Struktur Project
+
+```
+app/
+bootstrap/
+config/
+database/
+public/
+resources/
+routes/
+storage/
+```
+
+---
+
+# ⚙️ Cara Menjalankan di Lokal
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/USERNAME/GreenStore.git
+```
+
+## 2. Masuk ke Folder Project
+
+```bash
+cd GreenStore
+```
+
+## 3. Install Dependency
+
+```bash
+composer install
+```
+
+## 4. Copy File Environment
+
+```bash
+cp .env.example .env
+```
+
+atau Windows
+
+```bash
+copy .env.example .env
+```
+
+## 5. Generate Application Key
+
+```bash
+php artisan key:generate
+```
+
+## 6. Konfigurasi Database
+
+Buat database baru, kemudian sesuaikan file `.env`.
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=greenstore
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+## 7. Jalankan Migration
+
+```bash
+php artisan migrate
+```
+
+## 8. Jalankan Seeder (jika tersedia)
+
+```bash
+php artisan db:seed
+```
+
+## 9. Storage Link
+
+```bash
+php artisan storage:link
+```
+
+## 10. Jalankan Server
+
+```bash
+php artisan serve
+```
+
+Akses aplikasi melalui
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+# 🚀 Ringkasan Deployment
+
+Aplikasi dideploy menggunakan **Railway**.
+
+Tahapan deployment:
+
+1. Push project ke GitHub.
+2. Hubungkan repository ke Railway.
+3. Tambahkan layanan MySQL Railway.
+4. Konfigurasi Environment Variables.
+5. Jalankan migration.
+6. Generate APP_KEY.
+7. Deploy aplikasi.
+8. Akses melalui URL Railway.
+
+---
+
+# 👥 Akun Demo
+
+## Admin Pusat
+
+Email :
+
+```
+admin@greenstore.com
+```
+
+Password :
+
+```
+********
+```
+
+---
+
+## Admin Market
+
+Email :
+
+```
+market@greenstore.com
+```
+
+Password :
+
+```
+********
+```
+
+---
+
+## Admin Artikel
+
+Email :
+
+```
+artikel@greenstore.com
+```
+
+Password :
+
+```
+********
+```
+
+---
+
+## Admin Gunung
+
+Email :
+
+```
+gunung@greenstore.com
+```
+
+Password :
+
+```
+********
+```
+
+---
+
+## User
+
+Silakan melakukan registrasi atau menggunakan akun demo yang disediakan.
+
+---
+
+# 📖 Deskripsi Singkat
+
+GreenStore dikembangkan sebagai aplikasi informasi pendakian gunung yang dipadukan dengan marketplace perlengkapan outdoor. Sistem memiliki beberapa level administrator untuk mengelola data gunung, artikel, laporan pendakian, dan produk marketplace sehingga memudahkan pengelolaan informasi maupun transaksi pengguna.
+
+---
+
+# 👨‍💻 Pengembang
+
+Proyek GreenStore
+
+Universitas KH. A. Wahab Hasbullah

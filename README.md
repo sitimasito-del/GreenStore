@@ -212,7 +212,7 @@ https://greenstore.iwakqu.biz.id
 | Admin Artikel | artikel@gmail.com | 123456 |
 | Admin Market | market@gmail.com | 123456 |
 | Admin Gunung | penanggungan@gamil.com | 123456 |
-| User | test@example.com | 12345678 |
+| User | sitoh@gmail.com | 12345678 |
 
 ---
 
